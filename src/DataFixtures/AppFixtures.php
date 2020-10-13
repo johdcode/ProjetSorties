@@ -13,22 +13,17 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');
-//        for($i=0;$i<20;$i++){
-//            $participant = new Participant();
-//            $participant->setNom($faker->lastName);
-//            $participant->setPrenom($faker->firstName);
-//            $participant->setTelephone($faker->phoneNumber);
-//            $participant->setMail($faker->email);
-//            $participant->setMotDePasse($faker->password);
-//            $participant->setNom($faker->name);
-//            $participant->setAdministrateur($faker->boolean);
-//            $participant->setActif($faker->boolean);
-//            $participant->setUrlPhoto($faker->imageUrl($width = 80, $height = 80));
-//            //$participant->setCampus($faker->city);
-//            $manager->persist($participant);
-//        }
+        for($i=0;$i<20;$i++){
+            $ville = new Ville();
+            $ville->setNom($faker->lastName);
+            $ville-> setCodePostal($faker->postcode);
+
+            $manager->persist($ville);
+        }
 
 
-        //$manager->flush();
+        $manager->flush();
     }
+
+
 }
