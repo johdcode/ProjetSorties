@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+
 require_once('vendor/autoload.php');
 
 use App\Entity\Campus;
@@ -11,6 +12,9 @@ use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Entity\Campus;
+use App\Entity\Participant;
+
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
@@ -24,6 +28,7 @@ class AppFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
+
 
         $faker = Faker\Factory::create('fr_FR');
 
@@ -115,4 +120,6 @@ class AppFixtures extends Fixture
         $manager->flush();
 
     }
+
+
 }
