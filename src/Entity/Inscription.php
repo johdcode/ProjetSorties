@@ -23,14 +23,18 @@ class Inscription
     private $dateInscription;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="inscriptions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $participant;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Sortie::class, inversedBy="inscriptions")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $sortie;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $participant;
+
 
     public function getId(): ?int
     {
@@ -49,27 +53,28 @@ class Inscription
         return $this;
     }
 
-    public function getSortie(): ?int
+    public function getParticipant(): ?Participant
+    {
+        return $this->participant;
+    }
+
+    public function setParticipant(?Participant $participant): self
+    {
+        $this->participant = $participant;
+
+        return $this;
+    }
+
+    public function getSortie(): ?Sortie
     {
         return $this->sortie;
     }
 
-    public function setSortie(int $sortie): self
+    public function setSortie(?Sortie $sortie): self
     {
         $this->sortie = $sortie;
 
         return $this;
     }
 
-    public function getParticipant(): ?int
-    {
-        return $this->participant;
-    }
-
-    public function setParticipant(int $participant): self
-    {
-        $this->participant = $participant;
-
-        return $this;
-    }
 }
