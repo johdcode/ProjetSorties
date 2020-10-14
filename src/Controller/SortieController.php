@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+
 use App\Form\GestionSortieType;
-use App\Form\Sortie1Type;
+use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +49,7 @@ class SortieController extends AbstractController
     public function new(Request $request): Response
     {
         $sortie = new Sortie();
-        $form = $this->createForm(Sortie1Type::class, $sortie);
+        $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,7 +81,7 @@ class SortieController extends AbstractController
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
-        $form = $this->createForm(Sortie1Type::class, $sortie);
+        $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
