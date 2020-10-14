@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\GestionSortieType;
 use App\Form\Sortie1Type;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,17 +17,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends AbstractController
 {
     /**
-     * @Route("/", name="sortie_index", methods={"GET"})
+     * @Route("/", name="sortie_index", methods={"GET", "POST"})
+     * @param SortieRepository $sortieRepository
+     * @param Request $request
+     * @return Response
      */
-    public function index(SortieRepository $sortieRepository): Response
+    public function index(SortieRepository $sortieRepository, Request $request): Response
     {
+        $sortie = new Sortie();
+
+        $sortieForm = $this->createForm(GestionSortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+            //hydrater les propriétés
+
+        }
         return $this->render('sortie/index.html.twig', [
-            'sorties' => $sortieRepository->findAll(),
+           'sorties' => $sortie,
+            'sortieForm' => $sortieForm->createView()
         ]);
     }
 
     /**
      * @Route("/new", name="sortie_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {

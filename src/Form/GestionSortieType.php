@@ -18,9 +18,9 @@ class GestionSortieType extends AbstractType
             ->add('dateLimiteInscription')
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
-            ->add('etat')
-            ->add('lieu')
-            ->add('organisateur')
+//            ->add('etat')
+           // ->add('lieu')
+           // ->add('organisateur')
         ;
     }
 
