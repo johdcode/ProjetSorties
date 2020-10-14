@@ -50,7 +50,7 @@ class Sortie
     private $infosSortie;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Etat::class)
+     * @ORM\ManyToOne(targetEntity=Etat::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $etat;
