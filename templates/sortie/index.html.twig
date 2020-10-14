@@ -1,20 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SortieController!{% endblock %}
+{% block title %}Sortie index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Sortie index</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>DateHeureDebut</th>
+                <th>Duree</th>
+                <th>DateLimiteInscription</th>
+                <th>NbInscriptionsMax</th>
+                <th>InfosSortie</th>
+                <th>MotifAnnulation</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sortie in sorties %}
+            <tr>
+                <td>{{ sortie.id }}</td>
+                <td>{{ sortie.nom }}</td>
+                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.duree }}</td>
+                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.infosSortie }}</td>
+                <td>{{ sortie.motifAnnulation }}</td>
+                <td>
+                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>
+                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/ProjetSorties/src/Controller/SortieController.php'|file_link(0) }}">src/Controller/SortieController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/ProjetSorties/templates/sortie/index.html.twig'|file_link(0) }}">templates/sortie/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <a href="{{ path('sortie_new') }}">Create new</a>
 {% endblock %}

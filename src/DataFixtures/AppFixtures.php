@@ -3,8 +3,6 @@
 namespace App\DataFixtures;
 
 
-require_once('vendor/autoload.php');
-
 use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Inscription;
