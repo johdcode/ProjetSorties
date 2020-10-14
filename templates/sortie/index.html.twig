@@ -1,10 +1,18 @@
 {% extends 'base.html.twig' %}
+{% form_theme sortieForm 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}Sortie index{% endblock %}
 
 {% block body %}
-    <h1>Sortie index</h1>
 
+
+    <h1>Filtrer les sorties</h1>
+    {{ form_start(sortieForm) }}
+
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(sortieForm) }}
+        </div>
+    {{ form_end(sortieForm) }}
     <table class="table">
         <thead>
             <tr>
@@ -44,4 +52,5 @@
     </table>
 
     <a href="{{ path('sortie_new') }}">Create new</a>
+
 {% endblock %}
