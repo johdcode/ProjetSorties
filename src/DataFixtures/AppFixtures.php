@@ -58,6 +58,19 @@ class AppFixtures extends Fixture
         $etat->setLibelle("En cours");
         
 
+        $participants = [];
+        for ($i = 0; $i < 20; $i++) {
+            $participants[$i] = new Participant();
+            $participants[$i]->setNom($faker->lastName)
+                ->setPrenom($faker->firstName)
+                ->setTelephone($faker->phoneNumber)
+                ->setMail($faker->email)
+                ->setPassword($faker->password)
+                ->setAdministrateur($faker->boolean)
+                ->setActif($faker->boolean)
+                ->setCampus($campus[rand(0, count($campus) - 1)]);
+        }
+
         $sorties = [];
         for ($i = 0; $i < 10; $i++) {
             $sorties[$i] = new Sortie();
@@ -67,20 +80,9 @@ class AppFixtures extends Fixture
                 ->setDateLimiteInscription($faker->dateTime)
                 ->setNbInscriptionsMax($faker->randomDigit)
                 ->setInfosSortie($faker->text)
-                ->setEtat($etat);
-        }
-
-        $participants = [];
-        for ($i = 0; $i < 20; $i++) {
-            $participants[$i] = new Participant();
-            $participants[$i]->setNom($faker->lastName)
-                ->setPrenom($faker->firstName)
-                ->setTelephone($faker->phoneNumber)
-                ->setMail($faker->email)
-                ->setMotDePasse($faker->password)
-                ->setAdministrateur($faker->boolean)
-                ->setActif($faker->boolean)
-                ->setCampus($campus[rand(0, count($campus) - 1)]);
+                ->setEtat($etat)
+                ->setLieu($lieux[rand(0, count($lieux) - 1)])
+                ->setOrganisateur($participants[rand(0, count($participants) - 1)]);
         }
 
         $inscriptions = [];

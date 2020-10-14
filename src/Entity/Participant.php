@@ -56,23 +56,23 @@ class Participant implements UserInterface
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=15, nullable=true)
+     * @ORM\Column(type="string", length=20, nullable=true)
      * @Assert\NotBlank(message="Le champ téléphone doit être remplis")
      * @Assert\Length(
-     *     min="4", max="15",
+     *     min="4", max="20",
      *     minMessage="4 caractères minimum",
-     *     maxMessage="15 caractères maximum"
+     *     maxMessage="20 caractères maximum"
      * )
      */
     private $telephone;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank(message="Le champ email doit être remplis")
      * @Assert\Length(
-     *     min="4", max="20",
+     *     min="4", max="50",
      *     minMessage="4 caractères minimum",
-     *     maxMessage="20 caractères maximum"
+     *     maxMessage="50 caractères maximum"
      * )
      */
     private $mail;
