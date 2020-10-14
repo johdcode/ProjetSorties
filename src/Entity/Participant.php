@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
+ * @UniqueEntity(fields={"mail"}, message="There is already an account with this mail")
  */
-class Participant
+class Participant implements UserInterface
 {
     /**
      * @ORM\Id
@@ -20,29 +23,59 @@ class Participant
     private $id;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
+
+    /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank(message="Le champ titre doit être remplis")
+     * @Assert\Length(
+     *     min="4", max="30",
+     *     minMessage="4 caractères minimum",
+     *     maxMessage="30 caractères maximum"
+     * )
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank(message="Le champ prénom doit être remplis")
+     * @Assert\Length(
+     *     min="4", max="30",
+     *     minMessage="4 caractères minimum",
+     *     maxMessage="30 caractères maximum"
+     * )
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @Assert\NotBlank(message="Le champ téléphone doit être remplis")
+     * @Assert\Length(
+     *     min="4", max="15",
+     *     minMessage="4 caractères minimum",
+     *     maxMessage="15 caractères maximum"
+     * )
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Le champ email doit être remplis")
+     * @Assert\Length(
+     *     min="4", max="20",
+     *     minMessage="4 caractères minimum",
+     *     maxMessage="20 caractères maximum"
+     * )
      */
     private $mail;
-
-    /**
-     * @ORM\Column(type="string", length=20)
-     */
-    private $motDePasse;
 
     /**
      * @ORM\Column(type="boolean")
@@ -56,6 +89,11 @@ class Participant
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *     min="0", max="255",
+     *     minMessage="0 caractères minimum",
+     *     maxMessage="255 caractères maximum"
+     * )
      */
     private $urlPhoto;
 
@@ -66,8 +104,8 @@ class Participant
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
-     * @ORM\JoinColumn(nullable=false)
      */
+    // * @ORM\JoinColumn(nullable=false)
     private $campus;
 
     /**
@@ -130,18 +168,6 @@ class Participant
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
-
-    public function setMotDePasse(string $motDePasse): self
-    {
-        $this->motDePasse = $motDePasse;
 
         return $this;
     }
@@ -254,5 +280,66 @@ class Participant
         }
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->mail;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
