@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\GestionSortieType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\SortieRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,23 +62,28 @@ class SortieController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository) : Response
     {
         $sortie = new Sortie();
-        $form = $this->createForm(SortieType::class, $sortie);
-        $form->handleRequest($request);
+        $formSortie = $this->createForm(SortieType::class, $sortie);
+        $formSortie->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+
+        // TODO Récupérer l'objet participant de la session
+        //$this->getUser()->getUsername();
+        //$sortie->setOrganisateur();
+
+        if ($formSortie->isSubmitted() && $formSortie->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
 
+            $this->addFlash('success', 'La sortie à bien été enregistrée');
             return $this->redirectToRoute('sortie_index');
         }
 
         return $this->render('sortie/new.html.twig', [
-            'sortie' => $sortie,
-            'form' => $form->createView(),
+            'sortieForm' => $formSortie->createView(),
         ]);
     }
 
