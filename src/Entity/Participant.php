@@ -114,6 +114,11 @@ class Participant implements UserInterface
      */
     private $inscriptions;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $pseudo;
+
     public function __construct()
     {
         $this->sortiesOrganisees = new ArrayCollection();
@@ -342,5 +347,17 @@ class Participant implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
     }
 }
