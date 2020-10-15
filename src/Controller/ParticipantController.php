@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/participant")
@@ -85,7 +86,7 @@ class ParticipantController extends AbstractController
      *
      * @Route("/profil/editer", name="/profil/editer", methods={"GET","POST"})
      */
-    public function editerProfil(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function editerProfil(Request $request, UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ParticipantType::class, $this->getUser());
         // Initialise les valeurs
@@ -101,6 +102,36 @@ class ParticipantController extends AbstractController
                         $request->request->get('participant')['password']['first']
                     )
                 );
+            }
+            // Supprime l'image de profil précédente
+            if(!empty($form->get('urlPhoto')->getData()) && !empty($this->getUser()->getUrlPhoto())){
+//                dd($this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'imageProfil' . DIRECTORY_SEPARATOR . $this->getUser()->getUrlPhoto());
+                unlink($this->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'imageProfil' . DIRECTORY_SEPARATOR . $this->getUser()->getUrlPhoto());
+            }
+            /** @var UploadedFile $brochureFile */
+            $brochureFile = $form->get('urlPhoto')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        $this->getParameter('photo_profil_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $this->getUser()->setUrlPhoto($newFilename);
             }
 
             $this->getDoctrine()->getManager()->persist($this->getUser());

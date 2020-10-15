@@ -48,6 +48,12 @@
                 <td>{{ participant.urlPhoto }}</td>
             </tr>
             <tr>
+                <th>Photo de profil</th>
+                <td>
+                    <img src="{{ asset('uploads/imageProfil/' ~ participant.urlPhoto) }}" alt="Photo de profil">
+                </td>
+            </tr>
+            <tr>
                 <th>Pseudo</th>
                 <td>{{ participant.pseudo }}</td>
             </tr>
