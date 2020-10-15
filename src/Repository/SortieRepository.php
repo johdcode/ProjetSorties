@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,16 +21,15 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 
-//    public function findOneBySomeField($value): ?Sortie
+//    public function findOneBySortie($sortie): ?Sortie
 //    {
 //
+//            return $this->createQueryBuilder('s')
+//                ->andWhere('s.nom LIKE :nom')
+//                ->setParameter('nom', $sortie)
+//                ->getQuery()
+//                ->getOneOrNullResult();
 //
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
 //    }
 
 }

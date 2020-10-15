@@ -1,17 +1,27 @@
 {% extends 'base.html.twig' %}
-{% form_theme sortieForm 'bootstrap_4_layout.html.twig' %}
+
 
 {% block title %}Sortie index{% endblock %}
 
 {% block body %}
 
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(sortieForm) }}
+    </div>
 
     <h1>Filtrer les sorties</h1>
+
     {{ form_start(sortieForm) }}
 
-        <div class="my-custom-class-for-errors">
-            {{ form_errors(sortieForm) }}
-        </div>
+    <select name="my_html_select_box">
+        {% for campus in campus %}
+         <option>{{ campus.nom }}</option>
+        {%  endfor %}
+    </select>
+
+
+
+
     {{ form_end(sortieForm) }}
     <table class="table">
         <thead>
@@ -28,26 +38,26 @@
             </tr>
         </thead>
         <tbody>
-        {% for sortie in sorties %}
-            <tr>
-                <td>{{ sortie.id }}</td>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.infosSortie }}</td>
-                <td>{{ sortie.motifAnnulation }}</td>
-                <td>
-                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>
-                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
+{#        {% for sortie in sortie %}#}
+{#            <tr>#}
+{#                <td>{{ sortie.id }}</td>#}
+{#                <td>{{ sortie.nom }}</td>#}
+{#                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>#}
+{#                <td>{{ sortie.duree }}</td>#}
+{#                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>#}
+{#                <td>{{ sortie.nbInscriptionsMax }}</td>#}
+{#                <td>{{ sortie.infosSortie }}</td>#}
+{#                <td>{{ sortie.motifAnnulation }}</td>#}
+{#                <td>#}
+{#                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>#}
+{#                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>#}
+{#                </td>#}
+{#            </tr>#}
+{#        {% else %}#}
+{#            <tr>#}
+{#                <td colspan="9">no records found</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
         </tbody>
     </table>
 

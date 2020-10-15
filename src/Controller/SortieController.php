@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
-
 use App\Form\GestionSortieType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
@@ -11,9 +10,9 @@ use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/sortie")
@@ -22,38 +21,37 @@ class SortieController extends AbstractController
 {
     /**
      * @Route("/", name="sortie_index", methods={"GET", "POST"})
+     * @param Sortie $sortie
      * @param CampusRepository $campusRepository
      * @param SortieRepository $sortieRepository
      * @param Request $request
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterfaceInterface $em
      * @return Response
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function index(
+
         CampusRepository $campusRepository,
         SortieRepository $sortieRepository,
         Request $request,
         EntityManagerInterface $em): Response
     {
-
         $campus = $campusRepository->findAll();
         $sortie = new Sortie();
-        //dd($campus);
-
         $sortieForm = $this->createForm(GestionSortieType::class, $sortie);
+
         $sortieForm->handleRequest($request);
 
-        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+        //lors de la soumission controler en bdd les sorties
+       if($sortieForm->isSubmitted() && $sortieForm->isValid()){
 
             $em->persist($sortie);
             $em->flush();
+       }
 
-        }
         return $this->render('sortie/index.html.twig', [
             'campus' => $campus,
-           'sorties' => $sortie,
-           'sortieForm' => $sortieForm->createView()
+           'sortieForm' => $sortieForm->createView(),
         ]);
     }
 
