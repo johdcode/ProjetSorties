@@ -64,6 +64,13 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
+            ->add('pseudo', TextType::class, [
+                'label' => 'Pseudo',
+                'attr' => [
+                    'placeholder' => 'Un pseudo',
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('mail', TextType::class, [
                 'label' => 'Email',
                 'attr' => [
