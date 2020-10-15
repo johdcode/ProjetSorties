@@ -115,6 +115,7 @@ class Participant implements UserInterface
     private $inscriptions;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=50)
      */
     private $pseudo;
@@ -123,6 +124,11 @@ class Participant implements UserInterface
     {
         $this->sortiesOrganisees = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->pseudo;
     }
 
     public function getId(): ?int

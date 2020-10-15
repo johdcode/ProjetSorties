@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Sortie{% endblock %}
+{% block title %}Nouvelle Sortie | Sortir.com{% endblock %}
 
 {% block body %}
-    <h1>Create new Sortie</h1>
+    <h1>Créer une Sortie</h1>
 
     {{ include('sortie/_form.html.twig') }}
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+    <a href="{{ path('sortie_index') }}">Annuler</a>
 {% endblock %}
