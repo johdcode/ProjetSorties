@@ -78,6 +78,12 @@ class Sortie
      */
     private $motifAnnulation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=campus::class, inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $campus;
+
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
@@ -235,6 +241,18 @@ class Sortie
     public function setMotifAnnulation(?string $motifAnnulation): self
     {
         $this->motifAnnulation = $motifAnnulation;
+
+        return $this;
+    }
+
+    public function getCampus(): ?campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }
