@@ -4,8 +4,21 @@
 
 {% block body %}
     <h1>Créer une Sortie</h1>
+    <form>
+        {{ form_start(sortieForm) }}
+        <div class="form-group">
+            {{ form_row(sortieForm.nom) }}
+            {{ form_row(sortieForm.dateHeureDebut) }}
+            {{ form_row(sortieForm.dateLimiteInscription) }}
+            {{ form_row(sortieForm.nbInscriptionsMax) }}
+            {{ form_row(sortieForm.duree) }}
+            {{ form_row(sortieForm.infosSortie) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(sortieForm.lieu) }}
+        </div>
 
-    {{ include('sortie/_form.html.twig') }}
+        {{ form_end(sortieForm) }}
+    </form>
 
-    <a href="{{ path('sortie_index') }}">Annuler</a>
 {% endblock %}
