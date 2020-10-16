@@ -25,8 +25,6 @@ class AppFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-
-
         $faker = Faker\Factory::create('fr_FR');
 
         $campus = [];
@@ -47,14 +45,18 @@ class AppFixtures extends Fixture
             $lieux[$i] = new Lieu();
             $lieux[$i]->setNom($faker->city)
                 ->setRue($faker->streetName)
-               /* ->setlatitude($faker->latitude($min = -90, $max = 90))
-                ->setLongitude($faker->longitude($min = -180, $max = 180))*/
+                /* ->setlatitude($faker->latitude($min = -90, $max = 90))
+                 ->setLongitude($faker->longitude($min = -180, $max = 180))*/
                 ->setVille($villes[rand(0, count($villes) - 1)]);
         }
 
         $etat = new Etat();
+        $etat->setLibelle("Crée");
+        $etat->setLibelle("ouverte");
         $etat->setLibelle("En cours");
-        
+        $etat->setLibelle("Clôturée");
+        $etat->setLibelle("Annulée");
+
 
         $participants = [];
         for ($i = 0; $i < 20; $i++) {
@@ -73,7 +75,7 @@ class AppFixtures extends Fixture
         $sorties = [];
         for ($i = 0; $i < 10; $i++) {
             $sorties[$i] = new Sortie();
-            $sorties[$i]->setNom($faker->name)
+            $sorties[$i]->setNom($faker->company)
                 ->setDateHeureDebut($faker->dateTime)
                 ->setDuree($faker->randomDigit)
                 ->setDateLimiteInscription($faker->dateTime)
