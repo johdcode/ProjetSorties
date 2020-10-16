@@ -4,7 +4,6 @@
 
 {% block body %}
     <h1>Créer une Sortie</h1>
-    <form>
         {{ form_start(sortieForm) }}
         <div class="form-group">
             {{ form_row(sortieForm.nom) }}
@@ -19,6 +18,4 @@
         </div>
 
         {{ form_end(sortieForm) }}
-    </form>
-
 {% endblock %}

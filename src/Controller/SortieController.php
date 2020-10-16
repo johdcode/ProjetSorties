@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\GestionSortieType;
@@ -58,22 +59,26 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="sortie_new", methods={"GET","POST"})
+     * @Route("/new", name="sortie_new")
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository) : Response
+    public function new(Request $request) : Response
     {
         $sortie = new Sortie();
         $formSortie = $this->createForm(SortieType::class, $sortie);
         $formSortie->handleRequest($request);
 
-
-        // TODO Récupérer l'objet participant de la session
+        // TODO Récupérer l'objet participant de la session (qb)
         //$this->getUser()->getUsername();
         //$sortie->setOrganisateur();
 
         if ($formSortie->isSubmitted() && $formSortie->isValid()) {
+            $etatEnregistrer = new Etat();
+            $etatEnregistrer->setLibelle("En cours");
+            $sortie->setEtat($etatEnregistrer);
+            dd($sortie);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
