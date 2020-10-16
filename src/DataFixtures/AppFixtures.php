@@ -53,12 +53,16 @@ class AppFixtures extends Fixture
                 ->setVille($villes[rand(0, count($villes) - 1)]);
         }
 
-        $etat = new Etat();
-        $etat->setLibelle("Crée");
-        $etat->setLibelle("ouverte");
-        $etat->setLibelle("En cours");
-        $etat->setLibelle("Clôturée");
-        $etat->setLibelle("Annulée");
+
+
+//            $etat= [];
+//            $etat[0]->setLibelle("Crée");
+//            $etat[1]->setLibelle("ouverte");
+//            $etat[2]->setLibelle("En cours");
+//            $etat[3]->setLibelle("Clôturée");
+//            $etat[4]->setLibelle("Annulée");
+
+
         
 
         $participants = [];
@@ -74,6 +78,17 @@ class AppFixtures extends Fixture
                 ->setActif($faker->boolean)
                 ->setCampus($campus[rand(0, count($campus) - 1)]);
         }
+        $participant = new Participant();
+        $participant->setNom("Gontran")
+            ->setPrenom("denise")
+        ->setPseudo("dudu")
+            ->setTelephone($faker->phoneNumber)
+            ->setMail($faker->email)
+            ->setPassword("password")
+            ->setAdministrateur($faker->boolean)
+            ->setActif($faker->boolean)
+            ->setCampus($campus[rand(0, count($campus) - 1)]);
+        $participants[] = $participant;
 
         $sorties = [];
         for ($i = 0; $i < 10; $i++) {

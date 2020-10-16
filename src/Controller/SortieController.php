@@ -35,24 +35,20 @@ class SortieController extends AbstractController
         SortieRepository $sortieRepository,
         Request $request,
         EntityManagerInterface $em): Response
-    { $user = $this->getUser();
-    dd($user->);
-        $sortie = new Sortie();
-       // dd($sortieRepository);
-        //dd($sortie->getOrganisateur()->getId());
-        $sortieForm = $this->createForm(GestionSortieType::class,  $sortie);
-     $sortieRepository->findOneByOrganisateur($request, $user);
+    {
+        $user = $this->getUser();
+           // dd($user);
+        $sortieForm = $this->createForm(GestionSortieType::class);
+        $sortieRepository->findOneByOrganisateur($request, $user);
 
-      //  dd($sortieRepository);
-//  dd( $sortieRepository->findAll());
         $sortieForm->handleRequest($request);
-dd($sortieForm);
+
       // dd($request);
         //lors de la soumission controler en bdd les sorties
 //       if($sortieForm->isSubmitted() && $sortieForm->isValid()){
 //
-            $em->persist($result);
-            $em->flush();
+//            $em->persist($result);
+//            $em->flush();
 //       }
 
         return $this->render('sortie/index.html.twig', [

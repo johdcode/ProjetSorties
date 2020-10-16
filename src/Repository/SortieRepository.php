@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -23,20 +24,25 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 
-    public function findOneByOrganisateur(Request $request, User $user)
+    public function findOneByOrganisateur(Request $request, Participant $user)
     {
-        //if()
-        $sortie = new Sortie();
-
+       // utilisateur connecté dd($user);
+      //dd($request->request->get("gestion_sortie")["organisateur"] ) ;
         //dd($request->request->get('gestion_sortie'));
             //id de l'orga = participant->getSortiesCrées v[]sortiesOrganisee
              $qb = $this->createQueryBuilder('s');
-                $qb->andWhere('s.organisateur LIKE :organisateur') // ?
-               ->setParameter('organisateur', $request->request->get('gestion_sortie'));
+                $qb->andWhere('s.organisateur = :organisateur');
+//                $qb->join('s.organisateur', 'o');
+//                $qb->addSelect('o');
+                    $qb->setParameter('organisateur', $user );
+
+                //jointure entre organisateur et sorties
+              //  dd($qb->getQuery()->getResult());
 
 
-           // condition if = dd($request->request->get("gestion_sortie")["organisateur"]) ;
         //return $result;
+
+
 
     }
 
