@@ -31,28 +31,31 @@ class SortieController extends AbstractController
      * @return Response
      */
     public function index(
-
         CampusRepository $campusRepository,
         SortieRepository $sortieRepository,
         Request $request,
         EntityManagerInterface $em): Response
-    {
-        $campus = $campusRepository->findAll();
+    { $user = $this->getUser();
+    dd($user->);
         $sortie = new Sortie();
-        $sortieForm = $this->createForm(GestionSortieType::class, $sortie);
+       // dd($sortieRepository);
+        //dd($sortie->getOrganisateur()->getId());
+        $sortieForm = $this->createForm(GestionSortieType::class,  $sortie);
+     $sortieRepository->findOneByOrganisateur($request, $user);
 
+      //  dd($sortieRepository);
+//  dd( $sortieRepository->findAll());
         $sortieForm->handleRequest($request);
-
-
+dd($sortieForm);
+      // dd($request);
         //lors de la soumission controler en bdd les sorties
-       if($sortieForm->isSubmitted() && $sortieForm->isValid()){
-
-            $em->persist($sortie);
+//       if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+//
+            $em->persist($result);
             $em->flush();
-       }
+//       }
 
         return $this->render('sortie/index.html.twig', [
-            'campus' => $campus,
            'sortieForm' => $sortieForm->createView(),
         ]);
     }

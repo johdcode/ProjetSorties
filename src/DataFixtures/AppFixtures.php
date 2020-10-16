@@ -15,6 +15,7 @@ use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
@@ -53,7 +54,11 @@ class AppFixtures extends Fixture
         }
 
         $etat = new Etat();
+        $etat->setLibelle("Crée");
+        $etat->setLibelle("ouverte");
         $etat->setLibelle("En cours");
+        $etat->setLibelle("Clôturée");
+        $etat->setLibelle("Annulée");
         
 
         $participants = [];
@@ -73,7 +78,7 @@ class AppFixtures extends Fixture
         $sorties = [];
         for ($i = 0; $i < 10; $i++) {
             $sorties[$i] = new Sortie();
-            $sorties[$i]->setNom($faker->name)
+            $sorties[$i]->setNom($faker->company)
                 ->setDateHeureDebut($faker->dateTime)
                 ->setDuree($faker->randomDigit)
                 ->setDateLimiteInscription($faker->dateTime)
