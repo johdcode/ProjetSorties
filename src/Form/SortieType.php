@@ -26,6 +26,12 @@ class SortieType extends AbstractType
                 'label' => 'Nom de la sortie : '
             ])
             ->add('dateHeureDebut', DateTimeType::class, [
+                'html5' => false,
+                'format' => 'dd-MM-yyyy',
+                'placeholder' =>[
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour'
+
+                ],
                 'label' => 'Date et heure de la sortie : '
             ])
             ->add('duree', IntegerType::class, [
@@ -38,20 +44,13 @@ class SortieType extends AbstractType
                 'label' => 'Nombres de places : '
             ])
             ->add('infosSortie', TextareaType::class, [
-                'label' => 'Description et infos : '
-            ])
-            ->add('lieu', EntityType::class, [
-                'class' => Lieu::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')
-                        ->orderBy('l.nom', 'ASC');
-                },
-                'choice_label' => 'nom'
+                'label' => 'Description et infos : ',
+                'required' => false
             ])
             ->add('lieu', LieuType::class)
             ->add('enregistrer', SubmitType::class)
-            ->add('publier', SubmitType::class)
-            ->add('annuler', SubmitType::class)
+            /*->add('publier', SubmitType::class)
+            ->add('annuler', SubmitType::class)*/
         ;
     }
 

@@ -26,21 +26,14 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findOneByOrganisateur(Request $request, Participant $user)
     {
-       // utilisateur connecté dd($user);
-      //dd($request->request->get("gestion_sortie")["organisateur"] ) ;
-        //dd($request->request->get('gestion_sortie'));
-            //id de l'orga = participant->getSortiesCrées v[]sortiesOrganisee
-             $qb = $this->createQueryBuilder('s');
-                $qb->andWhere('s.organisateur = :organisateur');
-//                $qb->join('s.organisateur', 'o');
-//                $qb->addSelect('o');
-                    $qb->setParameter('organisateur', $user );
 
-                //jointure entre organisateur et sorties
-              //  dd($qb->getQuery()->getResult());
-
-
-        //return $result;
+       // Sorties lorsque l'utilisateur est connecté
+      if(!empty($request->request->get("gestion_sortie")["organisateur"] = 1)) {
+          $qb = $this->createQueryBuilder('s');
+          $qb->andWhere('s.organisateur = :organisateur'); //si Sortie attribut organisateur = organisateur
+          $qb->setParameter('organisateur', $user );
+          return $qb->getQuery()->getResult();
+      }
 
 
 

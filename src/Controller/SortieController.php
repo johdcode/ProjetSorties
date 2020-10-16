@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
+use App\Entity\Inscription;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\GestionSortieType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
+use App\Repository\InscriptionRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManager;
@@ -21,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SortieController extends AbstractController
 {
+
     /**
      * @Route("/", name="sortie_index", methods={"GET", "POST"})
      * @param Sortie $sortie
@@ -29,50 +33,48 @@ class SortieController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterfaceInterface $em
      * @return Response
+     *
      */
     public function index(
-        CampusRepository $campusRepository,
+        InscriptionRepository $inscriptionRepository,
         SortieRepository $sortieRepository,
         Request $request,
         EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
-           // dd($user);
+
         $sortieForm = $this->createForm(GestionSortieType::class);
-        $sortieRepository->findOneByOrganisateur($request, $user);
+        $sortiesOrganisees =  $sortieRepository->findOneByOrganisateur($request, $user);
 
         $sortieForm->handleRequest($request);
 
-      // dd($request);
-        //lors de la soumission controler en bdd les sorties
-//       if($sortieForm->isSubmitted() && $sortieForm->isValid()){
-//
-//            $em->persist($result);
-//            $em->flush();
-//       }
-
         return $this->render('sortie/index.html.twig', [
            'sortieForm' => $sortieForm->createView(),
+            'sortiesOrganisees'=> $sortiesOrganisees
         ]);
     }
 
     /**
-     * @Route("/new", name="sortie_new", methods={"GET","POST"})
+     * @Route("/new", name="sortie_new")
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository) : Response
+    public function new(Request $request) : Response
     {
         $sortie = new Sortie();
         $formSortie = $this->createForm(SortieType::class, $sortie);
         $formSortie->handleRequest($request);
 
-
-        // TODO Récupérer l'objet participant de la session
+        // TODO Récupérer l'objet participant de la session (qb)
         //$this->getUser()->getUsername();
         //$sortie->setOrganisateur();
 
         if ($formSortie->isSubmitted() && $formSortie->isValid()) {
+            $etatEnregistrer = new Etat();
+            $etatEnregistrer->setLibelle("En cours");
+            $sortie->setEtat($etatEnregistrer);
+            dd($sortie);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
