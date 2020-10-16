@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\GestionSortieType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
+use App\Repository\EtatRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManager;
@@ -61,23 +64,40 @@ class SortieController extends AbstractController
     /**
      * @Route("/new", name="sortie_new")
      * @param Request $request
+     * @param EtatRepository $etatRepository
+     * @param ParticipantRepository $participantRepository
+     * @param CampusRepository $campusRepository
      * @return Response
      */
-    public function new(Request $request) : Response
+    public function new(Request $request, EtatRepository $etatRepository, ParticipantRepository $participantRepository, CampusRepository $campusRepository) : Response
     {
         $sortie = new Sortie();
         $formSortie = $this->createForm(SortieType::class, $sortie);
         $formSortie->handleRequest($request);
 
-        // TODO Récupérer l'objet participant de la session (qb)
-        //$this->getUser()->getUsername();
-        //$sortie->setOrganisateur();
-
         if ($formSortie->isSubmitted() && $formSortie->isValid()) {
-            $etatEnregistrer = new Etat();
-            $etatEnregistrer->setLibelle("En cours");
+
+            // récupération des valeurs du formulaire au sein de la requête
+            $i = $request->request->get('sortie');
+
+            // $i est soit true ou false selon l'existence du bouton 'enregistrer' dans le formulaire
+            $i = array_key_exists('enregistrer', $i);
+
+            // choisit l'état à appliquer selon le bouton d'envoi du formulaire
+            $i ? $etatAajouter = 'Créée' : $etatAajouter = 'Ouverte';
+
+            $etatEnregistrer = $etatRepository->findOneBy([
+                'libelle' => $etatAajouter
+            ]);
             $sortie->setEtat($etatEnregistrer);
-            dd($sortie);
+
+            $organisateur = $participantRepository->find($this->getUser()->getId());
+            $sortie->setOrganisateur($organisateur);
+
+            $sortie->setCampus($campusRepository->find($organisateur->getCampus()->getId()));
+
+            $sortie->setLieu()
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);

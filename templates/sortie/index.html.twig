@@ -4,6 +4,14 @@
 {% block title %}Sortie index{% endblock %}
 
 {% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     {{ form_start(sortieForm) }}
     <div class="my-custom-class-for-errors">
         {{ form_errors(sortieForm) }}

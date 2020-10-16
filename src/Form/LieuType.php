@@ -24,14 +24,23 @@ class LieuType extends AbstractType
                     return $er->createQueryBuilder('l')
                         ->orderBy('l.nom', 'ASC');
                 },
-                'label' => 'Lieu : '
+                'label' => 'Lieu : ',
             ])
-            ->add('rue', TextType::class, [
+            ->add('rue', EntityType::class, [
+                'class' => Lieu::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('l')
+                        ->orderBy('l.rue', 'ASC');
+                },
                 'label' => 'Rue : '
             ])
             ->add('latitude', NumberType::class, [
                 'label' => 'Latitude : ',
-                'required' => false
+                'required' => false,
+                // TODO le code ne marche pas (le champ ne doit pas être accessible)
+                'attr' => [
+                    'dissbled' => true
+                ]
             ])
             ->add('longitude', NumberType::class, [
                 'label' => 'Longitude : ',
