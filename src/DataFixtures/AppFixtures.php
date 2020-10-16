@@ -15,6 +15,7 @@ use App\Entity\Ville;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
@@ -50,6 +51,7 @@ class AppFixtures extends Fixture
                 ->setVille($villes[rand(0, count($villes) - 1)]);
         }
 
+
         $etatsFixe = ["Créée", "Ouverte", "En cours", "Clôturée", "Annulée"];
         $etats = [];
         foreach ($etatsFixe as $etat){
@@ -57,6 +59,7 @@ class AppFixtures extends Fixture
             $i->setLibelle($etat);
             $etats[] = $i;
         }
+
 
         $participants = [];
         for ($i = 0; $i < 20; $i++) {
@@ -71,6 +74,17 @@ class AppFixtures extends Fixture
                 ->setActif($faker->boolean)
                 ->setCampus($campus[rand(0, count($campus) - 1)]);
         }
+        $participant = new Participant();
+        $participant->setNom("Gontran")
+            ->setPrenom("denise")
+        ->setPseudo("dudu")
+            ->setTelephone($faker->phoneNumber)
+            ->setMail($faker->email)
+            ->setPassword("\$argon2id\$v=19\$m=65536,t=4,p=1\$Vi5KLlhPSGYwbkhkdzdnUg\$kHKC4MRV6tONo8BmIn80YG8FCErkyjvD7E5PcGrEDcM")
+            ->setAdministrateur($faker->boolean)
+            ->setActif($faker->boolean)
+            ->setCampus($campus[rand(0, count($campus) - 1)]);
+        $participants[] = $participant;
 
         $sorties = [];
         for ($i = 0; $i < 10; $i++) {

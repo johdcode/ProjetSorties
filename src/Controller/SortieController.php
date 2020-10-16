@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Campus;
 use App\Entity\Etat;
+use App\Entity\Inscription;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\GestionSortieType;
@@ -11,6 +12,7 @@ use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\ParticipantRepository;
+use App\Repository\InscriptionRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManager;
@@ -25,6 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SortieController extends AbstractController
 {
+
     /**
      * @Route("/", name="sortie_index", methods={"GET", "POST"})
      * @param Sortie $sortie
@@ -33,31 +36,24 @@ class SortieController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterfaceInterface $em
      * @return Response
+     *
      */
     public function index(
-
-        CampusRepository $campusRepository,
+        InscriptionRepository $inscriptionRepository,
         SortieRepository $sortieRepository,
         Request $request,
         EntityManagerInterface $em): Response
     {
-        $campus = $campusRepository->findAll();
-        $sortie = new Sortie();
-        $sortieForm = $this->createForm(GestionSortieType::class, $sortie);
+        $user = $this->getUser();
+
+        $sortieForm = $this->createForm(GestionSortieType::class);
+        $sortiesOrganisees =  $sortieRepository->findOneByOrganisateur($request, $user);
 
         $sortieForm->handleRequest($request);
 
-
-        //lors de la soumission controler en bdd les sorties
-       if($sortieForm->isSubmitted() && $sortieForm->isValid()){
-
-            $em->persist($sortie);
-            $em->flush();
-       }
-
         return $this->render('sortie/index.html.twig', [
-            'campus' => $campus,
            'sortieForm' => $sortieForm->createView(),
+            'sortiesOrganisees'=> $sortiesOrganisees
         ]);
     }
 
@@ -96,7 +92,7 @@ class SortieController extends AbstractController
 
             $sortie->setCampus($campusRepository->find($organisateur->getCampus()->getId()));
 
-            $sortie->setLieu()
+            //$sortie->setLieu()
 
 
             $entityManager = $this->getDoctrine()->getManager();

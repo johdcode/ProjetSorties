@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DataFixtures\AppFixtures;
 use App\Entity\Participant;
 use App\Form\RegistrationFormType;
 use App\Security\AppAuthenticator;
@@ -46,7 +47,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppAuthenticator $authenticator, SluggerInterface $slugger): Response
+    public function register( Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppAuthenticator $authenticator, SluggerInterface $slugger): Response
     {
         $user = new Participant();
         $form = $this->createForm(RegistrationFormType::class, $user);
