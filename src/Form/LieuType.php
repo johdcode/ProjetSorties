@@ -26,12 +26,7 @@ class LieuType extends AbstractType
                 },
                 'label' => 'Lieu : ',
             ])
-            ->add('rue', EntityType::class, [
-                'class' => Lieu::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')
-                        ->orderBy('l.rue', 'ASC');
-                },
+            ->add('rue', TextType::class, [
                 'label' => 'Rue : '
             ])
             ->add('latitude', NumberType::class, [
