@@ -45,18 +45,18 @@ class AppFixtures extends Fixture
             $lieux[$i] = new Lieu();
             $lieux[$i]->setNom($faker->city)
                 ->setRue($faker->streetName)
-                /* ->setlatitude($faker->latitude($min = -90, $max = 90))
-                 ->setLongitude($faker->longitude($min = -180, $max = 180))*/
+                 ->setlatitude($faker->latitude)
+                 ->setLongitude($faker->longitude)
                 ->setVille($villes[rand(0, count($villes) - 1)]);
         }
 
-        $etat = new Etat();
-        $etat->setLibelle("Crée");
-        $etat->setLibelle("ouverte");
-        $etat->setLibelle("En cours");
-        $etat->setLibelle("Clôturée");
-        $etat->setLibelle("Annulée");
-
+        $etatsFixe = ["Créée", "Ouverte", "En cours", "Clôturée", "Annulée"];
+        $etats = [];
+        foreach ($etatsFixe as $etat){
+            $i = new Etat();
+            $i->setLibelle($etat);
+            $etats[] = $i;
+        }
 
         $participants = [];
         for ($i = 0; $i < 20; $i++) {
@@ -81,7 +81,7 @@ class AppFixtures extends Fixture
                 ->setDateLimiteInscription($faker->dateTime)
                 ->setNbInscriptionsMax($faker->randomDigit)
                 ->setInfosSortie($faker->text)
-                ->setEtat($etat)
+                ->setEtat($etats[array_rand($etats, 1)])
                 ->setLieu($lieux[rand(0, count($lieux) - 1)])
                 ->setOrganisateur($participants[rand(0, count($participants) - 1)]);
         }
@@ -94,6 +94,9 @@ class AppFixtures extends Fixture
                 ->setSortie($sorties[rand(0, count($sorties) - 1)]);
         }
 
+        foreach ($etats as $etat){
+            $manager->persist($etat);
+        }
 
         foreach ($participants as $participant){
             $manager->persist($participant);
