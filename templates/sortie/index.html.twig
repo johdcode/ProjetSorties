@@ -35,6 +35,7 @@
                 <th>DateLimiteInscription</th>
                 <th>NbInscriptionsMax</th>
                 <th>InfosSortie</th>
+                <th>Organisateur</th>
                 <th>MotifAnnulation</th>
                 <th>actions</th>
             </tr>
@@ -49,6 +50,7 @@
                 <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.infosSortie }}</td>
+                <td>{{ sortie.organisateur.mail }}</td>
                 <td>{{ sortie.motifAnnulation }}</td>
                 <td>
                     <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>

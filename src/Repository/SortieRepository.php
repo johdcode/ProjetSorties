@@ -28,8 +28,16 @@ class SortieRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('s');
         // FILTRE PAR NOM
         if(!empty($request->request->get('gestion_sortie')['nom'])){
-            $query  ->andWhere('s.nom LIKE :nom')
-                    ->setParameter('nom', '%' . $request->request->get('gestion_sortie')['nom'] . '%');
+            $mots_cles = preg_split('/ /', $request->request->get('gestion_sortie')['nom']);
+            foreach ($mots_cles as $index => $mot){
+                if($index == 0){
+                    $query  ->andWhere('s.nom LIKE :nom' .$index)
+                            ->setParameter('nom'. $index, '%' . $mot . '%');
+                } else {
+                    $query  ->orWhere('s.nom LIKE :nom' . $index)
+                            ->setParameter('nom'. $index, '%' . $mot . '%');
+                }
+            }
         }
         // FILTRE PAR DATE BORNE MIN
         if(!empty($request->request->get('gestion_sortie')['borneDateMin'])){
