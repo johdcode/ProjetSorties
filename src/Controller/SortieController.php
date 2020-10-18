@@ -2,10 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Campus;
-use App\Entity\Etat;
-use App\Entity\Inscription;
-use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\GestionSortieType;
 use App\Form\SortieType;
@@ -13,11 +9,7 @@ use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
-use App\Repository\InscriptionRepository;
 use App\Repository\SortieRepository;
-use App\Repository\VilleRepository;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,30 +23,31 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/", name="sortie_index", methods={"GET", "POST"})
-     * @param Sortie $sortie
      * @param CampusRepository $campusRepository
      * @param SortieRepository $sortieRepository
      * @param Request $request
-     * @param EntityManagerInterfaceInterface $em
      * @return Response
      *
      */
     public function index(
-        InscriptionRepository $inscriptionRepository,
+        CampusRepository $campusRepository,
         SortieRepository $sortieRepository,
-        Request $request,
-        EntityManagerInterface $em): Response
+        Request $request): Response
     {
-        $user = $this->getUser();
+        $sorties = [];
+        $campus = $campusRepository->findAll();
 
         $sortieForm = $this->createForm(GestionSortieType::class);
-        $sortiesOrganisees =  $sortieRepository->findOneByOrganisateur($request, $user);
-
         $sortieForm->handleRequest($request);
+        //lors de la soumission controler en bdd les sorties
+       if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+            $sorties = $sortieRepository->findSortieParRecherche($request, $this->getUser());
+       }
 
         return $this->render('sortie/index.html.twig', [
-           'sortieForm' => $sortieForm->createView(),
-            'sortiesOrganisees'=> $sortiesOrganisees
+            'sorties' => $sorties,
+            'campus' => $campus,
+            'sortieForm' => $sortieForm->createView(),
         ]);
     }
 
