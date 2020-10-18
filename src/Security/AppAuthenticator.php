@@ -68,6 +68,9 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
         }
 
         $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['mail' => $credentials['mail']]);
+        if(!$user){
+            $user = $this->entityManager->getRepository(Participant::class)->findOneBy(['pseudo' => $credentials['mail']]);
+        }
 
         if (!$user) {
             // fail authentication with a custom error
