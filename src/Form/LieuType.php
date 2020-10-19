@@ -7,6 +7,7 @@ use App\Entity\Ville;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,6 +28,7 @@ class LieuType extends AbstractType
                 'label' => 'Lieu : ',
             ])
             ->add('rue', TextType::class, [
+                'disabled' => 'true',
                 'label' => 'Rue : ',
                 'required' => false,
                 'attr' => [
@@ -34,6 +36,7 @@ class LieuType extends AbstractType
                 ]
             ])
             ->add('latitude', NumberType::class, [
+                'disabled' => 'true',
                 'label' => 'Latitude : ',
                 'required' => false,
                 'attr' => [
@@ -41,6 +44,7 @@ class LieuType extends AbstractType
                 ]
             ])
             ->add('longitude', NumberType::class, [
+                'disabled' => 'true',
                 'label' => 'Longitude : ',
                 'required' => false,
                 'attr' => [
@@ -53,6 +57,9 @@ class LieuType extends AbstractType
                 'attr' => [
                     'disabled' => true
                 ]
+            ])
+            ->add('Ajouter', ButtonType::class, [
+                'attr' => ['id' => 'btn_ajouter_lieu']
             ])
         ;
     }
