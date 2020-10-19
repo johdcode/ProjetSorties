@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvelle Sortie | Sortir.com{% endblock %}
+{% block pageTitle %}Nouvelle Sortie | Sortir.com{% endblock %}
+
+{% block title %}<h1>Créer une sortie</h1>{% endblock %}
 
 {% block body %}
-    <h1>Créer une Sortie</h1>
         {{ form_start(sortieForm) }}
+
         <div class="form-group">
             {{ form_row(sortieForm.nom) }}
             {{ form_row(sortieForm.dateHeureDebut) }}
@@ -13,10 +15,11 @@
             {{ form_row(sortieForm.duree) }}
             {{ form_row(sortieForm.infosSortie) }}
         </div>
+
         <div class="form-group">
             {{ form_row(sortieForm.lieu) }}
         </div>
 
         {{ form_end(sortieForm) }}
-    <a href=" {{ path('sortie_index') }}">Annuler</a>
+        <button onclick="">Annuler</button>
 {% endblock %}
