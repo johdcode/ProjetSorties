@@ -97,7 +97,8 @@ class AppFixtures extends Fixture
                 ->setInfosSortie($faker->text)
                 ->setEtat($etats[array_rand($etats, 1)])
                 ->setLieu($lieux[rand(0, count($lieux) - 1)])
-                ->setOrganisateur($participants[rand(0, count($participants) - 1)]);
+                ->setOrganisateur($participants[rand(0, count($participants) - 1)])
+                ->setCampus($campus[rand(0, count($campus) - 1)]);
         }
 
         $inscriptions = [];
