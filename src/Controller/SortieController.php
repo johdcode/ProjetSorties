@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\GestionSortieType;
+use App\Form\LieuCreationType;
+use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
@@ -11,6 +14,8 @@ use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,13 +94,12 @@ class SortieController extends AbstractController
             $organisateur = $participantRepository->find($this->getUser()->getId());
             $sortie->setOrganisateur($organisateur);
 
-            //TODO ne récupère que l'id, doit fetch l'entité
-            $sortie->setCampus($campusRepository->find($organisateur->getCampus()->getId()));
+            // Ne renvoie que l'id du campus car $this->getUser() ne possède pas l'entité Campus complète
+            $campusOrganisateur = $campusRepository->find($this->getUser()->getCampus()->getId());
+            $sortie->setCampus($campusOrganisateur);
 
             $lieuChoisi = $requeteSortie['lieu'];
             $sortie->setLieu($lieuRepository->find($lieuChoisi['nom']));
-
-            dd($sortie);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
@@ -112,6 +116,8 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/{id}", name="sortie_show", methods={"GET"})
+     * @param Sortie $sortie
+     * @return Response
      */
     public function show(Sortie $sortie): Response
     {
@@ -122,9 +128,13 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="sortie_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
+
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
@@ -141,7 +151,40 @@ class SortieController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/annuler", name="sortie_annuler", methods={"GET","POST"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @param SortieRepository $sortieRepository
+     * @return Response
+     */
+    public function annuler(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
+    {
+
+        if(time() < $sortie->getDateHeureDebut()->getTimestamp())
+        {
+            $this->addFlash('error', 'Vous ne pouvez pas annuler une sortie en cours ou passé');
+            // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
+            return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+        }
+
+        $motif = new Sortie();
+        $formAnnuler = $this->createFormBuilder($motif)
+            ->add('motifAnnulation', TextareaType::class)
+            ->add('save', SubmitType::class, [
+                'label' => 'Confirmer'
+            ])->getForm();
+
+        return $this->render('sortie/annuler.html.twig', [
+            'sortie' => $sortie,
+            'form' => $formAnnuler->createView()
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="sortie_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
      */
     public function delete(Request $request, Sortie $sortie): Response
     {
