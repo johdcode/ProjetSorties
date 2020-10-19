@@ -5,9 +5,10 @@ namespace App\Repository;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\InscriptionRepository;
+
 
 
 /**
@@ -26,15 +27,25 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findOneByOrganisateur(Request $request, Participant $user)
     {
+        $requestvalue = $request->request->get("gestion_sortie");
 
        // Sorties lorsque l'utilisateur est connecté
-      if(!empty($request->request->get("gestion_sortie")["organisateur"] = 1)) {
+      if(!empty($requestvalue["organisateur"])) {
           $qb = $this->createQueryBuilder('s');
           $qb->andWhere('s.organisateur = :organisateur'); //si Sortie attribut organisateur = organisateur
           $qb->setParameter('organisateur', $user );
           return $qb->getQuery()->getResult();
       }
 
+     if(!empty($requestvalue["etatInscrit"])) {
+
+       $data =$this->getEntityManager()->getRepository(InscriptionRepository::class)->getEntityName()
+                    ->findOneBy($user);
+           dd($data);
+//        $qb = $this->createQueryBuilder('s');
+//
+//          return $qb->getQuery()->getResult();
+      }
 
 
     }
