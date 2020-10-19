@@ -12,9 +12,11 @@
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.mail) }}
         {{ form_row(registrationForm.pseudo) }}
+    {#
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
+    #}
         {{  form_widget(registrationForm) }}
         <br>
         <button type="submit" class="btn">Register</button>

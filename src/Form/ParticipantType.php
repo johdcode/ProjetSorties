@@ -2,8 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
+use App\Entity\Category;
 use App\Entity\Participant;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -58,11 +62,34 @@ class ParticipantType extends AbstractType
                     ],
                 ],
             ])
-            ->add('nom')
-            ->add('prenom')
-            ->add('telephone')
-            ->add('mail')
-//            ->add('urlPhoto')
+            ->add('nom', TextType::class, [
+                'label' => 'Nom',
+                'attr' => [
+                    'placeholder' => 'Un nom',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Prénom',
+                'attr' => [
+                    'placeholder' => 'Un prénom',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('telephone', TextType::class, [
+                'label' => 'Téléphone',
+                'attr' => [
+                    'placeholder' => 'Un numéros de téléphone',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('mail', TextType::class, [
+                'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'Une description',
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('urlPhoto', FileType::class, [
                 'label' => 'Image de profil',
 
@@ -94,11 +121,14 @@ class ParticipantType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('administrateur')
-            ->add('actif')
-//            ->add('campus')
-        ;
-//        dd($builder);
+            ->add('administrateur', CheckboxType::class, [
+                'label'    => 'Administrateur',
+                'required' => false,
+            ])
+            ->add('actif', CheckboxType::class, [
+                'label'    => 'Actif',
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
