@@ -27,29 +27,32 @@ class LieuType extends AbstractType
                 'label' => 'Lieu : ',
             ])
             ->add('rue', TextType::class, [
-                'label' => 'Rue : '
+                'label' => 'Rue : ',
+                'required' => false,
+                'attr' => [
+                    'disabled' => true
+                ]
             ])
             ->add('latitude', NumberType::class, [
                 'label' => 'Latitude : ',
                 'required' => false,
-                // TODO le code ne marche pas (le champ ne doit pas être accessible)
                 'attr' => [
-                    'dissbled' => true
+                    'disabled' => true
                 ]
             ])
             ->add('longitude', NumberType::class, [
                 'label' => 'Longitude : ',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'disabled' => true
+                ]
+
             ])
-            ->add('ville', FormType::class)
-            ->add('ville', EntityType::class, [
-                'class' => Ville::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('v')
-                        ->orderBy('v.nom', 'ASC');
-                },
-                'choice_label' => 'nom',
-                'label' => 'Ville : '
+            ->add('ville', TextType::class, [
+                'label' => 'Ville : ',
+                'attr' => [
+                    'disabled' => true
+                ]
             ])
         ;
     }

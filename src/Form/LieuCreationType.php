@@ -4,11 +4,11 @@ namespace App\Form;
 
 use App\Entity\Lieu;
 use App\Entity\Ville;
-use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,10 +24,12 @@ class LieuCreationType extends AbstractType
                 'label' => 'Rue : '
             ])
             ->add('latitude', NumberType::class,[
-                'label' => 'Latitude : '
+                'label' => 'Latitude : ',
+                'required' => false
             ])
             ->add('longitude', NumberType::class,[
-                'label' => 'Longitude : '
+                'label' => 'Longitude : ',
+                'required' => false
             ])
             //TODO faire en sorte que le code Postal s'affiche avec la ville
             ->add('ville', EntityType::class,[
