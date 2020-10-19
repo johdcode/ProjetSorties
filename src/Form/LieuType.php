@@ -19,12 +19,17 @@ class LieuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('ville', EntityType::class, [
+                'class' => Ville::class,
+                'choice_label' => 'nom',
+                'label' => 'Ville : '
+            ])
             ->add('nom', EntityType::class, [
                 'class' => Lieu::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')
-                        ->orderBy('l.nom', 'ASC');
-                },
+//                'query_builder' => function (EntityRepository $er) {
+//                    return $er->createQueryBuilder('l')
+//                        ->orderBy('l.nom', 'ASC');
+//                },
                 'label' => 'Lieu : ',
             ])
             ->add('rue', TextType::class, [
@@ -51,12 +56,6 @@ class LieuType extends AbstractType
                     'disabled' => true
                 ]
 
-            ])
-            ->add('ville', TextType::class, [
-                'label' => 'Ville : ',
-                'attr' => [
-                    'disabled' => true
-                ]
             ])
             ->add('Ajouter', ButtonType::class, [
                 'attr' => ['id' => 'btn_ajouter_lieu']
