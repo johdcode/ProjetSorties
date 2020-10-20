@@ -94,7 +94,7 @@
     <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour à la liste</a>
 
     {% if app.user != sortie.organisateur and 'Ouverte' == sortie.etat %}
-        <a href="{{ path('sortie_inscrire' }}" class="btn btn-primary">S'inscrire</a>
+        <a href="{{ path('sortie_inscrire' , {'id': sortie.id})}}" class="btn btn-primary">S'inscrire</a>
     {%  endif %}
 
     {% if app.user != sortie.organisateur and 'Ouverte' == sortie.etat %}

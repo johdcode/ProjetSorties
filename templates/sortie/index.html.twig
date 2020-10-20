@@ -55,11 +55,16 @@
                 <td>{{ sortie.motifAnnulation }}</td>
                 <td>
                     <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
-                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
-                    <a href="{{ path('sortie_new', {'id': sortie.id}) }}">Publier</a>
-                    <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                    {% if app.user.id == sortie.organisateur.id%}
+                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
+                        <a href="{{ path('sortie_new', {'id': sortie.id}) }}">Publier</a>
+                        
+                        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                    {% endif %}
+
                     <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
                     <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se Désister</a>
+
                 </td>
             </tr>
         {% else %}

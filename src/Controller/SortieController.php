@@ -257,16 +257,5 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_index',  []);
     }
 
-    /**
-     * @Route("/", name="sortie_desinscrire", methods={"POST"})
-     * @param Request $request
-     * @param Sortie $sortie
-     * @return Response
-     */
-    public function desinscrire(Request $request, Sortie $sortie): Response
-    {
 
-
-        return $this->redirectToRoute('sortie_index',  []);
-    }
 }
