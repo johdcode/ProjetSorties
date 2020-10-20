@@ -31,13 +31,9 @@ class LieuCreationType extends AbstractType
                 'label' => 'Longitude : ',
                 'required' => false
             ])
-            //TODO faire en sorte que le code Postal s'affiche avec la ville
-            ->add('ville', EntityType::class,[
-                'class' => VilleType::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('v')
-                        ->orderBy('v.nom', 'ASC');
-                },
+            ->add('ville', EntityType::class, [
+                'class' => Ville::class,
+                'choice_label' => 'nom',
                 'label' => 'Ville : '
             ])
         ;
