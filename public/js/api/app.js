@@ -48,12 +48,9 @@ window.onload = function() {
         if (select_lieu.innerHTML == "") {
             // Selectionner la première option
             option.setAttribute('selected', true);
-            // Remplir les autres champs
-            document.getElementById('sortie_lieu_rue').value = lieu.rue;
-            document.getElementById('sortie_lieu_latitude').value = lieu.latitude;
-            document.getElementById('sortie_lieu_longitude').value = lieu.longitude;
+            miseAJourLieu(lieu.id);
         }
-        // Ajouter le contenue à la page
+        // Ajouter les options à la liste
         select_lieu.appendChild(option);
     }
 
@@ -61,6 +58,7 @@ window.onload = function() {
         axios
             .get('../api/lieu/' + id)
             .then((response) => {
+                // Remplir les autres champs de la page
                 document.getElementById('sortie_lieu_rue').value = response.data.rue;
                 document.getElementById('sortie_lieu_latitude').value = response.data.latitude == undefined ? 'Non renseigné' : response.data.latitude;
                 document.getElementById('sortie_lieu_longitude').value = response.data.longitude == undefined ? 'Non renseigné' : response.data.longitude;
