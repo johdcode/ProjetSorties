@@ -54,8 +54,12 @@
                 <td>{{ sortie.organisateur.pseudo }}</td>
                 <td>{{ sortie.motifAnnulation }}</td>
                 <td>
-                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>
-                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
+                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
+                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
+                    <a href="{{ path('sortie_new', {'id': sortie.id}) }}">Publier</a>
+                    <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
+                    <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se Désister</a>
                 </td>
             </tr>
         {% else %}
