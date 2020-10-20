@@ -18,9 +18,42 @@
 
         <div class="form-group">
             {{ form_row(sortieForm.lieu) }}
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#ajouterLieu">
+                        Ajouter
+                </button>
         </div>
 
         {{ form_end(sortieForm) }}
+
         {# TODO redirect vers index #}
         <button onclick="" class="btn btn-scondary">Retour</button>
+
+        <button onclick="">Annuler</button>
+        <br>
+        <br>
+        <br>
+
+        <!-- Modal -->
+        <div class="modal fade" id="ajouterLieu" tabindex="-1" role="dialog" aria-labelledby="ajouterLieuLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                        <h5 class="modal-title">Ajouter un lieu</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                        {{ form_start(formLieu, {'attr': {'id': 'form_ajouter_lieu'}}) }}
+                                        {{ form_widget(formLieu) }}
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                                </div>
+                                {{ form_end(formLieu) }}
+                        </div>
+                </div>
+        </div>
 {% endblock %}

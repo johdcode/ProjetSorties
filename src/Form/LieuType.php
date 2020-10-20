@@ -55,10 +55,6 @@ class LieuType extends AbstractType
                 'attr' => [
                     'disabled' => true
                 ]
-
-            ])
-            ->add('Ajouter', ButtonType::class, [
-                'attr' => ['id' => 'btn_ajouter_lieu']
             ])
         ;
     }

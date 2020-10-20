@@ -2,11 +2,17 @@
 
 namespace App\Controller\API;
 
+use App\Entity\Lieu;
+use App\Form\LieuCreationType;
 use App\Repository\LieuRepository;
 use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ApiLieuController extends AbstractController
@@ -24,6 +30,20 @@ class ApiLieuController extends AbstractController
         $response->setContent($data);
 
         return $response;
+    }
+    /**
+     * @Route("/api/lieu/creer", name="api_lieu_creer")
+     */
+    public function creerLieu(Request $request, EntityManagerInterface $em)
+    {
+        $lieu = new Lieu();
+        $formLieu = $this->createForm(LieuCreationType::class,$lieu);
+        $formLieu->handleRequest($request);
+        if($formLieu->isSubmitted() && $formLieu->isValid()){
+            $em ->persist($lieu);
+            $em->flush();
+        }
+        return new Response("<h3>Requête traitée par le serveur.</h3>");
     }
     /**
      * @Route("/api/lieu/{id}", name="api_lieu_id", requirements={"id"="\d+"})
