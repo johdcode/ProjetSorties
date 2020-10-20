@@ -47,7 +47,7 @@
             </tr>
 
             {% endif %}
-            {% if sortie.etat == 'Annulée' %}
+            {% if sortie.etat == 'Annulée' && sortie.infosSortie %}
                 <tr>
                     <th>Motif d'annulation : </th>
                     <td>{{ sortie.motifAnnulation }}</td>
@@ -90,12 +90,14 @@
         </tbody>
     </table>
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+    <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour à la liste</a>
 
     {# TODO solution temporaire aux roles : ajout condition OR role == admin #}
     {% if app.user == sortie.organisateur %}
-        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
-        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+        {% if 'Créée' == sortie.etat %}
+             <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" class="btn btn-warning">Annuler</a>
+        {% endif %}
         {{ include('sortie/_delete_form.html.twig') }}
     {% endif %}
 

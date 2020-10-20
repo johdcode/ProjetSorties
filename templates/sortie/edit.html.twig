@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Sortie{% endblock %}
+{% block pageTitle %}Modification | {{ parent() }}{% endblock %}
+
+{% block title %}<h1>Modifier une Sortie</h1>{% endblock %}
 
 {% block body %}
-    <h1>Edit Sortie</h1>
 
     {{ include('sortie/_form.html.twig', {'button_label': 'Update'}) }}
 
