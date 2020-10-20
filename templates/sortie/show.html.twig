@@ -92,6 +92,14 @@
 
     <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour à la liste</a>
 
+    {% if app.user != sortie.organisateur && 'Ouverte' == sortie.etat %}
+        <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-primary">S'inscrire</a>
+    {%  endif %}
+
+    {% if app.user != sortie.organisateur && 'Ouverte' == sortie.etat %}
+        <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}" class="btn btn-primary">Se désinscrire</a>
+    {%  endif %}
+
     {# TODO solution temporaire aux roles : ajout condition OR role == admin #}
     {% if app.user == sortie.organisateur %}
         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
