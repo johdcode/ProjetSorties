@@ -87,7 +87,7 @@ class AppFixtures extends Fixture
         $participants[] = $participant;
 
         $sorties = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 150; $i++) {
             $sorties[$i] = new Sortie();
             $sorties[$i]->setNom($faker->company)
                 ->setDateHeureDebut($faker->dateTime)
@@ -102,7 +102,7 @@ class AppFixtures extends Fixture
         }
 
         $inscriptions = [];
-        for ($i = 0; $i < 15; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $inscriptions[$i] = new Inscription();
             $inscriptions[$i]->setDateInscription($faker->dateTime)
                 ->setParticipant($participants[rand(0, count($participants) - 1)])
