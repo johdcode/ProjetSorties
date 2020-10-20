@@ -81,7 +81,7 @@ class Sortie
     private $motifAnnulation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=campus::class, inversedBy="sorties")
+     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
     private $campus;
@@ -267,12 +267,12 @@ class Sortie
         return $this;
     }
 
-    public function getCampus(): ?campus
+    public function getCampus(): ?Campus
     {
         return $this->campus;
     }
 
-    public function setCampus(?campus $campus): self
+    public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
 
