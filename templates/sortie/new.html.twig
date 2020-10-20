@@ -17,11 +17,7 @@
         </div>
 
         <div class="form-group">
-            {{ form_row(sortieForm.lieu) }}
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#ajouterLieu">
-                        Ajouter
-                </button>
+                {{ form_widget(sortieForm) }}
         </div>
 
         {{ form_end(sortieForm) }}
