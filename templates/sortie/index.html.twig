@@ -14,6 +14,7 @@
         {% endfor %}
     {% endfor %}
 
+    <a href="{{ path('sortie_new') }}" class="btn btn-primary">Nouvelle Sortie</a>
 
     {{ form_start(sortieForm) }}
     <div class="my-custom-class-for-errors">
@@ -75,7 +76,5 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('sortie_new') }}">Create new</a>
 
 {% endblock %}

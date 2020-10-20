@@ -105,7 +105,7 @@ class SortieController extends AbstractController
             // Ne renvoie que l'id du campus car $this->getUser() ne possède pas l'entité Campus complète
             $campusOrganisateur = $campusRepository->find($this->getUser()->getCampus()->getId());
             $sortie->setCampus($campusOrganisateur);
-            
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
