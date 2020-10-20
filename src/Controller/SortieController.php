@@ -153,7 +153,7 @@ class SortieController extends AbstractController
         }
 
         $form = $this->createForm(SortieType::class, $sortie);
-
+        $form->remove('enregistrer')->remove('publier');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -252,6 +252,18 @@ class SortieController extends AbstractController
     public function desinscrire(Request $request, Sortie $sortie): Response
     {
 
+        return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+    }
+
+    /**
+     * @Route("/publier", name="sortie_publier", methods={"POST"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
+     */
+    public function publier(Request $request, Sortie $sortie): Response
+    {
+        dd($request);
         return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
     }
 
