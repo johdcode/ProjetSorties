@@ -185,9 +185,9 @@ class SortieController extends AbstractController
     public function annuler(Request $request, Sortie $sortie, EtatRepository $etatRepository): Response
     {
 
-        if(time() < $sortie->getDateHeureDebut()->getTimestamp())
+        if(time() > $sortie->getDateHeureDebut()->getTimestamp())
         {
-            $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passé');
+            $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passée');
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
@@ -250,18 +250,6 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
     }
 
-    /**
-     * @Route("/{id}", name="sortie_desinscrire", methods={"POST"})
-     * @param Request $request
-     * @param Sortie $sortie
-     * @return Response
-     */
-    public function desinscrire(Request $request, Sortie $sortie): Response
-    {
-
-
-        return $this->redirectToRoute('sortie_index',  []);
-    }
 
     /**
      * @Route("/", name="sortie_desinscrire", methods={"POST"})

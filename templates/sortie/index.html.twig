@@ -46,9 +46,9 @@
             <tr>
                 <td>{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('l d/m/Y à G:i') : '' }}</td>
                 <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('l d/m/Y à G:i') : '' }}</td>
                 <td>{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.infosSortie }}</td>
                 <td>{{ sortie.organisateur.pseudo }}</td>

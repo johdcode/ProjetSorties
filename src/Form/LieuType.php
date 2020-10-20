@@ -35,7 +35,7 @@ class LieuType extends AbstractType
             ->add('Ajouter', ButtonType::class, [
                 'attr' => [
                     'type' => 'button',
-                    'class' => 'btn btn-secondary',
+                    'class' => 'btn btn-success',
                     'data-toggle' => 'modal',
                     'data-target' => '#ajouterLieu'
                 ]
