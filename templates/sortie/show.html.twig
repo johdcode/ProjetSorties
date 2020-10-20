@@ -47,7 +47,7 @@
             </tr>
 
             {% endif %}
-            {% if sortie.etat == 'Annulée' && sortie.infosSortie %}
+            {% if sortie.etat == 'Annulée' and sortie.infosSortie %}
                 <tr>
                     <th>Motif d'annulation : </th>
                     <td>{{ sortie.motifAnnulation }}</td>
@@ -90,7 +90,16 @@
         </tbody>
     </table>
 
+
     <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour à la liste</a>
+
+    {% if app.user != sortie.organisateur and 'Ouverte' == sortie.etat %}
+        <a href="{{ path('sortie_inscrire' }}" class="btn btn-primary">S'inscrire</a>
+    {%  endif %}
+
+    {% if app.user != sortie.organisateur and 'Ouverte' == sortie.etat %}
+        <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}" class="btn btn-primary">Se désinscrire</a>
+    {%  endif %}
 
     {# TODO solution temporaire aux roles : ajout condition OR role == admin #}
     {% if app.user == sortie.organisateur %}
