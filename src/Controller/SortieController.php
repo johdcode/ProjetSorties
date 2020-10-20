@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+
+use App\Entity\Inscription;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\GestionSortieType;
@@ -10,6 +12,7 @@ use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
+use App\Repository\InscriptionRepository;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
@@ -37,6 +40,7 @@ class SortieController extends AbstractController
     public function index(
         CampusRepository $campusRepository,
         SortieRepository $sortieRepository,
+        InscriptionRepository $inscriptionRepository,
         Request $request): Response
     {
         $sorties = [];
@@ -139,6 +143,12 @@ class SortieController extends AbstractController
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
+        if(time() < $sortie->getDateHeureDebut()->getTimestamp())
+        {
+            $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passé');
+            // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
+            return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+        }
 
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
@@ -160,14 +170,15 @@ class SortieController extends AbstractController
      * @param Request $request
      * @param Sortie $sortie
      * @param SortieRepository $sortieRepository
+     * @param EtatRepository $etatRepository
      * @return Response
      */
-    public function annuler(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
+    public function annuler(Request $request, Sortie $sortie, SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
     {
 
         if(time() < $sortie->getDateHeureDebut()->getTimestamp())
         {
-            $this->addFlash('error', 'Vous ne pouvez pas annuler une sortie en cours ou passé');
+            $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passé');
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
@@ -178,6 +189,14 @@ class SortieController extends AbstractController
             ->add('save', SubmitType::class, [
                 'label' => 'Confirmer'
             ])->getForm();
+        $formAnnuler->handleRequest();
+
+        if($formAnnuler->isSubmitted() && $formAnnuler->isValid())
+        {
+            $sortie->setMotifAnnulation($motif->getMotifAnnulation());
+            $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
+            dd($sortie);
+        }
 
         return $this->render('sortie/annuler.html.twig', [
             'sortie' => $sortie,
@@ -200,5 +219,18 @@ class SortieController extends AbstractController
         }
 
         return $this->redirectToRoute('sortie_index');
+    }
+
+    /**
+     * @Route("/{id}", name="sortie_inscrire", methods={"POST"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
+     */
+    public function inscrire(Request $request, Sortie $sortie): Response
+    {
+
+
+        return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
     }
 }
