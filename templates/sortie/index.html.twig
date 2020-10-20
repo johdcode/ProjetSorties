@@ -58,11 +58,12 @@
                     {% if app.user.id == sortie.organisateur.id%}
                         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
                         <a href="{{ path('sortie_new', {'id': sortie.id}) }}">Publier</a>
-                        
-                        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                        {% if 'Créée' == sortie.etat.libelle or 'Ouverte' == sortie.etat.libelle %}
+                            <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                        {% endif %}
                     {% endif %}
 
-                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
+                    <a href="{{ path('sortie_inscrire') }}">S'inscrire</a>
                     <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se Désister</a>
 
                 </td>

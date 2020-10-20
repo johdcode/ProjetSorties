@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function Sodium\add;
 
 /**
  * @Route("/sortie")
@@ -104,9 +105,7 @@ class SortieController extends AbstractController
             // Ne renvoie que l'id du campus car $this->getUser() ne possède pas l'entité Campus complète
             $campusOrganisateur = $campusRepository->find($this->getUser()->getCampus()->getId());
             $sortie->setCampus($campusOrganisateur);
-
-            $lieuChoisi = $requeteSortie['lieu'];
-            $sortie->setLieu($lieuRepository->find($lieuChoisi['nom']));
+            
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
@@ -144,22 +143,16 @@ class SortieController extends AbstractController
      * @param Sortie $sortie
      * @return Response
      */
-    public function edit(Request $request, Sortie $sortie = null, SortieRepository $sortieRepository): Response
+    public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
     {
-        if(time() < $sortie->getDateHeureDebut()->getTimestamp())
+        if(time() > $sortie->getDateHeureDebut()->getTimestamp())
         {
             $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passé');
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
 
-       /*if(!$sortie){
-            $sortie = new Sortie();
-        }else{
-            $sortie = $sortieRepository->find($sortie->getId());
-        }*/
-
-        $form = $this->createForm(SortieModifType::class, $sortie);
+        $form = $this->createForm(SortieType::class, $sortie);
 
         $form->handleRequest($request);
 
@@ -250,6 +243,16 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
     }
 
+    /**
+     * @Route("/", name="sortie_desinscrire", methods={"POST"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
+     */
+    public function desinscrire(Request $request, Sortie $sortie): Response
+    {
 
+        return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+    }
 
 }
