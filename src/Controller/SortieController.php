@@ -9,6 +9,7 @@ use App\Entity\Sortie;
 use App\Form\GestionSortieType;
 use App\Form\LieuCreationType;
 use App\Form\LieuType;
+use App\Form\SortieModifType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
@@ -143,7 +144,7 @@ class SortieController extends AbstractController
      * @param Sortie $sortie
      * @return Response
      */
-    public function edit(Request $request, Sortie $sortie): Response
+    public function edit(Request $request, Sortie $sortie = null, SortieRepository $sortieRepository): Response
     {
         if(time() < $sortie->getDateHeureDebut()->getTimestamp())
         {
@@ -152,7 +153,14 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
 
-        $form = $this->createForm(SortieType::class, $sortie);
+       /*if(!$sortie){
+            $sortie = new Sortie();
+        }else{
+            $sortie = $sortieRepository->find($sortie->getId());
+        }*/
+
+        $form = $this->createForm(SortieModifType::class, $sortie);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -206,7 +214,7 @@ class SortieController extends AbstractController
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
-        
+
         return $this->render('sortie/annuler.html.twig', [
             'sortie' => $sortie,
             'form' => $formAnnuler->createView()
@@ -238,9 +246,7 @@ class SortieController extends AbstractController
      */
     public function inscrire(Request $request, Sortie $sortie): Response
     {
-        dd($request);
-        //$request->request->get();
-        return $this->render('sortie/annuler.html.twig');
+
         return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
     }
 
