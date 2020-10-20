@@ -171,11 +171,10 @@ class SortieController extends AbstractController
      * @Route("/{id}/annuler", name="sortie_annuler", methods={"GET","POST"})
      * @param Request $request
      * @param Sortie $sortie
-     * @param SortieRepository $sortieRepository
      * @param EtatRepository $etatRepository
      * @return Response
      */
-    public function annuler(Request $request, Sortie $sortie, SortieRepository $sortieRepository, EtatRepository $etatRepository): Response
+    public function annuler(Request $request, Sortie $sortie, EtatRepository $etatRepository): Response
     {
 
         if(time() < $sortie->getDateHeureDebut()->getTimestamp())
@@ -191,15 +190,23 @@ class SortieController extends AbstractController
             ->add('save', SubmitType::class, [
                 'label' => 'Confirmer'
             ])->getForm();
-        $formAnnuler->handleRequest();
 
-        if($formAnnuler->isSubmitted() && $formAnnuler->isValid())
+        $formSubmit = $request->request->get('form');
+
+        if($formSubmit)
         {
-            $sortie->setMotifAnnulation($motif->getMotifAnnulation());
+            $sortie->setMotifAnnulation($formSubmit['motifAnnulation']);
             $sortie->setEtat($etatRepository->findOneBy(['libelle' => 'Annulée']));
-            dd($sortie);
-        }
 
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'La sortie à bien été annulée');
+            // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
+            return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+        }
+        
         return $this->render('sortie/annuler.html.twig', [
             'sortie' => $sortie,
             'form' => $formAnnuler->createView()
@@ -230,6 +237,20 @@ class SortieController extends AbstractController
      * @return Response
      */
     public function inscrire(Request $request, Sortie $sortie): Response
+    {
+        dd($request);
+        //$request->request->get();
+        return $this->render('sortie/annuler.html.twig');
+        return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+    }
+
+    /**
+     * @Route("/{id}", name="sortie_desinscrire", methods={"POST"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
+     */
+    public function desinscrire(Request $request, Sortie $sortie): Response
     {
 
 
