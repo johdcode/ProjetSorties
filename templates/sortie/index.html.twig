@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 
+{% block pageTitle %}Liste des Sorties | {{ parent() }}{% endblock %}
 
-{% block title %}Sortie index{% endblock %}
+{% block title %}<h1>Sortie index</h1>{% endblock %}
 
 {% block body %}
 
@@ -50,7 +51,7 @@
                 <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.infosSortie }}</td>
-                <td>{{ sortie.organisateur.mail }}</td>
+                <td>{{ sortie.organisateur.pseudo }}</td>
                 <td>{{ sortie.motifAnnulation }}</td>
                 <td>
                     <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>

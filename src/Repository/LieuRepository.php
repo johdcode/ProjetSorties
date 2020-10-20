@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Lieu;
+use App\Entity\Ville;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,9 +20,14 @@ class LieuRepository extends ServiceEntityRepository
         parent::__construct($registry, Lieu::class);
     }
 
-    public function findAllWithVille(){
-        $qb = $this->createQueryBuilder('l');
-
+    public function findAllDeVille(Ville $ville){
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.ville = :val')
+            ->setParameter('val', $ville)
+            ->orderBy('l.id', 'ASC')
+//            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
     }
 
     // /**

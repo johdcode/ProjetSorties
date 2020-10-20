@@ -1,50 +1,106 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie{% endblock %}
+{% block pageTitle %}{{ sortie.nom }} | {{ parent() }}{% endblock %}
+
+{% block title %}<h1>Afficher une Sortie</h1>{% endblock %}
 
 {% block body %}
-    <h1>Sortie</h1>
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
+                <th>Nom de la sortie : </th>
                 <td>{{ sortie.nom }}</td>
             </tr>
+
             <tr>
-                <th>DateHeureDebut</th>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Date et heure de la sortie :</th>
+                <td>{{ sortie.dateHeureDebut | date("D d/m/Y à G:i") }}</td>
             </tr>
+
             <tr>
-                <th>Duree</th>
-                <td>{{ sortie.duree }}</td>
+                <th>Date limite d'inscription : </th>
+                <td>{{ sortie.dateLimiteInscription | date("D d/m/Y à G:i") }}</td>
             </tr>
+
             <tr>
-                <th>DateLimiteInscription</th>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>NbInscriptionsMax</th>
+                <th>Nombre de places : </th>
                 <td>{{ sortie.nbInscriptionsMax }}</td>
             </tr>
             <tr>
-                <th>InfosSortie</th>
+                <th>Durée : </th>
+                <td>{{ sortie.duree }} minutes</td>
+            </tr>
+
+            {% if sortie.infosSortie is not null %}
+            <tr>
+                <th>InfosSortie : </th>
                 <td>{{ sortie.infosSortie }}</td>
             </tr>
+
+            {% endif %}
+            {% if sortie.etat == 'Annulée' && sortie.infosSortie %}
+                <tr>
+                    <th>Motif d'annulation : </th>
+                    <td>{{ sortie.motifAnnulation }}</td>
+                </tr>
+            {% endif %}
+
             <tr>
-                <th>MotifAnnulation</th>
-                <td>{{ sortie.motifAnnulation }}</td>
+                <th>Campus : </th>
+                <td>{{ sortie.campus.nom }}</td>
             </tr>
+
+            <tr>
+                <th>Lieu : </th>
+                <td>{{ sortie.lieu.nom }}, {{ sortie.lieu.ville.nom }}</td>
+            </tr>
+
+            <tr>
+                <th>Rue : </th>
+                <td>{{ sortie.lieu.rue }}</td>
+            </tr>
+
+
+            <tr>
+                <th>Code postal : </th>
+                <td>{{ sortie.lieu.ville.codePostal }}</td>
+            </tr>
+
+
+            <tr>
+                <th>Latitude : </th>
+                <td>{{ sortie.lieu.latitude }}</td>
+            </tr>
+
+
+            <tr>
+                <th>Longitude : </th>
+                <td>{{ sortie.lieu.longitude }}</td>
+            </tr>
+
         </tbody>
     </table>
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+    <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour à la liste</a>
 
-    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
+    {# TODO solution temporaire aux roles : ajout condition OR role == admin #}
+    {% if app.user == sortie.organisateur %}
+        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+        {% if 'Créée' == sortie.etat %}
+             <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" class="btn btn-warning">Annuler</a>
+        {% endif %}
+        {{ include('sortie/_delete_form.html.twig') }}
+    {% endif %}
 
-    {{ include('sortie/_delete_form.html.twig') }}
+
+
 {% endblock %}
