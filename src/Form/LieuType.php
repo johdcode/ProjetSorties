@@ -24,14 +24,14 @@ class LieuType extends AbstractType
                 'choice_label' => 'nom',
                 'label' => 'Ville : '
             ])
-            ->add('nom', EntityType::class, [
-                'class' => Lieu::class,
-//                'query_builder' => function (EntityRepository $er) {
-//                    return $er->createQueryBuilder('l')
-//                        ->orderBy('l.nom', 'ASC');
-//                },
-                'label' => 'Lieu : ',
-            ])
+//            ->add('nom', EntityType::class, [
+//                'class' => Lieu::class,
+////                'query_builder' => function (EntityRepository $er) {
+////                    return $er->createQueryBuilder('l')
+////                        ->orderBy('l.nom', 'ASC');
+////                },
+//                'label' => 'Lieu : ',
+//            ])
             ->add('Ajouter', ButtonType::class, [
                 'attr' => [
                     'type' => 'button',
