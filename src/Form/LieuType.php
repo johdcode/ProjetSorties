@@ -32,6 +32,14 @@ class LieuType extends AbstractType
 //                },
                 'label' => 'Lieu : ',
             ])
+            ->add('Ajouter', ButtonType::class, [
+                'attr' => [
+                    'type' => 'button',
+                    'class' => 'btn btn-secondary',
+                    'data-toggle' => 'modal',
+                    'data-target' => '#ajouterLieu'
+                ]
+            ])
             ->add('rue', TextType::class, [
                 'disabled' => 'true',
                 'label' => 'Rue : ',

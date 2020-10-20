@@ -62,8 +62,8 @@ window.onload = function() {
             .get('../api/lieu/' + id)
             .then((response) => {
                 document.getElementById('sortie_lieu_rue').value = response.data.rue;
-                document.getElementById('sortie_lieu_latitude').value = response.data.latitude;
-                document.getElementById('sortie_lieu_longitude').value = response.data.longitude;
+                document.getElementById('sortie_lieu_latitude').value = response.data.latitude == undefined ? 'Non renseigné' : response.data.latitude;
+                document.getElementById('sortie_lieu_longitude').value = response.data.longitude == undefined ? 'Non renseigné' : response.data.longitude;
             })
     }
 
