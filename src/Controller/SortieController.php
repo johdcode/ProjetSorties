@@ -43,7 +43,7 @@ class SortieController extends AbstractController
         InscriptionRepository $inscriptionRepository,
         Request $request): Response
     {
-        $sorties = [];
+        $sorties = $sortieRepository->findAll();
         $campus = $campusRepository->findAll();
 
         $sortieForm = $this->createForm(GestionSortieType::class);
@@ -51,6 +51,8 @@ class SortieController extends AbstractController
         //lors de la soumission controler en bdd les sorties
        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $sorties = $sortieRepository->findSortieParRecherche($request, $this->getUser());
+
+
        }
 
         return $this->render('sortie/index.html.twig', [
