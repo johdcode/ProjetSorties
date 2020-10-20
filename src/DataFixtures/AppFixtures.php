@@ -60,7 +60,6 @@ class AppFixtures extends Fixture
             $etats[] = $i;
         }
 
-
         $participants = [];
         for ($i = 0; $i < 20; $i++) {
             $participants[$i] = new Participant();
@@ -74,10 +73,11 @@ class AppFixtures extends Fixture
                 ->setActif($faker->boolean)
                 ->setCampus($campus[rand(0, count($campus) - 1)]);
         }
+
         $participant = new Participant();
         $participant->setNom("Gontran")
             ->setPrenom("denise")
-        ->setPseudo("dudu")
+            ->setPseudo("dudu")
             ->setTelephone($faker->phoneNumber)
             ->setMail($faker->email)
             ->setPassword("\$argon2id\$v=19\$m=65536,t=4,p=1\$Vi5KLlhPSGYwbkhkdzdnUg\$kHKC4MRV6tONo8BmIn80YG8FCErkyjvD7E5PcGrEDcM")
@@ -97,7 +97,8 @@ class AppFixtures extends Fixture
                 ->setInfosSortie($faker->text)
                 ->setEtat($etats[array_rand($etats, 1)])
                 ->setLieu($lieux[rand(0, count($lieux) - 1)])
-                ->setOrganisateur($participants[rand(0, count($participants) - 1)]);
+                ->setOrganisateur($participants[rand(0, count($participants) - 1)])
+                ->setCampus($campus[rand(0, count($campus) - 1)]);
         }
 
         $inscriptions = [];

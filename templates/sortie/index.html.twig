@@ -5,14 +5,25 @@
 
 {% block body %}
 
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+
     {{ form_start(sortieForm) }}
     <div class="my-custom-class-for-errors">
         {{ form_errors(sortieForm) }}
-
     </div>
-
     <h1>Filtrer les sorties</h1>
 
+    {{ form_start(sortieForm) }}
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(sortieForm) }}
+        </div>
     {{ form_end(sortieForm) }}
     <table class="table">
         <thead>
@@ -24,12 +35,13 @@
                 <th>DateLimiteInscription</th>
                 <th>NbInscriptionsMax</th>
                 <th>InfosSortie</th>
+                <th>Organisateur</th>
                 <th>MotifAnnulation</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for sortie in sortiesOrganisees %}
+        {% for sortie in sorties %}
             <tr>
                 <td>{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
@@ -38,6 +50,7 @@
                 <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.infosSortie }}</td>
+                <td>{{ sortie.organisateur.mail }}</td>
                 <td>{{ sortie.motifAnnulation }}</td>
                 <td>
                     <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>

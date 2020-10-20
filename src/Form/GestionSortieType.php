@@ -10,8 +10,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,7 +22,6 @@ class GestionSortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom',
@@ -29,10 +30,10 @@ class GestionSortieType extends AbstractType
                     ->addOrderBy('c.nom', 'ASC');
                 }
             ])
-            ->add('nom',null, ['label' => 'Le nom de la sortie contient : '])
-            ->add('dateHeureDebut',DateType::class, ['label' => 'Entre '])
-            ->add('dateLimiteInscription',DateType::class, ['label' => 'et '])
-            ->add('organisateur', CheckboxType::class,[
+            ->add('nom',TextType::class, ['label' => 'Le nom de la sortie contient : ', 'required' => false])
+            ->add('borneDateMin',DateTimeType::class, ['label' => 'Entre '])
+            ->add('borneDateMax',DateTimeType::class, ['label' => 'et '])
+            ->add('organisateur', CheckboxType::class, [
                 'label' => 'Sorties dont je suis l\'organisateur/trice',
                 'mapped' => false,
                 'required' => false
@@ -47,7 +48,7 @@ class GestionSortieType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
-            ->add('etatPasses', CheckboxType::class,[
+            ->add('etatPasse', CheckboxType::class,[
                 'label' => 'Sorties passées',
                 'mapped' => false,
                 'required' => false
@@ -62,5 +63,6 @@ class GestionSortieType extends AbstractType
 //        $resolver->setDefaults([
 //            'data_class' => Sortie::class,
 //        ]);
+
     }
 }

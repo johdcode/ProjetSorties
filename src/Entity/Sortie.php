@@ -30,6 +30,8 @@ class Sortie
      */
     private $dateHeureDebut;
 
+    private $dateHeureFin;
+
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -80,7 +82,7 @@ class Sortie
 
     /**
      * @ORM\ManyToOne(targetEntity=campus::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $campus;
 
@@ -116,6 +118,26 @@ class Sortie
         $this->dateHeureDebut = $dateHeureDebut;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateHeureFin()
+    {
+        $duree_seconde = $this->getDuree() * 60;
+        $this->setDateHeureFin(
+            \DateTime::createFromFormat('Y-m-d H:i:s', date("Y-m-d H:i:s", $this->getDateHeureDebut()->getTimestamp() + $duree_seconde))
+        );
+        return $this->dateHeureFin;
+    }
+
+    /**
+     * @param mixed $dateHeureFin
+     */
+    public function setDateHeureFin($dateHeureFin): void
+    {
+        $this->dateHeureFin = $dateHeureFin;
     }
 
     public function getDuree(): ?int
