@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+
+use App\Entity\Inscription;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\GestionSortieType;
@@ -10,6 +12,7 @@ use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
+use App\Repository\InscriptionRepository;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
@@ -37,6 +40,7 @@ class SortieController extends AbstractController
     public function index(
         CampusRepository $campusRepository,
         SortieRepository $sortieRepository,
+        InscriptionRepository $inscriptionRepository,
         Request $request): Response
     {
         $sorties = [];
@@ -109,8 +113,13 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('sortie_index');
         }
 
+        // Formulaire ajout de lieu
+        $lieu = new Lieu();
+        $formLieu = $this->createForm(LieuCreationType::class,$lieu);
+
         return $this->render('sortie/new.html.twig', [
             'sortieForm' => $formSortie->createView(),
+            'formLieu' => $formLieu->createView(),
         ]);
     }
 

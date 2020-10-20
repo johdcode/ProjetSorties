@@ -22,14 +22,14 @@ class GestionSortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('campus', EntityType::class, [
-//                'class' => Campus::class,
-//                'choice_label' => 'nom',
-//                'query_builder' => function (EntityRepository  $er) {
-//                return $er->createQueryBuilder('c')
-//                    ->addOrderBy('c.nom', 'ASC');
-//                }
-//            ])
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'nom',
+                'query_builder' => function (EntityRepository  $er) {
+                return $er->createQueryBuilder('c')
+                    ->addOrderBy('c.nom', 'ASC');
+                }
+            ])
             ->add('nom',TextType::class, ['label' => 'Le nom de la sortie contient : ', 'required' => false])
             ->add('borneDateMin',DateTimeType::class, ['label' => 'Entre '])
             ->add('borneDateMax',DateTimeType::class, ['label' => 'et '])
