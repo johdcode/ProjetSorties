@@ -279,16 +279,16 @@ class Sortie
 
         return $this;
     }
-
-    public function canSubscribe(Request $request)
-    {
-        dd($request);
-        $currentSortie = $request->attributes('sortie');
-        dd($currentSortie);
-
-        if ($currentUser->getId() != $this->getId())
-        {
-
-        }
-    }
+//
+//    public function canSubscribe(Request $request)
+//    {
+//        dd($request);
+//        $currentSortie = $request->attributes('sortie');
+//        dd($currentSortie);
+//
+//        if ($currentUser->getId() != $this->getId())
+//        {
+//
+//        }
+//    }
 }

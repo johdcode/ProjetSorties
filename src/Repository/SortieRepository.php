@@ -28,7 +28,7 @@ class SortieRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('s');
 
         //FILTRE PAR CAMPUS
-        //TODO PRESQUE FINI
+
         if (!empty($request->request->get('gestion_sortie')['campus'])) {
 
             $resultat = (int)$request->request->get('gestion_sortie')['campus'];
@@ -106,29 +106,29 @@ class SortieRepository extends ServiceEntityRepository
 //
 //        // TODO FILTRE SORTIES AUXQUELLES JE NE SUIS PAS INSCRIT sans 53 et 58 En cours
 //        // TODO https://symfony.com/doc/current/doctrine.html check pour la requête
-////        if(!empty($request->request->get("gestion_sortie")["etatPasInscrit"])
-////            &&  '1' == $request->request->get("gestion_sortie")["etatPasInscrit"]) {
-////
-////            $queryRech = $this->createQueryBuilder('s')
-////                ->addSelect('i') // to make Doctrine actually use the join
-////                ->leftJoin('s.inscriptions', 'i')
-////                ->andWhere('i.participant = :user')
-////                ->setParameter('user', $user)
-////                ->getQuery()->getResult();
-////
-////            $query = $this->createQueryBuilder('s')
-////                ->addSelect('i') // to make Doctrine actually use the join
-////                ->join('s.inscriptions', 'i');
-////            $query->andWhere(
-////                $query->expr()
-////                ->notIn(':user',$queryRech->getDql()) //dudu id on filtre
-////        )
-////                ->setParameter('user', $user)
-////                ->setParameter('inscription', Inscription::class);
-////              $result = $query->getQuery()->getResult();
-////            dd($user);
-////            dd($query->getQuery()->getResult());
-////           }
+//        if(!empty($request->request->get("gestion_sortie")["etatPasInscrit"])
+//            &&  '1' == $request->request->get("gestion_sortie")["etatPasInscrit"]) {
+//
+//            $queryRech = $this->createQueryBuilder('s')
+//                ->addSelect('i') // to make Doctrine actually use the join
+//                ->leftJoin('s.inscriptions', 'i')
+//                ->andWhere('i.participant = :user')
+//                ->setParameter('user', $user)
+//                ->getQuery()->getResult();
+//dd($queryRech);
+//            $query = $this->createQueryBuilder('s')
+//                ->addSelect('i') // to make Doctrine actually use the join
+//                ->join('s.inscriptions', 'i');
+//            $query->andWhere(
+//                $query->expr()
+//                ->notIn(':user',$queryRech->getDql()) //dudu id on filtre
+//        )
+//                ->setParameter('user', $user)
+//                ->setParameter('inscription', Inscription::class);
+//              $result = $query->getQuery()->getResult();
+//
+//            dd($result);
+    //       }
 //
 //
 //        // FITRE EVENEMENT PASSE

@@ -65,6 +65,28 @@ class Inscription
         return $this;
     }
 
+    public function addParticipant(?Participant $participant): self
+    {
+        if (!$this->participant->contains($participant)) {
+            $this->participant = $participant;
+            $participant->setInscription($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(?Participant $participant): self
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
+            // set the owning side to null (unless already changed)
+            if ($participant->getInscription() === $this) {
+                $participant->setInscription(null);
+            }
+        }
+
+        return $this;
+    }
     public function getSortie(): ?Sortie
     {
         return $this->sortie;
