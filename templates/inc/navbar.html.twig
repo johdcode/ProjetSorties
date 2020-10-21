@@ -3,6 +3,39 @@
 {#{% block title %}Logo Sortir.com{% endblock %}#}
 
 {% block header %}
-    <h1>navbar</h1>
-    <a href="path"></a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <br>
+        <br>
+        <br>
+        <span style="width: 100px; margin-top: 30px;"><img style="position: absolute; top: 0; left: 20px; transform: rotateX(30deg) rotateY(30deg) rotateZ(15deg);" height="100" src="{{ asset('image/icon.svg') }}" alt=""></span>
+        <a class="navbar-brand" href="{{ path('accueil') }}">Sortir.com</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto" style="position:absolute; right: 0;">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('accueil') }}">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('participant_show', {id: app.user.id}) }}">Mon profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                </li>
+                {% endif %}
+                {% if not app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
 {% endblock %}

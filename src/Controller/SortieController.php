@@ -106,7 +106,6 @@ class SortieController extends AbstractController
             $campusOrganisateur = $campusRepository->find($this->getUser()->getCampus()->getId());
             $sortie->setCampus($campusOrganisateur);
 
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();

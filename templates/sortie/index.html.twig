@@ -14,13 +14,17 @@
         {% endfor %}
     {% endfor %}
 
-    <a href="{{ path('sortie_new') }}" class="btn btn-primary">Nouvelle Sortie</a>
 
     {{ form_start(sortieForm) }}
     <div class="my-custom-class-for-errors">
         {{ form_errors(sortieForm) }}
     </div>
+    <br>
     <h1>Filtrer les sorties</h1>
+    <br>
+    <a href="{{ path('sortie_new') }}" class="btn btn-primary">Nouvelle Sortie</a>
+    <br>
+    <br>
 
     {{ form_start(sortieForm) }}
         <div class="my-custom-class-for-errors">
@@ -56,7 +60,7 @@
                 <td>{{ sortie.motifAnnulation }}</td>
                 <td>
                     <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
-                    {% if app.user.id == sortie.organisateur.id%}
+                    {% if app.user and app.user.id == sortie.organisateur.id%}
                         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
                         <a href="{{ path('sortie_new', {'id': sortie.id}) }}">Publier</a>
                         {% if 'Créée' == sortie.etat.libelle or 'Ouverte' == sortie.etat.libelle %}
@@ -64,7 +68,7 @@
                         {% endif %}
                     {% endif %}
 
-                    <a href="{{ path('sortie_inscrire') }}">S'inscrire</a>
+                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
                     <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se Désister</a>
 
                 </td>
