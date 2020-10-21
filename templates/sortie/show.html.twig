@@ -89,13 +89,15 @@
         </tbody>
     </table>
 
-    {% if nonInscrit %}
-        <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-primary">S'inscrire</a>
-    {%  endif %}
 
-    {% if estInscrit %}
-        <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}" class="btn btn-primary">Se désinscrire</a>
-    {%  endif %}
+        {% if peutSinscrire %}
+            <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-primary">S'inscrire</a>
+        {%  endif %}
+
+        {% if peutDesinscrire %}
+            <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}" class="btn btn-primary">Se désinscrire</a>
+        {%  endif %}
+
 
     {# TODO solution temporaire aux roles : ajout condition OR role == admin #}
     {% if app.user == sortie.organisateur %}

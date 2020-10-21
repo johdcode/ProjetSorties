@@ -282,8 +282,9 @@ class Sortie
 
 
     /**
-     * Vérifie si l'utilisateur est inscrit et si la date d'inscription
-     * n'est pas dépassée
+     * Vérifie si l'utilisateur à la possibilité de s'inscrire
+     * selon la date limite, le nombre de place et si l'utilisateur
+     * est l'organisateur
      * @param $idUser
      * @return bool
      * @author Valentin
@@ -292,7 +293,9 @@ class Sortie
     {
         $result = false;
 
-        if(!$this->utilisateurEstInscrit($idUser) && time() < $this->getDateLimiteInscription()->getTimestamp())
+        if(!$this->estInscrit($idUser) &&
+            time() < $this->getDateLimiteInscription()->getTimestamp() &&
+            !$this->estComplet())
         {
             $result = !$this->estOrganisateur($idUser);
         }
@@ -301,8 +304,31 @@ class Sortie
     }
 
     /**
-     * Vérifie si l'utilisateur est inscrit et si la date d'inscription
-     * n'est pas dépassée
+     * Vérifie si l'utilisateur peut se désinscrire, selon si il
+     * est inscrit, que la date de début ne soit pas commencé
+     * et que son état ne soit pas 'créée'
+     * @param $idUser
+     * @return bool
+     * @author Valentin
+     */
+    public function peutSeDesinscrire($idUser)
+    {
+        $result = false;
+
+        if($this->estInscrit($idUser) &&
+            time() < $this->getDateHeureDebut()->getTimestamp() &&
+            ($this->getEtat()->getLibelle() == 'Ouverte' ||
+            $this->getEtat()->getLibelle() == 'Clôturée')
+        )
+        {
+            $result = !$this->estOrganisateur($idUser);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Vérifie si l'utilisateur est inscrit et si il est l'organisateur
      * @param $idUser
      * @return bool
      * @author Valentin
@@ -340,27 +366,6 @@ class Sortie
     }
 
     /**
-     * Vérifie si l'utilisateur en session est inscrit
-     * à la sortie
-     * @param $idUser
-     * @return bool
-     * @author Valentin
-     */
-    public function utilisateurEstInscrit($idUser){
-        $result = false;
-
-        // vérifier, via idUser, si l'utilisateur est dans une des inscriptions de la sortie
-        foreach ($this->getInscriptions() as $inscritpion){
-            if($inscritpion->getParticipant()->getId() == $idUser)
-            {
-                $result = true;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Vérifie si la sortie est terminé depuis plus d'un mois
      * @return bool
      * @author Valentin
@@ -368,7 +373,7 @@ class Sortie
     public function estArchive(){
         $result = false;
 
-        if(time() > date_add($this->getDateHeureFin(), new \DateInterval('P1M')))
+        if(time() > date_add($this->getDateHeureFin(), new \DateInterval('P1M'))->getTimestamp())
         {
             $result = true;
         }

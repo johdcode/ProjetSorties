@@ -135,14 +135,22 @@ class SortieController extends AbstractController
      */
     public function show(Request $request, Sortie $sortie): Response
     {
+        if($sortie->estArchive())
+        {
+            $this->addFlash('error', 'La sortie n\'existe plus !');
+            return $this->redirectToRoute('sortie_index');
+        }
+
         $currentUserId = $this->getUser()->getId();
-        $nonInscrit = $sortie->peutSinscrire($currentUserId);
-        $estInscrit = $sortie->estInscrit($currentUserId);
+        $peutSinscrire = $sortie->peutSinscrire($currentUserId);
+        $peutDesinscrire = $sortie->estInscrit($currentUserId);
+        $peutAnnuler = $sortie->estOrganisateur($currentUserId);
+        $peutPublier = $sortie->estOrganisateur($currentUserId);
 
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
-            'nonInscrit' => $nonInscrit,
-            'estInscrit' => $estInscrit
+            'peutSinscrire' => $peutSinscrire,
+            'peutDesinscrire' => $peutDesinscrire
         ]);
     }
 
