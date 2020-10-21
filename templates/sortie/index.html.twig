@@ -14,23 +14,25 @@
         {% endfor %}
     {% endfor %}
 
-
-    {{ form_start(sortieForm) }}
-    <div class="my-custom-class-for-errors">
-        {{ form_errors(sortieForm) }}
-    </div>
-    <br>
-    <h1>Filtrer les sorties</h1>
-    <br>
-    <a href="{{ path('sortie_new') }}" class="btn btn-primary">Nouvelle Sortie</a>
-    <br>
-    <br>
-
-    {{ form_start(sortieForm) }}
+    <div class="div-form">
+        {{ form_start(sortieForm) }}
         <div class="my-custom-class-for-errors">
             {{ form_errors(sortieForm) }}
         </div>
-    {{ form_end(sortieForm) }}
+        <br>
+        <h1>Filtrer les sorties</h1>
+        <hr>
+        <a href="{{ path('sortie_new') }}" class="btn btn-primary">Nouvelle Sortie</a>
+        <br>
+        <br>
+
+    {#        {{ form_start(sortieForm) }}#}
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(sortieForm) }}
+        </div>
+        {{ form_end(sortieForm) }}
+    </div>
+    <br>
     <table class="table">
         <thead>
             <tr>

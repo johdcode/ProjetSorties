@@ -3,18 +3,21 @@ window.onload = function() {
 
     let select_lieu = document.getElementById('sortie_lieu');
     let select_ville = document.getElementById('sortie_formLieu_ville');
-    // A la sélection de la ville
-    select_ville.onchange = function () {
-        // Vide les options
-        select_lieu.innerHTML = "";
-        avoirLieuDansVille(select_ville.value);
-    }
-    // A la selection du lieu
-    select_lieu.onchange = function () {
-        miseAJourInfosLieu(select_lieu.value);
-    }
 
-    initialisation();
+    if(select_lieu && select_ville){
+        // A la sélection de la ville
+        select_ville.onchange = function () {
+            // Vide les options
+            select_lieu.innerHTML = "";
+            avoirLieuDansVille(select_ville.value);
+        }
+        // A la selection du lieu
+        select_lieu.onchange = function () {
+            miseAJourInfosLieu(select_lieu.value);
+        }
+
+        initialisation();
+    }
 
     // Initialisation
     function initialisation(){
@@ -71,38 +74,40 @@ window.onload = function() {
     // Creer un Lieu
     //
     let formulaire_lieu = document.getElementById('form_ajouter_lieu');
-    formulaire_lieu.onsubmit = function (e){
-        e.preventDefault();
-        // Creer un lieu
-        let formData = new FormData(formulaire_lieu)
-        axios({
-            method: 'post',
-            url: '../api/lieu/creer',
-            data: formData
-        }).then(()=>{
-
-            // Met à jour l'affichage
-            initialisation();
-
-            // Fermer la modal
-            $('#ajouterLieu').modal('toggle');
-
-            // Afficher un message à l'utilisateur
-            let div = document.createElement('div');
-            div.setAttribute('class', 'alert alert-success float-center');
-            div.setAttribute('id', 'message_flash');
-            div.setAttribute('style', 'top: '+ (window.scrollY+200) +'px; text-align: center; width: 200px; margin: 0 auto;');
-            div.innerHTML += "Le lieu à été ajouté!";
-            document.body.prepend(div);
-
-            // Retire le message après un certain temps
-            return new Promise((resolve)=>{
-                setTimeout(()=>{
-                    resolve();
-                }, 3000)
+    if(formulaire_lieu){
+        formulaire_lieu.onsubmit = function (e){
+            e.preventDefault();
+            // Creer un lieu
+            let formData = new FormData(formulaire_lieu)
+            axios({
+                method: 'post',
+                url: '../api/lieu/creer',
+                data: formData
             }).then(()=>{
-                document.body.removeChild(document.getElementById('message_flash'));
-            })
-        });
+
+                // Met à jour l'affichage
+                initialisation();
+
+                // Fermer la modal
+                $('#ajouterLieu').modal('toggle');
+
+                // Afficher un message à l'utilisateur
+                let div = document.createElement('div');
+                div.setAttribute('class', 'alert alert-success float-center');
+                div.setAttribute('id', 'message_flash');
+                div.setAttribute('style', 'top: '+ (window.scrollY+200) +'px; text-align: center; width: 200px; margin: 0 auto;');
+                div.innerHTML += "Le lieu à été ajouté!";
+                document.body.prepend(div);
+
+                // Retire le message après un certain temps
+                return new Promise((resolve)=>{
+                    setTimeout(()=>{
+                        resolve();
+                    }, 3000)
+                }).then(()=>{
+                    document.body.removeChild(document.getElementById('message_flash'));
+                })
+            });
+        }
     }
 }
