@@ -23,16 +23,28 @@ class GestionSortieType extends AbstractType
     {
         $builder
             ->add('campus', EntityType::class, [
+                'required' => false,
                 'class' => Campus::class,
                 'choice_label' => 'nom',
+                'placeholder' => 'Tout les campus',
                 'query_builder' => function (EntityRepository  $er) {
                 return $er->createQueryBuilder('c')
                     ->addOrderBy('c.nom', 'ASC');
                 }
             ])
             ->add('nom',TextType::class, ['label' => 'Le nom de la sortie contient : ', 'required' => false])
-            ->add('borneDateMin',DateTimeType::class, ['label' => 'Entre '])
-            ->add('borneDateMax',DateTimeType::class, ['label' => 'et '])
+            ->add('borneDateMin',DateTimeType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'label' => 'Entre ',
+                'data' => \DateTime::createFromFormat('Y-m-d H:i:s', '2010-01-01 00:00:00')
+            ])
+            ->add('borneDateMax',DateTimeType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'label' => 'et ',
+                'data' => new \DateTime('NOW')
+            ])
             ->add('organisateur', CheckboxType::class, [
                 'label' => 'Sorties dont je suis l\'organisateur/trice',
                 'mapped' => false,
@@ -54,7 +66,6 @@ class GestionSortieType extends AbstractType
                 'required' => false
             ])
             ->add('Rechercher', SubmitType::class)
-
         ;
     }
 
