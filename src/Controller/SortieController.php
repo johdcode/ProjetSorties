@@ -288,7 +288,7 @@ class SortieController extends AbstractController
                $this->addFlash('error', "Vous êtes déjà inscrit ou la sortie n'est plus valable !");
            }
 
-        return $this->redirectToRoute('sortie_index');
+        return $this->redirectToRoute('sortie_index',  ['id' => $sortie->getId()]);
 
     }
 

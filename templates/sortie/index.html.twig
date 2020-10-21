@@ -58,13 +58,18 @@
                         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
                         <a href="{{ path('sortie_new', {'id': sortie.id}) }}">Publier</a>
                         {% if 'Créée' == sortie.etat.libelle or 'Ouverte' == sortie.etat.libelle %}
+
                             <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+
                         {% endif %}
+
                     {% endif %}
 
+                    {% if sortie.etat.libelle == 'Créée' or sortie.etat.libelle == 'Ouverte' or sortie.etat.libelle == 'En cours' %}
+                        <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a><br>
+                        <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se Désister</a>
+                    {% endif %}
 
-                    <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
-                    <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se Désister</a>
 
                 </td>
             </tr>
