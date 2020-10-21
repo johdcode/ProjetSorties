@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvelle Sortie | Sortir.com{% endblock %}
+{% block title %}Nouvelle Sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
         <div class="div-form">
@@ -33,7 +33,7 @@
                 </div>
 
                 {{ form_end(sortieForm) }}
-                
+
                 <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour</a>
         </div>
         <br>

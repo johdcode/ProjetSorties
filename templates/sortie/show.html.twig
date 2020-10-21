@@ -1,18 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block pageTitle %}{{ sortie.nom }} | {{ parent() }}{% endblock %}
-
-{% block title %}<h1>Afficher une Sortie</h1>{% endblock %}
+{% block title %}{{ sortie.nom }} | {{ parent() }}{% endblock %}
 
 {% block body %}
-
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="flash-{{ label }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
+    <br>
+    <h1>Afficher une Sortie</h1>
+    <hr>
 
     <table class="table">
         <tbody>

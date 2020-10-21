@@ -1,19 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block pageTitle %}Liste des Sorties | {{ parent() }}{% endblock %}
-
-{% block title %}<h1>Sortie index</h1>{% endblock %}
+{% block title %}Liste sorties | {{ parent() }}{% endblock %}
 
 {% block body %}
-
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="flash-{{ label }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-
+    <br>
+    <h1>Liste sorties | </h1>
+    <hr>
     <div class="div-form">
         {{ form_start(sortieForm) }}
         <div class="my-custom-class-for-errors">
