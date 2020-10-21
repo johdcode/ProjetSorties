@@ -22,6 +22,11 @@
             </tr>
 
             <tr>
+                <th>État : </th>
+                <td>{{ sortie.etat.libelle }}</td>
+            </tr>
+
+            <tr>
                 <th>Date et heure de la sortie :</th>
                 <td>{{ sortie.dateHeureDebut | date("l d/m/Y à G:i") }}</td>
             </tr>
@@ -45,14 +50,8 @@
                 <th>InfosSortie : </th>
                 <td>{{ sortie.infosSortie }}</td>
             </tr>
+            {% endif %}
 
-            {% endif %}
-            {% if sortie.etat == 'Annulée' and sortie.infosSortie %}
-                <tr>
-                    <th>Motif d'annulation : </th>
-                    <td>{{ sortie.motifAnnulation }}</td>
-                </tr>
-            {% endif %}
 
             <tr>
                 <th>Campus : </th>
@@ -87,6 +86,13 @@
                 <td>{{ sortie.lieu.longitude }}</td>
             </tr>
 
+            {% if sortie.etat.libelle == 'Annulée' %}
+                <tr>
+                    <th>Motif d'annulation : </th>
+                    <td>{{ sortie.motifAnnulation }}</td>
+                </tr>
+            {% endif %}
+
         </tbody>
     </table>
 
@@ -103,7 +109,7 @@
 
         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
 
-        {% if 'Créée' == sortie.etat %}
+        {% if 'Créée' == sortie.etat  %}
             <a href="{{ path('sortie_publier') }}" class="btn btn-primary">Publier</a>
         {% endif %}
 
