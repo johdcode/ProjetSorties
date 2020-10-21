@@ -91,9 +91,9 @@ class AppFixtures extends Fixture
             $sorties[$i] = new Sortie();
             $sorties[$i]->setNom($faker->company)
                 ->setDateHeureDebut($faker->dateTimeBetween($startDate = 'now', $endDate = '+ 7 days', $timezone = 'UTC'))
-                ->setDuree($faker->randomDigit)
+                ->setDuree($faker->randomDigitNotNull)
                 ->setDateLimiteInscription($faker->dateTimeInInterval($startDate = 'now', $interval = '+ 30 days', $timezone = 'UTC'))
-                ->setNbInscriptionsMax($faker->randomDigit)
+                ->setNbInscriptionsMax($faker->randomDigitNotNull)
                 ->setInfosSortie($faker->text)
                 ->setEtat($etats[array_rand($etats, 1)])
                 ->setLieu($lieux[rand(0, count($lieux) - 1)])
