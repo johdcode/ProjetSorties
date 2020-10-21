@@ -9,6 +9,7 @@ use App\Entity\Sortie;
 use App\Form\GestionSortieType;
 use App\Form\LieuCreationType;
 use App\Form\LieuType;
+use App\Form\SortieModifType;
 use App\Form\SortieType;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
@@ -24,6 +25,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use function Sodium\add;
 
 /**
  * @Route("/sortie")
@@ -105,9 +107,6 @@ class SortieController extends AbstractController
             $campusOrganisateur = $campusRepository->find($this->getUser()->getCampus()->getId());
             $sortie->setCampus($campusOrganisateur);
 
-            $lieuChoisi = $requeteSortie['lieu'];
-            $sortie->setLieu($lieuRepository->find($lieuChoisi['nom']));
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -144,7 +143,7 @@ class SortieController extends AbstractController
      * @param Sortie $sortie
      * @return Response
      */
-    public function edit(Request $request, Sortie $sortie): Response
+    public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
     {
         if(time() > $sortie->getDateHeureDebut()->getTimestamp())
         {
@@ -154,6 +153,7 @@ class SortieController extends AbstractController
         }
 
         $form = $this->createForm(SortieType::class, $sortie);
+        $form->remove('enregistrer')->remove('publier');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -178,9 +178,9 @@ class SortieController extends AbstractController
     public function annuler(Request $request, Sortie $sortie, EtatRepository $etatRepository): Response
     {
 
-        if(time() < $sortie->getDateHeureDebut()->getTimestamp())
+        if(time() > $sortie->getDateHeureDebut()->getTimestamp())
         {
-            $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passé');
+            $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passée');
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
@@ -207,7 +207,7 @@ class SortieController extends AbstractController
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
-        
+
         return $this->render('sortie/annuler.html.twig', [
             'sortie' => $sortie,
             'form' => $formAnnuler->createView()
@@ -245,6 +245,7 @@ class SortieController extends AbstractController
         SortieRepository $sortieRepository,
         EntityManagerInterface $manager): Response
     {
+
        $sorties = $sortieRepository->findAll();
         //récupère l'id de la sortie cliquée
     $inscriptions = $inscriptionRepository->find($id);
@@ -270,8 +271,10 @@ class SortieController extends AbstractController
 
     }
 
+
+
     /**
-     * @Route("/{id}/desinscrire", name="sortie_desinscrire", methods={"GET","POST"})
+     * @Route("/", name="sortie_desinscrire", methods={"POST"})
      * @param Request $request
      * @param Sortie $sortie
      * @return Response
@@ -279,9 +282,19 @@ class SortieController extends AbstractController
     public function desinscrire(Request $request, Sortie $sortie): Response
     {
 
-
-        return $this->redirectToRoute('sortie_index',  []);
+        return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
     }
 
+    /**
+     * @Route("/publier", name="sortie_publier", methods={"POST"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
+     */
+    public function publier(Request $request, Sortie $sortie): Response
+    {
+        dd($request);
+        return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+    }
 
 }

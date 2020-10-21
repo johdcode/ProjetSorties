@@ -2,21 +2,25 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block pageTitle %}Sortir.com{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://bootswatch.com/4/simplex/bootstrap.min.css">
+        
         {% block stylesheets %}
         {% endblock %}
+
+        <link rel="icon" href="{{ asset('image/favicon.png') }}" sizes="any" type="image/png">
+        <title>{% block title %}Welcome!{% endblock %}</title>
     </head>
     <body>
         {% block header %}
-
+            {% include('inc/navbar.html.twig') %}
         {% endblock %}
+        <div class="container">
 
-        {% block title %}Welcome!{% endblock %}
+            {% block body %}
 
-        {% block body %}
-
-        {% endblock %}
+            {% endblock %}
+        </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

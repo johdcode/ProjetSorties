@@ -2,8 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -38,7 +41,14 @@ class SortieType extends AbstractType
                 'label' => 'Description et infos : ',
                 'required' => false
             ])
-            ->add('lieu', LieuType::class)
+            ->add('lieu', EntityType::class, [
+                'class' => Lieu::class,
+                'choice_label' => 'nom',
+                'label' => 'Lieu : ',
+            ])
+            ->add('formLieu', LieuType::class, [
+                'mapped' => false,
+            ])
             ->add('enregistrer', SubmitType::class)
             ->add('publier', SubmitType::class)
         ;

@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block pageTitle %}Nouvelle Sortie | Sortir.com{% endblock %}
-
-{% block title %}<h1>Créer une sortie</h1>{% endblock %}
+{% block title %}Nouvelle Sortie | Sortir.com{% endblock %}
 
 {% block body %}
+        <br>
+        <h1>Créer une sortie</h1>
+        <br>
         {{ form_start(sortieForm) }}
-
         <div class="form-group">
             {{ form_row(sortieForm.nom) }}
             {{ form_row(sortieForm.dateHeureDebut) }}
@@ -17,15 +17,23 @@
         </div>
 
         <div class="form-group">
+                {{ form_row(sortieForm.formLieu.ville) }}
+                {{ form_row(sortieForm.lieu) }}
+
+{#                {{ form_row(sortieForm.formLieu.ajouter) }}#}
+{#                {{ form_row(sortieForm.formLieu.rue) }}#}
+{#                {{ form_row(sortieForm.formLieu.latitude) }}#}
+{#                {{ form_row(sortieForm.formLieu.longitude) }}#}
+
+                {{ form_widget(sortieForm.formLieu) }}
+
                 {{ form_widget(sortieForm) }}
         </div>
 
         {{ form_end(sortieForm) }}
 
-        {# TODO redirect vers index #}
-        <button onclick="" class="btn btn-scondary">Retour</button>
 
-        <button onclick="">Annuler</button>
+        <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour</a>
         <br>
         <br>
         <br>

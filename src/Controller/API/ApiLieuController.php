@@ -28,7 +28,7 @@ class ApiLieuController extends AbstractController
 
         $response = new JsonResponse();
         $response->setContent($data);
-
+        
         return $response;
     }
     /**

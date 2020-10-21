@@ -19,7 +19,12 @@
     <div class="my-custom-class-for-errors">
         {{ form_errors(sortieForm) }}
     </div>
+    <br>
     <h1>Filtrer les sorties</h1>
+    <br>
+    <a href="{{ path('sortie_new') }}" class="btn btn-primary">Nouvelle Sortie</a>
+    <br>
+    <br>
 
     {{ form_start(sortieForm) }}
         <div class="my-custom-class-for-errors">
@@ -46,21 +51,24 @@
             <tr>
                 <td>{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('l d/m/Y à G:i') : '' }}</td>
                 <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('l d/m/Y à G:i') : '' }}</td>
                 <td>{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.infosSortie }}</td>
                 <td>{{ sortie.organisateur.pseudo }}</td>
                 <td>{{ sortie.motifAnnulation }}</td>
                 <td>
-{#                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
-                    {% if app.user.id == sortie.organisateur.id%}
+
+                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
+                    {% if app.user and app.user.id == sortie.organisateur.id%}
                         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
                         <a href="{{ path('sortie_new', {'id': sortie.id}) }}">Publier</a>
-
-                        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
-                    {% endif %}#}
+                        {% if 'Créée' == sortie.etat.libelle or 'Ouverte' == sortie.etat.libelle %}
+                            <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                        {% endif %}
+                    {% endif %}
+>
 
                     <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a>
                     <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se Désister</a>
@@ -74,7 +82,5 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('sortie_new') }}">Create new</a>
 
 {% endblock %}
