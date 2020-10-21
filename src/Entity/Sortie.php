@@ -293,7 +293,7 @@ class Sortie
     {
         $result = false;
 
-        if(!$this->utilisateurEstInscrit($idUser) &&
+        if(!$this->estInscrit($idUser) &&
             time() < $this->getDateLimiteInscription()->getTimestamp() &&
             !$this->estComplet())
         {
