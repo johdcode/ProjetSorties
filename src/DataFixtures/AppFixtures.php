@@ -90,7 +90,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 180; $i++) {
             $sorties[$i] = new Sortie();
             $sorties[$i]->setNom($faker->company)
-                ->setDateHeureDebut($faker->dateTimeBetween($startDate = '-7 days', $endDate = 'now', $timezone = 'UTC'))
+                ->setDateHeureDebut($faker->dateTimeBetween($startDate = 'now', $endDate = '+ 7 days', $timezone = 'UTC'))
                 ->setDuree($faker->randomDigit)
                 ->setDateLimiteInscription($faker->dateTimeInInterval($startDate = 'now', $interval = '+ 30 days', $timezone = 'UTC'))
                 ->setNbInscriptionsMax($faker->randomDigit)
@@ -104,7 +104,7 @@ class AppFixtures extends Fixture
         $inscriptions = [];
         for ($i = 0; $i < 80; $i++) {
             $inscriptions[$i] = new Inscription();
-            $inscriptions[$i]->setDateInscription($faker->dateTime)
+            $inscriptions[$i]->setDateInscription($faker->dateTimeBetween($startDate = 'now', $endDate = '+ 5 days', $timezone = 'UTC'))
                 ->setParticipant($participants[rand(0, count($participants) - 1)])
                 ->setSortie($sorties[rand(0, count($sorties) - 1)]);
         }

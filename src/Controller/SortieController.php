@@ -251,38 +251,33 @@ class SortieController extends AbstractController
         SortieRepository $sortieRepository,
         EntityManagerInterface $manager): Response
     {
-// => retrouve la sortie cliquee du tableau
+        // => retrouve la sortie cliquee du tableau
        $sortieCliquee = $sortieRepository->find($id);
         //récupère l'id de la sortie cliquée, vérifie si l'user est déjà inscrit
-    $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
-   // dd($verificationSiInscrit);
-//condition en fonction du nb de sortie max
-        $intervalInscription =  $sortieCliquee->estComplet();
-   //dd( $intervalInscription);
-   // dd($inscriptionRepository->findOneBy(["sortie" => $sortie]));
-        dd($sortieCliquee->getDateLimiteInscription());
-           if( $intervalInscription &&
-           $sortieCliquee->getDateLimiteInscription()
+        $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
+        dd(($sortieCliquee->estComplet()));
+
+           if( !$sortieCliquee->estComplet() &&
+           $sortieCliquee->getDateLimiteInscription()->getTimestamp() > time()
                && $sortieCliquee->getEtat()->getLibelle() != "Clôturée"
                && $sortieCliquee->getEtat()->getLibelle()!= "Annulée")
            {
-
+                //vérifie si l'user en session est existant ds la sortie
             $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
+               $inscription = new Inscription();
+               $inscription->setDateInscription(new \DateTime());
 
-            dd($verificationSiInscrit);
+               $inscription->setSortie($sortieCliquee);
+
+               $inscription->setParticipant($this->getUser());
+             //  dd($inscription);
+               $manager->persist($inscription);
+               $manager->flush();
+
          }
 
-                //condition en fonction du nb de sortie max
-                //dd($sortie->getNbInscriptionsMax());
-                //condition si pas clôturée($sortie->getEtat()->getLibelle()!= "Clôturée" && $sortie->getEtat()->getLibelle()!= "Annulée");
-                // condition si date de sortie est ok ($sortie->getDateLimiteInscription());
 
-        //    }
-
-
-
-//        $manager->persist($verificationSiInscrit);
-//        $manager->flush();
+       $this->addFlash('error', "ça pas marche !");
 
         return $this->redirectToRoute('sortie_index');
 
