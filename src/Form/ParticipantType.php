@@ -25,6 +25,20 @@ class ParticipantType extends AbstractType
     {
         $builder
 //            ->add('roles')
+            ->add('pseudo', TextType::class, [
+                'label' => 'Pseudo',
+                'attr' => [
+                    'placeholder' => 'Un pseudo',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('mail', TextType::class, [
+                'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'Une description',
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('password', RepeatedType::class, [
                 'mapped' => false,
                 'type' => PasswordType::class,
@@ -62,34 +76,6 @@ class ParticipantType extends AbstractType
                     ],
                 ],
             ])
-            ->add('nom', TextType::class, [
-                'label' => 'Nom',
-                'attr' => [
-                    'placeholder' => 'Un nom',
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('prenom', TextType::class, [
-                'label' => 'Prénom',
-                'attr' => [
-                    'placeholder' => 'Un prénom',
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('telephone', TextType::class, [
-                'label' => 'Téléphone',
-                'attr' => [
-                    'placeholder' => 'Un numéros de téléphone',
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('mail', TextType::class, [
-                'label' => 'Email',
-                'attr' => [
-                    'placeholder' => 'Une description',
-                    'class' => 'form-control'
-                ]
-            ])
             ->add('urlPhoto', FileType::class, [
                 'label' => 'Image de profil',
 
@@ -114,10 +100,24 @@ class ParticipantType extends AbstractType
                     ])
                 ],
             ])
-            ->add('pseudo', TextType::class, [
-                'label' => 'Pseudo',
+            ->add('nom', TextType::class, [
+                'label' => 'Nom',
                 'attr' => [
-                    'placeholder' => 'Un pseudo',
+                    'placeholder' => 'Un nom',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Prénom',
+                'attr' => [
+                    'placeholder' => 'Un prénom',
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('telephone', TextType::class, [
+                'label' => 'Téléphone',
+                'attr' => [
+                    'placeholder' => 'Un numéros de téléphone',
                     'class' => 'form-control'
                 ]
             ])

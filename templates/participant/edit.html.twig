@@ -1,13 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Participant{% endblock %}
+{% block title %}Modifier le profil{% endblock %}
 
 {% block body %}
-    <h1>Edit Participant</h1>
+    <div class="div-form">
+        <br>
+        <h1>Modifier le profil</h1>
+        <hr>
+        {{ include('participant/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    {{ include('participant/_form.html.twig', {'button_label': 'Update'}) }}
+{#        <a href="{{ path('participant_index') }}">back to list</a>#}
 
-    <a href="{{ path('participant_index') }}">back to list</a>
-
-    {{ include('participant/_delete_form.html.twig') }}
+{#        {{ include('participant/_delete_form.html.twig') }}#}
+    </div>
+    <br>
+    <br>
 {% endblock %}
+
+{#{% block javascripts %}#}
+
+{#    <script>#}
+{#        let form = document.querySelector('form[name=registration_form]');#}
+{#        form.onsubmit = (e)=>{#}
+{#            // e.preventDefault();#}
+{#            for(let input of form.querySelectorAll('input')){#}
+{#                console.log(input.value);#}
+{#            }#}
+{#        };#}
+{#    </script>#}
+
+{#{% endblock %}#}
