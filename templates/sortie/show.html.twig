@@ -89,11 +89,11 @@
         </tbody>
     </table>
 
-    {% if app.user != sortie.organisateur and 'Ouverte' == sortie.etat %}
+    {% if nonInscrit %}
         <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-primary">S'inscrire</a>
     {%  endif %}
 
-    {% if app.user != sortie.organisateur and 'Ouverte' == sortie.etat %}
+    {% if estInscrit %}
         <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}" class="btn btn-primary">Se désinscrire</a>
     {%  endif %}
 

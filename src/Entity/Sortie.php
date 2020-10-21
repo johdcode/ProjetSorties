@@ -294,9 +294,30 @@ class Sortie
 
         if(!$this->utilisateurEstInscrit($idUser) && time() < $this->getDateLimiteInscription()->getTimestamp())
         {
-            $result = true;
+            $result = !$this->estOrganisateur($idUser);
         }
-        //TODO make it work dd($result);
+
+        return $result;
+    }
+
+    /**
+     * Vérifie si l'utilisateur est inscrit et si la date d'inscription
+     * n'est pas dépassée
+     * @param $idUser
+     * @return bool
+     * @author Valentin
+     */
+    public function estInscrit($idUser)
+    {
+        $result = false;
+
+        foreach ($this->getInscriptions() as $inscription){
+            if ($idUser == $inscription->getParticipant()->getId()){
+                $result = !$this->estOrganisateur($idUser);
+                break;
+            }
+        }
+
         return $result;
     }
 
@@ -321,6 +342,7 @@ class Sortie
     /**
      * Vérifie si l'utilisateur en session est inscrit
      * à la sortie
+     * @param $idUser
      * @return bool
      * @author Valentin
      */

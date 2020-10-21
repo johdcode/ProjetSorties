@@ -107,6 +107,7 @@ class SortieController extends AbstractController
             $campusOrganisateur = $campusRepository->find($this->getUser()->getCampus()->getId());
             $sortie->setCampus($campusOrganisateur);
 
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -133,9 +134,14 @@ class SortieController extends AbstractController
      */
     public function show(Request $request, Sortie $sortie): Response
     {
-        //$sortie->canSubscribe($request);
+        $currentUserId = $this->getUser()->getId();
+        $nonInscrit = $sortie->peutSinscrire($currentUserId);
+        $estInscrit = $sortie->estInscrit($currentUserId);
+
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
+            'nonInscrit' => $nonInscrit,
+            'estInscrit' => $estInscrit
         ]);
     }
 
