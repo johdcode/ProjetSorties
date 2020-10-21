@@ -356,7 +356,7 @@ class Sortie
     public function estComplet(){
         $nbInscriptions = $this->getInscriptions()->count();
         $result = false;
-                //8                          8
+
         if( $this->getNbInscriptionsMax() > $nbInscriptions && $this->getDateHeureDebut()->getTimestamp() > time() )
         {
             $result = true;
