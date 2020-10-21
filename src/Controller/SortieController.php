@@ -16,6 +16,8 @@ use App\Repository\InscriptionRepository;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -40,7 +42,6 @@ class SortieController extends AbstractController
     public function index(
         CampusRepository $campusRepository,
         SortieRepository $sortieRepository,
-        InscriptionRepository $inscriptionRepository,
         Request $request): Response
     {
         $sorties = $sortieRepository->findAll();
@@ -145,7 +146,7 @@ class SortieController extends AbstractController
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
-        if(time() < $sortie->getDateHeureDebut()->getTimestamp())
+        if(time() > $sortie->getDateHeureDebut()->getTimestamp())
         {
             $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passé');
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
@@ -231,21 +232,46 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/", name="sortie_inscrire", methods={"POST"})
+     * @Route("/{id}/inscrire", name="sortie_inscrire", methods={"GET","POST"})
      * @param Request $request
      * @param Sortie $sortie
+     * @param SortieRepository $sortieRepository
      * @return Response
      */
-    public function inscrire(Request $request, Sortie $sortie): Response
+    public function inscrire(
+        $id,
+        Request $request,
+        InscriptionRepository $inscriptionRepository,
+        SortieRepository $sortieRepository,
+        EntityManagerInterface $manager): Response
     {
-        dd($request);
-        //$request->request->get();
-        return $this->render('sortie/annuler.html.twig');
-        return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+       $sorties = $sortieRepository->findAll();
+        //récupère l'id de la sortie cliquée
+    $inscriptions = $inscriptionRepository->find($id);
+//        //identifiants des participants inscrits à la sortie cliquée par ex sortie 81
+//      $participantInscrit = $inscriptions->getParticipant()->getId();
+//      if(!$participantInscrit){
+//          //inscription possible
+//      }
+
+            foreach ($sorties as $sortie){
+                //condition en fonction du nb de sortie max
+                //dd($sortie->getNbInscriptionsMax());
+                //condition si pas clôturée($sortie->getEtat()->getLibelle()!= "Clôturée" && $sortie->getEtat()->getLibelle()!= "Annulée");
+                // condition si date de sortie est ok ($sortie->getDateLimiteInscription());
+
+            }
+
+
+
+//        $manager->persist();
+//        $manager->flush();
+
+
     }
 
     /**
-     * @Route("/{id}", name="sortie_desinscrire", methods={"POST"})
+     * @Route("/{id}/desinscrire", name="sortie_desinscrire", methods={"GET","POST"})
      * @param Request $request
      * @param Sortie $sortie
      * @return Response

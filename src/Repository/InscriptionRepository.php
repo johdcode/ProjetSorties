@@ -7,6 +7,7 @@ use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Inscription|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,5 +21,9 @@ class InscriptionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Inscription::class);
     }
+    public function findSortieParRecherche(Request $request, UserInterface $user){
+       //si user != sortie => inscription
+    }
+
 
 }
