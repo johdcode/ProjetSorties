@@ -280,6 +280,7 @@ class Sortie
         return $this;
     }
 
+
     /**
      * Vérifie si l'utilisateur est inscrit et si la date d'inscription
      * n'est pas dépassée
@@ -329,8 +330,8 @@ class Sortie
     public function estComplet(){
         $nbInscriptions = $this->getInscriptions()->count();
         $result = false;
-
-        if($this->getDateHeureDebut()->getTimestamp() > time() && $this->getNbInscriptionsMax() == $nbInscriptions)
+//TODO && $this->getDateHeureDebut()->getTimestamp() > time()
+        if( $this->getNbInscriptionsMax() >= $nbInscriptions )
         {
             $result = true;
         }
@@ -401,4 +402,5 @@ class Sortie
 
         return $result;
     }
+
 }

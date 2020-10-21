@@ -17,6 +17,8 @@ use App\Repository\InscriptionRepository;
 use App\Repository\LieuRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -42,7 +44,6 @@ class SortieController extends AbstractController
     public function index(
         CampusRepository $campusRepository,
         SortieRepository $sortieRepository,
-        InscriptionRepository $inscriptionRepository,
         Request $request): Response
     {
         $sorties = $sortieRepository->findAll();
@@ -239,16 +240,61 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/", name="sortie_inscrire", methods={"POST"})
+     * @Route("/{id}/inscrire", name="sortie_inscrire", methods={"GET","POST"})
+     * @param $id
      * @param Request $request
      * @param Sortie $sortie
+     * @param InscriptionRepository $inscriptionRepository
+     * @param SortieRepository $sortieRepository
+     * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function inscrire(Request $request, Sortie $sortie): Response
+    public function inscrire(
+        $id,
+        Request $request,
+        Sortie $sortie,
+        InscriptionRepository $inscriptionRepository,
+        SortieRepository $sortieRepository,
+        EntityManagerInterface $manager): Response
     {
+// => retrouve la sortie cliquee du tableau
+       $sortieCliquee = $sortieRepository->find($id);
+        //récupère l'id de la sortie cliquée, vérifie si l'user est déjà inscrit
+    $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
+   // dd($verificationSiInscrit);
+//condition en fonction du nb de sortie max
+        $intervalInscription =  $sortieCliquee->estComplet();
+   //dd( $intervalInscription);
+   // dd($inscriptionRepository->findOneBy(["sortie" => $sortie]));
+        dd($sortieCliquee->getDateLimiteInscription());
+           if( $intervalInscription &&
+           $sortieCliquee->getDateLimiteInscription()
+               && $sortieCliquee->getEtat()->getLibelle() != "Clôturée"
+               && $sortieCliquee->getEtat()->getLibelle()!= "Annulée")
+           {
 
-        return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+            $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
+
+            dd($verificationSiInscrit);
+         }
+
+                //condition en fonction du nb de sortie max
+                //dd($sortie->getNbInscriptionsMax());
+                //condition si pas clôturée($sortie->getEtat()->getLibelle()!= "Clôturée" && $sortie->getEtat()->getLibelle()!= "Annulée");
+                // condition si date de sortie est ok ($sortie->getDateLimiteInscription());
+
+        //    }
+
+
+
+//        $manager->persist($verificationSiInscrit);
+//        $manager->flush();
+
+        return $this->redirectToRoute('sortie_index');
+
     }
+
+
 
     /**
      * @Route("/", name="sortie_desinscrire", methods={"POST"})
@@ -259,7 +305,7 @@ class SortieController extends AbstractController
     public function desinscrire(Request $request, Sortie $sortie): Response
     {
 
-        return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+        return $this->redirectToRoute('sortie_index',  ['id' => $sortie->getId()]);
     }
 
     /**
