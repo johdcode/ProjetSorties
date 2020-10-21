@@ -19,6 +19,7 @@ use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -251,39 +252,33 @@ class SortieController extends AbstractController
      */
     public function inscrire(
         $id,
-        Request $request,
         Sortie $sortie,
         InscriptionRepository $inscriptionRepository,
         SortieRepository $sortieRepository,
         EntityManagerInterface $manager): Response
     {
-        // => retrouve la sortie cliquee du tableau
+        // => retrouve la sortie cliquée du tableau
        $sortieCliquee = $sortieRepository->find($id);
-        //récupère l'id de la sortie cliquée, vérifie si l'user est déjà inscrit
+        //vérifie si l'user en session est existant ds la sortie
         $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
-        dd(($sortieCliquee->estComplet()));
 
-           if( !$sortieCliquee->estComplet() &&
-           $sortieCliquee->getDateLimiteInscription()->getTimestamp() > time()
+           if( $verificationSiInscrit == Null
+                &&$sortieCliquee->estComplet()
+               && $sortieCliquee->getDateLimiteInscription()->getTimestamp() > time()
                && $sortieCliquee->getEtat()->getLibelle() != "Clôturée"
                && $sortieCliquee->getEtat()->getLibelle()!= "Annulée")
            {
-                //vérifie si l'user en session est existant ds la sortie
-            $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
                $inscription = new Inscription();
                $inscription->setDateInscription(new \DateTime());
-
                $inscription->setSortie($sortieCliquee);
-
                $inscription->setParticipant($this->getUser());
-             //  dd($inscription);
+
                $manager->persist($inscription);
                $manager->flush();
-
-         }
-
-
-       $this->addFlash('error', "ça pas marche !");
+               $this->addFlash('success', "Vous vous êtes bien inscrit à votre activité");
+         } else {
+               $this->addFlash('error', "Vous êtes déjà inscrit ou la sortie n'est plus valable !");
+           }
 
         return $this->redirectToRoute('sortie_index');
 
