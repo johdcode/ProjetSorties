@@ -257,12 +257,20 @@ class SortieController extends AbstractController
     $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
    // dd($verificationSiInscrit);
 //condition en fonction du nb de sortie max
-           if($sortieCliquee->getNbInscriptionsMax() && $sortieCliquee->getDateLimiteInscription() &&
-    $sortieCliquee->getEtat()->getLibelle() != "Clôturée" && $sortieCliquee->getEtat()->getLibelle()!= "Annulée"){
+        $intervalInscription =  $sortieCliquee->estComplet();
+   //dd( $intervalInscription);
+   // dd($inscriptionRepository->findOneBy(["sortie" => $sortie]));
+        dd($sortieCliquee->getDateLimiteInscription());
+           if( $intervalInscription &&
+           $sortieCliquee->getDateLimiteInscription()
+               && $sortieCliquee->getEtat()->getLibelle() != "Clôturée"
+               && $sortieCliquee->getEtat()->getLibelle()!= "Annulée")
+           {
 
-        $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
-        
-    }
+            $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
+
+            dd($verificationSiInscrit);
+         }
 
                 //condition en fonction du nb de sortie max
                 //dd($sortie->getNbInscriptionsMax());
@@ -273,8 +281,8 @@ class SortieController extends AbstractController
 
 
 
-        $manager->persist(  $verificationSiInscrit);
-        $manager->flush();
+//        $manager->persist($verificationSiInscrit);
+//        $manager->flush();
 
         return $this->redirectToRoute('sortie_index');
 

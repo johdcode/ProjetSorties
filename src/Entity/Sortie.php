@@ -279,16 +279,106 @@ class Sortie
 
         return $this;
     }
-//
-//    public function canSubscribe(Request $request)
-//    {
-//        dd($request);
-//        $currentSortie = $request->attributes('sortie');
-//        dd($currentSortie);
-//
-//        if ($currentUser->getId() != $this->getId())
-//        {
-//
-//        }
-//    }
+
+
+    /**
+     * Vérifie si l'utilisateur est inscrit et si la date d'inscription
+     * n'est pas dépassée
+     * @param $idUser
+     * @return bool
+     * @author Valentin
+     */
+    public function peutSinscrire($idUser)
+    {
+        $result = false;
+
+        if(!$this->utilisateurEstInscrit($idUser) && time() < $this->getDateLimiteInscription()->getTimestamp())
+        {
+            $result = true;
+        }
+        //TODO make it work dd($result);
+        return $result;
+    }
+
+    /**
+     * Vérifie si la sortie a atteint la limite d'inscriptions
+     * et si la date de début n'a pas encore été atteinte
+     * @return bool
+     * @author Valentin
+     */
+    public function estComplet(){
+        $nbInscriptions = $this->getInscriptions()->count();
+        $result = false;
+//TODO && $this->getDateHeureDebut()->getTimestamp() > time()
+        if( $this->getNbInscriptionsMax() >= $nbInscriptions )
+        {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Vérifie si l'utilisateur en session est inscrit
+     * à la sortie
+     * @return bool
+     * @author Valentin
+     */
+    public function utilisateurEstInscrit($idUser){
+        $result = false;
+
+        // vérifier, via idUser, si l'utilisateur est dans une des inscriptions de la sortie
+        foreach ($this->getInscriptions() as $inscritpion){
+            if($inscritpion->getParticipant()->getId() == $idUser)
+            {
+                $result = true;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Vérifie si la sortie est terminé depuis plus d'un mois
+     * @return bool
+     * @author Valentin
+     */
+    public function estArchive(){
+        $result = false;
+
+        if(time() > date_add($this->getDateHeureFin(), new \DateInterval('P1M')))
+        {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Vérifie si l'utilisateur est l'organisateur de la sortie
+     * @param $userId
+     * @return bool
+     * @author Valentin
+     */
+    public function estOrganisateur($userId){
+        $result = false;
+
+        if ($this->getOrganisateur()->getId() == $userId){
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Vérifie si la sortie est terminé
+     * @return bool
+     * @author Valentin
+     */
+    public function estTermine(){
+        time() > $this->getDateHeureFin() ? $result = true : $result = false;
+
+        return $result;
+    }
+
 }

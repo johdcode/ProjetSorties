@@ -19,6 +19,9 @@
                     <a class="nav-link" href="{{ path('accueil') }}">Accueil <span class="sr-only">(current)</span></a>
                 </li>
                 {% if app.user %}
+                    <li class="nav-item">
+                        <a href="{{ path('sortie_new') }}" class="nav-link">Nouvelle Sortie</a>
+                    </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('participant_show', {id: app.user.id}) }}">Mon profil</a>
                 </li>

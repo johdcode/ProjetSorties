@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block pageTitle %}Modification | {{ parent() }}{% endblock %}
-
-{% block title %}<h1>Modifier une Sortie</h1>{% endblock %}
+{% block title %}Modification | {{ parent() }}{% endblock %}
 
 {% block body %}
 
+    <h1>Modifier une Sortie</h1>
+    <br>
     {{ include('sortie/_form.html.twig') }}
 
     <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour à la liste</a>
