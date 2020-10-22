@@ -296,9 +296,11 @@ class SortieController extends AbstractController
 
                $manager->persist($inscription);
                $manager->flush();
-               $this->addFlash('success', "Vous vous êtes bien inscrit à votre activité");
+               $this->addFlash('success', "Vous êtes bien inscrit(e) à votre activité");
          } else {
-               $this->addFlash('danger', "Vous êtes déjà inscrit ou la sortie n'est plus valable !");
+
+               $this->addFlash('error', "Vous êtes déjà inscrit(e) ou la sortie n'est plus accessible !");
+
            }
 
         return $this->redirectToRoute('sortie_index',  ['id' => $sortie->getId()]);
@@ -306,15 +308,35 @@ class SortieController extends AbstractController
     }
 
 
-
     /**
-     * @Route("/", name="sortie_desinscrire", methods={"POST"})
-     * @param Request $request
+     * @Route("/{id}/desinscrire", name="sortie_desinscrire", methods={"GET","POST"})
+     * @param $id
      * @param Sortie $sortie
+     * @param InscriptionRepository $inscriptionRepository
+     * @param SortieRepository $sortieRepository
+     * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function desinscrire(Request $request, Sortie $sortie): Response
+    public function desinscrire(
+            $id,
+            Sortie $sortie,
+            InscriptionRepository $inscriptionRepository,
+            SortieRepository $sortieRepository,
+            EntityManagerInterface $manager): Response
     {
+        $sortieCliquee = $sortieRepository->find($id);
+        //vérifie si l'user en session est existant ds la sortie
+        $numInscription = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
+
+        if( $numInscription
+            &&$sortieCliquee){
+
+            $manager->remove($numInscription);
+            $manager->flush();
+            $this->addFlash('success', "Vous vous êtes bien désisté(e) de votre activité");
+        } else {
+            $this->addFlash('error', "Vous n'avez pas pu vous désinscrire");
+        }
 
         return $this->redirectToRoute('sortie_index',  ['id' => $sortie->getId()]);
     }
