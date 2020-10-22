@@ -107,7 +107,7 @@
         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
     {% endif %}
 
-    {% if peutAnnuler %}
+    {% if peutAnnuler or app.user.administrateur%}
         <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" class="btn btn-warning">Annuler</a>
     {% endif %}
 
