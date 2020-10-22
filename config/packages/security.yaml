@@ -42,7 +42,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/register, roles: ROLE_ADMIN }
         - { path: ^/participant/admin, roles: ROLE_ADMIN }
-        -
+
         - { path: ^/participant, roles: ROLE_USER }
         - { path: ^/sortie, roles: ROLE_USER }
 

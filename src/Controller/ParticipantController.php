@@ -95,7 +95,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/admin", name="participant_index", methods={"GET"})
+     * @Route("/admin/index", name="participant_index", methods={"GET"})
      */
     public function index(ParticipantRepository $participantRepository): Response
     {
