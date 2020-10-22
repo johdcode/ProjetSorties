@@ -1,7 +1,6 @@
 window.onload = function() {
-    // let root_path = '../..';
     let root_path = ROOT_PATH;
-    // Retire le slash
+    // Retire le slash de fin
     root_path = root_path.slice(0, root_path.length - 1);
 
     let select_lieu = document.getElementById('sortie_lieu');
