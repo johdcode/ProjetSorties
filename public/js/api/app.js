@@ -1,6 +1,9 @@
 window.onload = function() {
-    // alert()
-    let root_path = '..';
+    // let root_path = '../..';
+    let root_path = ROOT_PATH;
+    // Retire le slash
+    root_path = root_path.slice(0, root_path.length - 1);
+
     let select_lieu = document.getElementById('sortie_lieu');
     let select_ville = document.getElementById('sortie_formLieu_ville');
 
@@ -27,7 +30,7 @@ window.onload = function() {
 
     function avoirLieuDansVille(id_ville) {
         axios
-            .get('../api/lieu/ville/' + id_ville)
+            .get(root_path + '/api/lieu/ville/' + id_ville)
 
             .then((response) => {
                 for (let lieu of response.data) {
@@ -82,7 +85,7 @@ window.onload = function() {
             let formData = new FormData(formulaire_lieu)
             axios({
                 method: 'post',
-                url: '../api/lieu/creer',
+                url: root_path + '/api/lieu/creer',
                 data: formData
             }).then(()=>{
 
