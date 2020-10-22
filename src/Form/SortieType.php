@@ -46,11 +46,6 @@ class SortieType extends AbstractType
                 'class' => Lieu::class,
                 'choice_label' => 'nom',
                 'label' => 'Lieu : ',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')
-                        ->orderBy('l.nom', 'ASC')
-                        ->setMaxResults(3);
-                },
             ])
             ->add('formLieu', LieuType::class, [
                 'mapped' => false,
