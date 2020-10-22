@@ -168,7 +168,7 @@ class SortieController extends AbstractController
      * @param Sortie $sortie
      * @return Response
      */
-    public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
+    public function edit(Request $request, Sortie $sortie): Response
     {
         if(!$sortie->peutModifier($this->getUser()->getId()))
         {
@@ -208,12 +208,12 @@ class SortieController extends AbstractController
     public function annuler(Request $request, Sortie $sortie, EtatRepository $etatRepository): Response
     {
 
-        if(!$sortie->peutAnnuler($this->getUser()->getId()) || !$this->getUser()->getAdministrateur())
+        if(!$sortie->peutAnnuler($this->getUser()->getId()) && !$this->getUser()->getAdministrateur())
         {
             $this->addFlash('danger', 'Vous ne pouvez pas annuler la sortie');
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
-        dd($this->getUser());
+
         $motif = new Sortie();
         $formAnnuler = $this->createFormBuilder($motif)
             ->add('motifAnnulation', TextareaType::class)
@@ -357,6 +357,12 @@ class SortieController extends AbstractController
      */
     public function publier(Request $request, Sortie $sortie, EtatRepository $etatRepository): Response
     {
+
+        if(!$sortie->peutPublier($this->getUser()->getId()))
+        {
+            $this->addFlash('danger', 'Vous ne pouvez pas publier la sortie');
+            return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+        }
         $etatEnregistrer = $etatRepository->findOneBy([
             'libelle' => 'Ouverte'
         ]);
