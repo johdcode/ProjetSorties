@@ -37,7 +37,8 @@ class LieuType extends AbstractType
                 'label' => 'Rue : ',
                 'required' => false,
                 'attr' => [
-                    'disabled' => true
+                    'disabled' => true,
+                    'value' => 'Indisponible'
                 ]
             ])
             ->add('latitude', NumberType::class, [
@@ -45,7 +46,8 @@ class LieuType extends AbstractType
                 'label' => 'Latitude : ',
                 'required' => false,
                 'attr' => [
-                    'disabled' => true
+                    'disabled' => true,
+                    'value' => 'Indisponible'
                 ]
             ])
             ->add('longitude', NumberType::class, [
@@ -53,7 +55,8 @@ class LieuType extends AbstractType
                 'label' => 'Longitude : ',
                 'required' => false,
                 'attr' => [
-                    'disabled' => true
+                    'disabled' => true,
+                    'value' => 'Indisponible'
                 ]
             ])
         ;
