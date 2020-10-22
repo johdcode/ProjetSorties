@@ -288,7 +288,7 @@ class SortieController extends AbstractController
         $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
 
            if( $verificationSiInscrit == Null
-                &&$sortieCliquee->estComplet()
+                &&!$sortieCliquee->estComplet()
                && $sortieCliquee->getDateLimiteInscription()->getTimestamp() > time()
                && $sortieCliquee->getEtat()->getLibelle() != "Clôturée"
                && $sortieCliquee->getEtat()->getLibelle()!= "Annulée")
