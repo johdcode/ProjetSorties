@@ -86,7 +86,7 @@
                 let formData = new FormData(formulaire_lieu)
                 axios({
                     method: 'post',
-                    url: '../api/lieu/creer',
+                    url: root_path + '/api/lieu/creer',
                     data: formData
                 }).then(()=>{
 

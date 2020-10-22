@@ -179,9 +179,14 @@ class SortieController extends AbstractController
             return $this->redirectToRoute('sortie_index');
         }
 
+        // Formulaire ajout de lieu
+        $lieu = new Lieu();
+        $formLieu = $this->createForm(LieuCreationType::class,$lieu);
+
         return $this->render('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form->createView(),
+            'formLieu' => $formLieu->createView()
         ]);
     }
 
