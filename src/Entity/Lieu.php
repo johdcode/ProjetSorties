@@ -41,6 +41,7 @@ class Lieu
     private $longitude;
 
     /**
+     * @Serializer\Exclude()
      * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
      * @ORM\JoinColumn(nullable=false)
      */
