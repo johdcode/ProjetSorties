@@ -16,6 +16,9 @@ footer a {
 h1{
     color: #d9230f;
 }
+.btn{
+    border-radius: 2px;
+}
 .div-form{
     margin: 5% auto 0 auto;
     padding: 0 5% 0 5%;
