@@ -170,9 +170,9 @@ class SortieController extends AbstractController
      */
     public function edit(Request $request, Sortie $sortie, SortieRepository $sortieRepository): Response
     {
-        if(time() > $sortie->getDateHeureDebut()->getTimestamp())
+        if(!$sortie->peutModifier($this->getUser()->getId()))
         {
-            $this->addFlash('danger', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passé');
+            $this->addFlash('danger', 'Vous ne pouvez pas modifier la sortie');
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
@@ -208,13 +208,12 @@ class SortieController extends AbstractController
     public function annuler(Request $request, Sortie $sortie, EtatRepository $etatRepository): Response
     {
 
-        if(time() > $sortie->getDateHeureDebut()->getTimestamp())
+        if(!$sortie->peutAnnuler($this->getUser()->getId()) || !$this->getUser()->getAdministrateur())
         {
-            $this->addFlash('danger', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passée');
-            // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
+            $this->addFlash('danger', 'Vous ne pouvez pas annuler la sortie');
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
-
+        dd($this->getUser());
         $motif = new Sortie();
         $formAnnuler = $this->createFormBuilder($motif)
             ->add('motifAnnulation', TextareaType::class)
@@ -234,7 +233,6 @@ class SortieController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'La sortie à bien été annulée');
-            // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
 
@@ -252,6 +250,12 @@ class SortieController extends AbstractController
      */
     public function delete(Request $request, Sortie $sortie): Response
     {
+        if(!$sortie->peutPublier($this->getUser()->getId()))
+        {
+            $this->addFlash('danger', 'Vous ne pouvez pas supprimer la sortie');
+            return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($sortie);
