@@ -20,6 +20,7 @@
                 </li>
                 {% if app.user.administrateur %}
                     <a href="{{ path('participant_index') }}" class="nav-link">Participants</a>
+                    <a href="{{ path('participant_new') }}" class="nav-link">Nouveau Participant</a>
                 {% endif %}
                 {% if app.user %}
                     <li class="nav-item">

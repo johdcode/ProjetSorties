@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Participant index{% endblock %}
+{% block title %}Participants | {{ parent() }}{% endblock %}
 
 {% block body %}
 
-    <h1>Participant index</h1>
-    <a href="{{ path('participant_new') }}" class="btn btn-primary">Inscrire un utilisateur</a>
+    <h1>Liste des participants</h1>
 
     <table class="table">
         <thead>
