@@ -136,15 +136,17 @@ class SortieController extends AbstractController
      * @Route("/{id}", name="sortie_show", methods={"GET"})
      * @param Request $request
      * @param Sortie $sortie
+     * @param InscriptionRepository $inscriptionRepository
      * @return Response
      */
-    public function show(Request $request, Sortie $sortie): Response
+    public function show( Request $request, Sortie $sortie): Response
     {
         if($sortie->estArchive())
         {
             $this->addFlash('danger', 'La sortie n\'existe plus !');
             return $this->redirectToRoute('sortie_index');
         }
+
         $nbInscrit = $sortie->getInscriptions()->count();
 
         $currentUserId = $this->getUser()->getId();
@@ -162,6 +164,7 @@ class SortieController extends AbstractController
             'peutModifier' => $peutModifier,
             'peutAnnuler' => $peutAnnuler,
             'peutPublier' => $peutPublier
+
         ]);
     }
 
@@ -290,7 +293,7 @@ class SortieController extends AbstractController
         $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
 
            if( $verificationSiInscrit == Null
-               && !$sortieCliquee->estComplet()
+                &&!$sortieCliquee->estComplet()
                && $sortieCliquee->getDateLimiteInscription()->getTimestamp() > time()
                && $sortieCliquee->getEtat()->getLibelle() != "Clôturée"
                && $sortieCliquee->getEtat()->getLibelle()!= "Annulée")

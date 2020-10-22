@@ -39,6 +39,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Le champ titre doit être remplis")
      */
     private $dateHeureDebut;
 
@@ -371,16 +372,9 @@ class Sortie
      * @author Valentin
      */
     public function estComplet(){
-        $nbInscriptions = $this->getInscriptions()->count();
-        $result = true;
 
-        if( $this->getNbInscriptionsMax() > $nbInscriptions && $this->getDateHeureDebut()->getTimestamp() > time() )
-        {
-
-            $result = false;
-        }
-
-        return $result;
+        return $this->getNbInscriptionsMax() > $this->getInscriptions()->count() &&
+        $this->getDateHeureDebut()->getTimestamp() > time() ? false : true;
     }
 
     /**
@@ -389,7 +383,6 @@ class Sortie
      * @author Valentin
      */
     public function estArchive(){
-
         return time() > date_add($this->getDateHeureFin(), new \DateInterval('P1M'))->getTimestamp();
     }
 

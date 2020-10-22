@@ -35,16 +35,16 @@
         <tbody>
         {% for sortie in sorties %}
             <tr>
-                <td>{{ sortie.nom }}</td>
+                <td data-label="Nom de la sortie">{{ sortie.nom }}</td>
                 {# TODO mettre la date en fr, filtre:   format_datetime('full', 'full', locale='fr') #}
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('l d/m/Y à G:i') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('l d/m/Y à G:i') : '' }}</td>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.infosSortie }}</td>
-                <td>{{ sortie.organisateur.pseudo }}</td>
-                <td>{{ sortie.etat.libelle }}</td>
-                <td>
+                <td data-label="Date et heure de début">{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('l d/m/Y à G:i') : '' }}</td>
+                <td data-label="Durée">{{ sortie.duree }}</td>
+                <td data-label="Date limite d'inscription">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('l d/m/Y à G:i') : '' }}</td>
+                <td data-label="Participants max.">{{ sortie.nbInscriptionsMax }}</td>
+                <td data-label="Informations">{{ sortie.infosSortie }}</td>
+                <td data-label="Organisateur">{{ sortie.organisateur.pseudo }}</td>
+                <td data-label="État">{{ sortie.etat.libelle }}</td>
+                <td data-label="Actions">
 
                     <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                     {% if app.user and app.user.id == sortie.organisateur.id %}

@@ -37,3 +37,22 @@ input, select, select option{
     overflow: hidden;
     border-radius: 15px !important;
 }
+
+@media (max-width: 1000px){
+    .table thead {
+        display: none;
+    }
+    .table tr{
+        display: block;
+        margin-bottom: 40px;
+    }
+    .table td {
+        display: block;
+        text-align: right;
+    }
+    .table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+    }
+}
