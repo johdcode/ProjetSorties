@@ -40,6 +40,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/register, roles: ROLE_ADMIN }
+        - { path: ^/participant/admin, roles: ROLE_ADMIN }
+        -
         - { path: ^/participant, roles: ROLE_USER }
         - { path: ^/sortie, roles: ROLE_USER }
 
