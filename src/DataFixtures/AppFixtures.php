@@ -81,8 +81,8 @@ class AppFixtures extends Fixture
             ->setTelephone($faker->phoneNumber)
             ->setMail($faker->email)
             ->setPassword("\$argon2id\$v=19\$m=65536,t=4,p=1\$Vi5KLlhPSGYwbkhkdzdnUg\$kHKC4MRV6tONo8BmIn80YG8FCErkyjvD7E5PcGrEDcM")
-            ->setAdministrateur($faker->boolean)
-            ->setActif($faker->boolean)
+            ->setAdministrateur(true)
+            ->setActif(true)
             ->setCampus($campus[rand(0, count($campus) - 1)]);
         $participants[] = $participant;
 
