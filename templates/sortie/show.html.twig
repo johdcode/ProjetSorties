@@ -105,6 +105,7 @@
 
     {% if peutModifier %}
         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+        <a href="{{ path('sortie_delete', {'id': sortie.id}) }}" class="btn btn-primary">Supprimer</a>
     {% endif %}
 
     {% if peutAnnuler or app.user.administrateur%}
