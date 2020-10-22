@@ -43,6 +43,11 @@ class Participant implements UserInterface
      *     minMessage="4 caractères minimum",
      *     maxMessage="30 caractères maximum"
      * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre nom doit contenir des lettres"
+     * )
      */
     private $nom;
 
@@ -54,6 +59,11 @@ class Participant implements UserInterface
      *     minMessage="4 caractères minimum",
      *     maxMessage="30 caractères maximum"
      * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre prénom doit contenir des lettres"
+     * )
      */
     private $prenom;
 
@@ -64,6 +74,11 @@ class Participant implements UserInterface
      *     min="4", max="20",
      *     minMessage="4 caractères minimum",
      *     maxMessage="20 caractères maximum"
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre nom doit contenir des lettres"
      * )
      */
     private $telephone;

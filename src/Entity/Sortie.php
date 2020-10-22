@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -23,11 +24,27 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre nom doit contenir des lettres"
+     * )
      */
     private $nom;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Le champ titre doit être remplis")
+     * @Assert\Length(
+     *     min="1", max="30",
+     *     minMessage="4 caractères minimum",
+     *     maxMessage="30 caractères maximum"
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre nom doit contenir des lettres"
+     * )
      */
     private $dateHeureDebut;
 

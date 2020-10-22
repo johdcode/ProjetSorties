@@ -22,26 +22,4 @@ class InscriptionRepository extends ServiceEntityRepository
         parent::__construct($registry, Inscription::class);
     }
 
-    public function findWithCategories()
-    {
-        $qb = $this->createQueryBuilder('i'); // Idea
-        $qb->andWhere('i.isPublished = true');
-
-        //on demande de récupérer en jointure les catégories
-        $qb->join('i.category', 'c');
-        //ET ON N'OUBLIE PAS DE LES SÉLECTIONNER !
-        $qb->addSelect('c');
-
-        $qb->addOrderBy('i.dateCreated', 'DESC');
-        $qb->setMaxResults(50);
-
-        $query = $qb->getQuery();
-        $results = $query->getResult();
-
-        //ou si nous avions fait une relation Many2Many, on aurait pu utiliser le Paginator pour avoir un bon limit fonctionnel
-        //return new Paginator($query);
-        return $results;
-    }
-
-
 }
