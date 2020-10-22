@@ -317,7 +317,7 @@ class Sortie
         {
             $result = !$this->estOrganisateur($idUser);
         }
-        //dd($result);
+
         return $result;
     }
 
