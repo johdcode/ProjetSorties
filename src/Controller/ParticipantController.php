@@ -31,6 +31,8 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/new", name="participant_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {

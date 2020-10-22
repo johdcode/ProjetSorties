@@ -51,13 +51,13 @@ class SortieController extends AbstractController
         $sorties = $sortieRepository->findAll();
         $campus = $campusRepository->findAll();
 
-
         $sortieForm = $this->createForm(GestionSortieType::class);
         $sortieForm->handleRequest($request);
+
         //lors de la soumission controler en bdd les sorties
        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
-            $sorties = $sortieRepository->findSortieParRecherche($request, $this->getUser());
 
+            $sorties = $sortieRepository->findSortieParRecherche($request, $this->getUser());
 
        }
 
@@ -293,7 +293,7 @@ class SortieController extends AbstractController
                $inscription->setDateInscription(new \DateTime());
                $inscription->setSortie($sortieCliquee);
                $inscription->setParticipant($this->getUser());
-
+                dd($inscription);
                $manager->persist($inscription);
                $manager->flush();
                $this->addFlash('success', "Vous êtes bien inscrit(e) à votre activité");
@@ -303,7 +303,11 @@ class SortieController extends AbstractController
 
            }
 
-        return $this->redirectToRoute('sortie_index',  ['id' => $sortie->getId()]);
+        return $this->redirectToRoute('sortie_index',  [
+            'id' => $sortie->getId(),
+            'dejainscrit' => $verificationSiInscrit
+
+        ]);
 
     }
 
@@ -328,9 +332,8 @@ class SortieController extends AbstractController
         //vérifie si l'user en session est existant ds la sortie
         $numInscription = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
 
-        if( $numInscription
-            &&$sortieCliquee){
-
+        if( $numInscription && $sortieCliquee)
+        {
             $manager->remove($numInscription);
             $manager->flush();
             $this->addFlash('success', "Vous vous êtes bien désisté(e) de votre activité");
