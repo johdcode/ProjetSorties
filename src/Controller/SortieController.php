@@ -147,14 +147,18 @@ class SortieController extends AbstractController
         $currentUserId = $this->getUser()->getId();
         $peutSinscrire = $sortie->peutSinscrire($currentUserId);
         $peutDesinscrire = $sortie->estInscrit($currentUserId);
-        $peutAnnuler = $sortie->estOrganisateur($currentUserId);
-        $peutPublier = $sortie->estOrganisateur($currentUserId);
+        $peutAnnuler = $sortie->peutAnnuler($currentUserId);
+        $peutModifier = $sortie->peutModifier($currentUserId);
+        $peutPublier = $sortie->peutPublier($currentUserId);
 
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
             'peutSinscrire' => $peutSinscrire,
             'peutDesinscrire' => $peutDesinscrire,
-            'nbInscrit' => $nbInscrit
+            'nbInscrit' => $nbInscrit,
+            'peutModifier' => $peutModifier,
+            'peutAnnuler' => $peutAnnuler,
+            'peutPublier' => $peutPublier
         ]);
     }
 
