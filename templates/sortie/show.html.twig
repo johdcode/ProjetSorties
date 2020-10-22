@@ -110,7 +110,7 @@
         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
 
         {% if 'Créée' == sortie.etat  %}
-            <a href="{{ path('sortie_publier') }}" class="btn btn-primary">Publier</a>
+            <a href="{{ path('sortie_publier',  {'id': sortie.id }) }}" class="btn btn-primary">Publier</a>
         {% endif %}
 
         {% if 'Créée' == sortie.etat or 'Ouverte' == sortie.etat %}

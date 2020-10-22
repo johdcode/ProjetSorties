@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Etat;
 use App\Entity\Inscription;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
@@ -138,7 +139,7 @@ class SortieController extends AbstractController
     {
         if($sortie->estArchive())
         {
-            $this->addFlash('error', 'La sortie n\'existe plus !');
+            $this->addFlash('danger', 'La sortie n\'existe plus !');
             return $this->redirectToRoute('sortie_index');
         }
         $nbInscrit = $sortie->getInscriptions()->count();
@@ -167,7 +168,7 @@ class SortieController extends AbstractController
     {
         if(time() > $sortie->getDateHeureDebut()->getTimestamp())
         {
-            $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passé');
+            $this->addFlash('danger', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passé');
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
@@ -205,7 +206,7 @@ class SortieController extends AbstractController
 
         if(time() > $sortie->getDateHeureDebut()->getTimestamp())
         {
-            $this->addFlash('error', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passée');
+            $this->addFlash('danger', 'Vous ne pouvez pas modifier ni annuler une sortie en cours ou passée');
             // redirect to Route prend en parametre le nom de la route + un tableau de parametre à soumettre
             return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
@@ -293,7 +294,7 @@ class SortieController extends AbstractController
                $manager->flush();
                $this->addFlash('success', "Vous vous êtes bien inscrit à votre activité");
          } else {
-               $this->addFlash('error', "Vous êtes déjà inscrit ou la sortie n'est plus valable !");
+               $this->addFlash('danger', "Vous êtes déjà inscrit ou la sortie n'est plus valable !");
            }
 
         return $this->redirectToRoute('sortie_index',  ['id' => $sortie->getId()]);
@@ -315,14 +316,24 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/publier", name="sortie_publier", methods={"POST"})
+     * @Route("/{id}/publier", name="sortie_publier", methods={"GET", "POST"})
      * @param Request $request
      * @param Sortie $sortie
+     * @param EtatRepository $etatRepository
      * @return Response
      */
-    public function publier(Request $request, Sortie $sortie): Response
+    public function publier(Request $request, Sortie $sortie, EtatRepository $etatRepository): Response
     {
-        dd($request);
+        $etatEnregistrer = $etatRepository->findOneBy([
+            'libelle' => 'Ouverte'
+        ]);
+
+        $sortie->setEtat($etatEnregistrer);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
         return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
     }
 
