@@ -138,7 +138,7 @@ class ParticipantController extends AbstractController
             $this->getDoctrine()->getManager()->persist($this->getUser());
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('participant_index');
+            return $this->redirectToRoute('participant_show', [ 'id' => $this->getUser()->getId()]);
         }
 
         return $this->render('participant/edit.html.twig', [
