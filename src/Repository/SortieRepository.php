@@ -96,6 +96,9 @@ class SortieRepository extends ServiceEntityRepository
             $query  ->andWhere("DATE_ADD(s.dateHeureDebut, s.duree, 'minute') < CURRENT_TIMESTAMP()");
         }
 
+        // Ordonner par date de début
+        $query->addOrderBy('s.dateHeureDebut', 'DESC');
+
        return $query->getQuery()->getResult();
     }
 }

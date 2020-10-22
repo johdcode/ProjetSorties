@@ -1,6 +1,6 @@
-
 window.onload = function() {
-
+    // alert()
+    let root_path = '..';
     let select_lieu = document.getElementById('sortie_lieu');
     let select_ville = document.getElementById('sortie_formLieu_ville');
 
@@ -28,6 +28,7 @@ window.onload = function() {
     function avoirLieuDansVille(id_ville) {
         axios
             .get('../api/lieu/ville/' + id_ville)
+
             .then((response) => {
                 for (let lieu of response.data) {
                     avoirLieuAvecId(lieu.id);
@@ -37,7 +38,7 @@ window.onload = function() {
 
     function avoirLieuAvecId(id_lieu) {
         axios
-            .get('../api/lieu/' + id_lieu)
+            .get(root_path + '/api/lieu/' + id_lieu)
             .then((response) => {
                 insererLieuDansSelect(response.data);
             })
@@ -61,7 +62,7 @@ window.onload = function() {
 
     function miseAJourInfosLieu(id) {
         axios
-            .get('../api/lieu/' + id)
+            .get(root_path + '/api/lieu/' + id)
             .then((response) => {
                 // Remplir les autres champs de la page
                 document.getElementById('sortie_formLieu_rue').value = response.data.rue;
