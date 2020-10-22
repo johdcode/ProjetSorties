@@ -12,8 +12,7 @@ class AccueilController extends AbstractController
      */
     public function index()
     {
-
-        return $this->render('accueil/index.html.twig');
-
+        return $this->redirectToRoute('sortie_index');
+//        return $this->render('accueil/index.html.twig');
     }
 }
