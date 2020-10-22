@@ -11,10 +11,7 @@
         <br>
         <h1>Filtrer les sorties</h1>
         <hr>
-        <br>
-        <br>
 
-    {#        {{ form_start(sortieForm) }}#}
         <div class="my-custom-class-for-errors">
             {{ form_errors(sortieForm) }}
         </div>
@@ -60,12 +57,12 @@
 
                     {% if sortie.etat.libelle == 'Créée' or sortie.etat.libelle == 'Ouverte'
                         or sortie.etat.libelle == 'En cours' %}
-{#                    {% if app.user and app.user.id != sortie.organisateur.id  %}#}
+                    {% if app.user and app.user.id != sortie.organisateur.id  %}
 
                         <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a><br>
 
                         <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se Désister</a>
-{#                    {% endif %}#}
+                    {% endif %}
 
                     {% endif %}
 

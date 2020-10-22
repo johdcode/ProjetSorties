@@ -24,9 +24,14 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Length(
+     *     min="0", max="30",
+     *     minMessage="0 caractères minimum",
+     *     maxMessage="30 caractères maximum"
+     * )
      * @Assert\Regex(
-     *     pattern="/\d/",
-     *     match=false,
+     *     pattern="/\w/",
+     *     match=true,
      *     message="Votre nom doit contenir des lettres"
      * )
      */
@@ -34,17 +39,6 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotBlank(message="Le champ titre doit être remplis")
-     * @Assert\Length(
-     *     min="1", max="30",
-     *     minMessage="4 caractères minimum",
-     *     maxMessage="30 caractères maximum"
-     * )
-     * @Assert\Regex(
-     *     pattern="/\d/",
-     *     match=false,
-     *     message="Votre nom doit contenir des lettres"
-     * )
      */
     private $dateHeureDebut;
 
@@ -67,6 +61,11 @@ class Sortie
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre description doit contenir des lettres"
+     * )
      */
     private $infosSortie;
 

@@ -75,11 +75,6 @@ class Participant implements UserInterface
      *     minMessage="4 caractères minimum",
      *     maxMessage="20 caractères maximum"
      * )
-     * @Assert\Regex(
-     *     pattern="/\d/",
-     *     match=false,
-     *     message="Votre nom doit contenir des lettres"
-     * )
      */
     private $telephone;
 

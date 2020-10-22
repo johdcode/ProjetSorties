@@ -39,17 +39,19 @@ class SortieController extends AbstractController
      * @Route("/", name="sortie_index", methods={"GET", "POST"})
      * @param CampusRepository $campusRepository
      * @param SortieRepository $sortieRepository
+     * @param InscriptionRepository $inscriptionRepository
      * @param Request $request
      * @return Response
-     *
      */
     public function index(
         CampusRepository $campusRepository,
         SortieRepository $sortieRepository,
+        InscriptionRepository $inscriptionRepository,
         Request $request): Response
     {
         $sorties = $sortieRepository->findAll();
         $campus = $campusRepository->findAll();
+        $inscriptions = $inscriptionRepository->findAll();
 
         $sortieForm = $this->createForm(GestionSortieType::class);
         $sortieForm->handleRequest($request);
@@ -64,6 +66,7 @@ class SortieController extends AbstractController
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sorties,
             'campus' => $campus,
+            'inscriptions' => $inscriptions,
             'sortieForm' => $sortieForm->createView(),
         ]);
     }
@@ -307,12 +310,11 @@ class SortieController extends AbstractController
            }
 
         return $this->redirectToRoute('sortie_index',  [
-            'id' => $sortie->getId()
+            'id' => $sortie->getId(),
+
 
         ]);
-
     }
-
 
     /**
      * @Route("/{id}/desinscrire", name="sortie_desinscrire", methods={"GET","POST"})

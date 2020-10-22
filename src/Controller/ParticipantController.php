@@ -21,6 +21,8 @@ class ParticipantController extends AbstractController
 {
     /**
      * @Route("/{id}", name="participant_show", methods={"GET"})
+     * @param Participant $participant
+     * @return Response
      */
     public function show(Participant $participant): Response
     {
@@ -33,6 +35,10 @@ class ParticipantController extends AbstractController
      * Met à jour l'utilisateur connecté
      *
      * @Route("/profil/editer", name="/profil/editer", methods={"GET","POST"})
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param SluggerInterface $slugger
+     * @return Response
      */
     public function editerProfil(Request $request, UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger): Response
     {
@@ -96,6 +102,8 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/admin/index", name="participant_index", methods={"GET"})
+     * @param ParticipantRepository $participantRepository
+     * @return Response
      */
     public function index(ParticipantRepository $participantRepository): Response
     {
@@ -106,6 +114,8 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/admin/new", name="participant_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -129,6 +139,9 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/admin/{id}/edit", name="participant_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Participant $participant
+     * @return Response
      */
     public function edit(Request $request, Participant $participant): Response
     {
@@ -149,6 +162,9 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/admin/{id}", name="participant_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Participant $participant
+     * @return Response
      */
     public function delete(Request $request, Participant $participant): Response
     {

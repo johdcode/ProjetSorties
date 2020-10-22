@@ -28,12 +28,6 @@ class Ville
 
     /**
      * @ORM\Column(type="string", length=10)
-     * @Assert\Regex("^/d+")
-     * @Assert\Length(
-     *     min="5", max="10",
-     *     minMessage="5 caractères minimum",
-     *     maxMessage="10 caractères maximum"
-     * )
      */
     private $codePostal;
 
