@@ -50,6 +50,7 @@ class SortieController extends AbstractController
         $sorties = $sortieRepository->findAll();
         $campus = $campusRepository->findAll();
 
+
         $sortieForm = $this->createForm(GestionSortieType::class);
         $sortieForm->handleRequest($request);
         //lors de la soumission controler en bdd les sorties
@@ -140,6 +141,7 @@ class SortieController extends AbstractController
             $this->addFlash('error', 'La sortie n\'existe plus !');
             return $this->redirectToRoute('sortie_index');
         }
+        $nbInscrit = $sortie->getInscriptions()->count();
 
         $currentUserId = $this->getUser()->getId();
         $peutSinscrire = $sortie->peutSinscrire($currentUserId);
@@ -150,7 +152,8 @@ class SortieController extends AbstractController
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
             'peutSinscrire' => $peutSinscrire,
-            'peutDesinscrire' => $peutDesinscrire
+            'peutDesinscrire' => $peutDesinscrire,
+            'nbInscrit' => $nbInscrit
         ]);
     }
 

@@ -294,12 +294,12 @@ class Sortie
         $result = false;
 
         if(!$this->estInscrit($idUser) &&
-            time() < $this->getDateLimiteInscription()->getTimestamp() &&
-            !$this->estComplet())
+            time() < $this->getDateLimiteInscription()->getTimestamp()
+            /* TODO && $this->estComplet() == false*/)
         {
             $result = !$this->estOrganisateur($idUser);
         }
-
+        dd($result);
         return $result;
     }
 
