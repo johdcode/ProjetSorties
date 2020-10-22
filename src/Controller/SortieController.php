@@ -264,7 +264,6 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}/inscrire", name="sortie_inscrire", methods={"GET","POST"})
      * @param $id
-     * @param Request $request
      * @param Sortie $sortie
      * @param InscriptionRepository $inscriptionRepository
      * @param SortieRepository $sortieRepository
@@ -284,7 +283,7 @@ class SortieController extends AbstractController
         $verificationSiInscrit = $inscriptionRepository->findOneBy(["sortie" => $sortie, "participant" => $this->getUser()]);
 
            if( $verificationSiInscrit == Null
-                &&$sortieCliquee->estComplet()
+               && !$sortieCliquee->estComplet()
                && $sortieCliquee->getDateLimiteInscription()->getTimestamp() > time()
                && $sortieCliquee->getEtat()->getLibelle() != "Clôturée"
                && $sortieCliquee->getEtat()->getLibelle()!= "Annulée")
@@ -293,7 +292,7 @@ class SortieController extends AbstractController
                $inscription->setDateInscription(new \DateTime());
                $inscription->setSortie($sortieCliquee);
                $inscription->setParticipant($this->getUser());
-                dd($inscription);
+
                $manager->persist($inscription);
                $manager->flush();
                $this->addFlash('success', "Vous êtes bien inscrit(e) à votre activité");
@@ -304,8 +303,7 @@ class SortieController extends AbstractController
            }
 
         return $this->redirectToRoute('sortie_index',  [
-            'id' => $sortie->getId(),
-            'dejainscrit' => $verificationSiInscrit
+            'id' => $sortie->getId()
 
         ]);
 
