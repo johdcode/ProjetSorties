@@ -3,13 +3,16 @@
 {% block title %}Modification | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Modifier une Sortie</h1>
-    <br>
-    {{ include('sortie/_form.html.twig') }}
+    <div class="div-form">
+        <br>
+        <h1>Modifier une Sortie</h1>
+        <hr>
+        {{ include('sortie/_form.html.twig') }}
 
-    <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour à la liste</a>
 
-    {{ include('sortie/_delete_form.html.twig') }}
+        {{ include('sortie/_delete_form.html.twig') }}
+    </div>
 
     <br>
     <!-- Modal -->

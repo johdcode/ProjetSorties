@@ -67,9 +67,11 @@
             </table>
         </div>
     </div>
-    <div class="row">
-        <a href="{{ path('/profil/editer') }}" class="btn btn-primary m-auto">Modifier</a>
-    </div>
+    {% if app.user.id ==  participant.id %}
+        <div class="row">
+            <a href="{{ path('/profil/editer') }}" class="btn btn-primary m-auto">Modifier</a>
+        </div>
+    {% endif %}
 
     <br>
     <br>
