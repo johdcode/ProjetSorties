@@ -28,13 +28,20 @@
                         {{ form_row(sortieForm.formLieu.longitude) }}
                         <br>
                         <hr>
-
+                        {{ form_widget(sortieForm.enregistrer, {'attr' : {
+                                'class' : 'd-inline-block btn-primary'
+                        }}) }}
+                        {{ form_widget(sortieForm.publier, {'attr' : {
+                                'class' : 'd-inline-block btn-primary float-right'
+                        }}) }}
                         {{ form_widget(sortieForm) }}
                 </div>
 
                 {{ form_end(sortieForm) }}
 
                 <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour</a>
+                <br>
+                <br>
         </div>
         <br>
         <!-- Modal -->

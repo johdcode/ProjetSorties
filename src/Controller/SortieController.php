@@ -113,6 +113,10 @@ class SortieController extends AbstractController
             $campusOrganisateur = $campusRepository->find($this->getUser()->getCampus()->getId());
             $sortie->setCampus($campusOrganisateur);
 
+            // Ajout description par défaut
+            if(empty($request->request->get('sortie')['infosSortie'])){
+                $sortie->setInfosSortie('Aucune informations.');
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
