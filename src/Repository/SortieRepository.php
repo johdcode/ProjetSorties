@@ -69,7 +69,7 @@ class SortieRepository extends ServiceEntityRepository
                 && '1' == $request->request->get('gestion_sortie')['organisateur']){
             $query->andWhere('s.organisateur = :organisateur'); //si Sortie attribut organisateur = organisateur
             $query->setParameter('organisateur', $user );
-           // return $query->getQuery()->getResult();
+          
         }
 
         // FILTRE SORTIES AUXQUELLES JE SUIS INSCRIT
