@@ -425,7 +425,7 @@ class Sortie
      */
     public function peutAnnuler($user){
         $etatSortie = $this->getEtat()->getLibelle();
-        
+
         return ($this->estOrganisateur($user->getId()) || $user->getAdministrateur()) &&
             time() < $this->getDateHeureDebut()->getTimestamp() &&
             $etatSortie == 'Ouverte' || $etatSortie == 'Clôturée';
