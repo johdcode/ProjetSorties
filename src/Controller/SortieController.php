@@ -122,8 +122,8 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            $this->addFlash('success', 'La sortie à bien été enregistrée');
-            return $this->redirectToRoute('sortie_index');
+            $this->addFlash('success', 'La sortie à bien été créée');
+            return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
 
         // Formulaire ajout de lieu
@@ -197,7 +197,8 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('sortie_index');
+            $this->addFlash('success', 'La sortie à bien été modifiée');
+            return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
 
         // Formulaire ajout de lieu
