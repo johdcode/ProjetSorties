@@ -44,14 +44,14 @@
                 <td data-label="Informations">{{ sortie.infosSortie }}</td>
                 <td data-label="Organisateur">{{ sortie.organisateur.pseudo }}</td>
                 <td data-label="État">{{ sortie.etat.libelle }}</td>
-                <td data-label="Actions">
+                <td data-label="">
 
-                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
+                    <a class="btn btn-primary w-100 mb-2" href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                     {% if app.user and app.user.id == sortie.organisateur.id %}
-                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
-                        <a href="{{ path('sortie_new', {'id': sortie.id}) }}">Publier</a>
+                        <a class="btn btn-primary w-100 mb-2" href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
+                        <a class="btn btn-primary w-100 mb-2" href="{{ path('sortie_new', {'id': sortie.id}) }}">Publier</a>
                         {% if 'Créée' == sortie.etat.libelle or 'Ouverte' == sortie.etat.libelle %}
-                            <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
+                            <a class="btn btn-primary w-100 mb-2" href="{{ path('sortie_annuler', {'id': sortie.id}) }}">Annuler</a>
                         {% endif %}
                     {% endif %}
 
@@ -59,9 +59,9 @@
                         or sortie.etat.libelle == 'En cours' %}
                     {% if app.user and app.user.id != sortie.organisateur.id  %}
 
-                        <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a><br>
+                        <a class="btn btn-primary w-100 mb-2" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a><br>
 
-                        <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se Désister</a>
+                        <a class="btn btn-primary w-100 mb-2" style="white-space: nowrap;" href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se désister</a>
                     {% endif %}
 
                     {% endif %}

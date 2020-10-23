@@ -7,10 +7,10 @@
     <h1>Profil de <strong>{{ participant.pseudo }}</strong></h1>
     <br>
     <div class="row">
-        <div class="col-4">
+        <div class="col-lg-4 col-sm-12">
             <img width="100%" src="{{ participant.urlPhoto ? asset('uploads/imageProfil/' ~ participant.urlPhoto) :  asset('uploads/default.jpg')}}" alt="Photo de profil">
         </div>
-        <div class="col-8">
+        <div class="col-lg-8 col-sm-12">
             <table class="table">
                 <tbody>
         {#            <tr>#}
@@ -25,33 +25,33 @@
         {#                <th>Password</th>#}
         {#                <td>{{ participant.password }}</td>#}
         {#            </tr>#}
-                    <tr>
+                    <tr class="mb-0">
                         <th>Pseudo</th>
-                        <td>{{ participant.pseudo }}</td>
+                        <td data-label="Pseudo">{{ participant.pseudo }}</td>
                     </tr>
-                    <tr>
+                    <tr class="mb-0">
                         <th>Nom</th>
-                        <td>{{ participant.nom }}</td>
+                        <td data-label="Nom">{{ participant.nom }}</td>
                     </tr>
-                    <tr>
+                    <tr class="mb-0">
                         <th>Prenom</th>
-                        <td>{{ participant.prenom }}</td>
+                        <td data-label="Prenom">{{ participant.prenom }}</td>
                     </tr>
-                    <tr>
+                    <tr class="mb-0">
                         <th>Telephone</th>
-                        <td>{{ participant.telephone }}</td>
+                        <td data-label="Telephone">{{ participant.telephone }}</td>
                     </tr>
-                    <tr>
-                        <th>Mail</th>
-                        <td>{{ participant.mail }}</td>
+                    <tr class="mb-0">
+                        <th>Email</th>
+                        <td data-label="Email">{{ participant.mail }}</td>
                     </tr>
-                    <tr>
+                    <tr class="mb-0">
                         <th>Administrateur</th>
-                        <td>{{ participant.administrateur ? 'Oui' : 'Non' }}</td>
+                        <td data-label="Administrateur">{{ participant.administrateur ? 'Oui' : 'Non' }}</td>
                     </tr>
-                    <tr>
+                    <tr class="mb-0">
                         <th>Actif</th>
-                        <td>{{ participant.actif ? 'Oui' : 'Non' }}</td>
+                        <td data-label="Actif">{{ participant.actif ? 'Oui' : 'Non' }}</td>
                     </tr>
 {#                    <tr>#}
 {#                        <th>UrlPhoto</th>#}

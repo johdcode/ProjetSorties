@@ -39,8 +39,8 @@ input, select, select option{
 }
 
 @media (max-width: 1000px){
-    .table thead {
-        display: none;
+    .table thead, tr th {
+        display: none !important;
     }
     .table tr{
         display: block;

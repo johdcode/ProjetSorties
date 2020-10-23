@@ -3,9 +3,16 @@
 {% block title %}Ajouter un participant | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Nouveau Participant</h1>
+    <div class="div-form">
+        <br>
+        <h1>Nouveau Participant</h1>
+        <hr>
+        {{ include('participant/_form.html.twig') }}
 
-    {{ include('participant/_form.html.twig') }}
-
-    <a href="{{ path('participant_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        <div class="row">
+            <a href="{{ path('participant_index') }}" class="btn btn-secondary mx-auto">Retour à la liste</a>
+        </div>
+        <br>
+    </div>
+    <br>
 {% endblock %}
