@@ -1,5 +1,7 @@
-<form method="post" action="{{ path('sortie_delete', {'id': sortie.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer cette sortie ?');">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sortie.id) }}">
-    <button class="btn btn-danger">Delete</button>
-</form>
+<div class="d-inline-block">
+    <form method="post" action="{{ path('sortie_delete', {'id': sortie.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir supprimer cette sortie ?');">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ sortie.id) }}">
+        <button class="btn btn-warning">Supprimer</button>
+    </form>
+</div>

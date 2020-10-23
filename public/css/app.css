@@ -16,6 +16,9 @@ footer a {
 h1{
     color: #d9230f;
 }
+.container{
+    min-height: 90vh !important;
+}
 .btn{
     border-radius: 2px;
 }

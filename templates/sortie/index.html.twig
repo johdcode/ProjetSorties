@@ -40,7 +40,7 @@
                 <td data-label="Date et heure de début">{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('l d/m/Y à G:i') : '' }}</td>
                 <td data-label="Durée">{{ sortie.duree }}</td>
                 <td data-label="Date limite d'inscription">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('l d/m/Y à G:i') : '' }}</td>
-                <td data-label="Participants max.">{{ sortie.nbInscriptionsMax }}</td>
+                <td data-label="Participants max.">{{ sortie.inscriptions.count }}/{{ sortie.nbInscriptionsMax }}</td>
                 <td data-label="Informations">{{ sortie.infosSortie }}</td>
                 <td data-label="Organisateur">{{ sortie.organisateur.pseudo }}</td>
                 <td data-label="État">{{ sortie.etat.libelle }}</td>
@@ -57,6 +57,7 @@
 
                     {% if sortie.etat.libelle == 'Créée' or sortie.etat.libelle == 'Ouverte'
                         or sortie.etat.libelle == 'En cours' %}
+
                     {% if app.user and app.user.id != sortie.organisateur.id  %}
                         {# Si la sortie ne contient aucune inscription #}
                         {% if sortie.inscriptions.count == 0 %}
