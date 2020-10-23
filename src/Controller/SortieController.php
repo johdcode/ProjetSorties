@@ -312,7 +312,7 @@ class SortieController extends AbstractController
                $this->addFlash('success', "Vous êtes bien inscrit(e) à votre activité");
          } else {
 
-               $this->addFlash('error', "Vous êtes déjà inscrit(e) ou la sortie n'est plus accessible !");
+               $this->addFlash('danger', "Vous êtes déjà inscrit(e) ou la sortie n'est plus accessible !");
 
            }
 
@@ -349,7 +349,7 @@ class SortieController extends AbstractController
             $manager->flush();
             $this->addFlash('success', "Vous vous êtes bien désisté(e) de votre activité");
         } else {
-            $this->addFlash('error', "Vous n'avez pas pu vous désinscrire");
+            $this->addFlash('danger', "Vous n'avez pas pu vous désinscrire");
         }
 
         return $this->redirectToRoute('sortie_index',  ['id' => $sortie->getId()]);

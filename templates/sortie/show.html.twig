@@ -5,117 +5,123 @@
 {% block body %}
     <br>
     <h1>Afficher une Sortie</h1>
-    <hr>
+    <br>
 
     <table class="table">
         <tbody>
             <tr>
                 <th>Nom de la sortie : </th>
-                <td>{{ sortie.nom }}</td>
+                <td data-label="Nom de la sortie">{{ sortie.nom }}</td>
             </tr>
 
             <tr>
                 <th>Organisateur : </th>
-                <td>{{ sortie.organisateur.pseudo }}</td>
+                <td data-label="Organisateur">{{ sortie.organisateur.pseudo }}</td>
             </tr>
 
             <tr>
                 <th>État : </th>
-                <td>{{ sortie.etat.libelle }}</td>
+                <td data-label="État">{{ sortie.etat.libelle }}</td>
             </tr>
 
             <tr>
                 <th>Date et heure de la sortie :</th>
-                <td>{{ sortie.dateHeureDebut | date("l d/m/Y à G:i") }}</td>
+                <td data-label="Date et heure de la sortie">{{ sortie.dateHeureDebut | date("l d/m/Y à G:i") }}</td>
             </tr>
 
             <tr>
                 <th>Date limite d'inscription : </th>
-                <td>{{ sortie.dateLimiteInscription | date("l d/m/Y à G:i") }}</td>
+                <td data-label="Date limite d'inscription">{{ sortie.dateLimiteInscription | date("l d/m/Y à G:i") }}</td>
             </tr>
 
             <tr>
                 <th>Nombre d'inscrits : </th>
-                <td>{{ nbInscrit }} / {{ sortie.nbInscriptionsMax }}</td>
+                <td data-label="Nombre d'inscrits">{{ nbInscrit }} / {{ sortie.nbInscriptionsMax }}</td>
             </tr>
             <tr>
                 <th>Durée : </th>
-                <td>{{ sortie.duree }} minutes</td>
+                <td data-label="Durée">{{ sortie.duree }} minutes</td>
             </tr>
 
             {% if sortie.infosSortie is not null %}
             <tr>
-                <th>InfosSortie : </th>
-                <td>{{ sortie.infosSortie }}</td>
+                <th>Informations : </th>
+                <td data-label="Informations">{{ sortie.infosSortie }}</td>
             </tr>
             {% endif %}
 
 
             <tr>
                 <th>Campus : </th>
-                <td>{{ sortie.campus.nom }}</td>
+                <td data-label="Campus">{{ sortie.campus.nom }}</td>
             </tr>
 
             <tr>
                 <th>Lieu : </th>
-                <td>{{ sortie.lieu.nom }}, {{ sortie.lieu.ville.nom }}</td>
+                <td data-label="Lieu">{{ sortie.lieu.nom }}, {{ sortie.lieu.ville.nom }}</td>
             </tr>
 
             <tr>
                 <th>Rue : </th>
-                <td>{{ sortie.lieu.rue }}</td>
+                <td data-label="Rue">{{ sortie.lieu.rue }}</td>
             </tr>
 
 
             <tr>
                 <th>Code postal : </th>
-                <td>{{ sortie.lieu.ville.codePostal }}</td>
+                <td data-label="Code postal">{{ sortie.lieu.ville.codePostal }}</td>
             </tr>
 
 
             <tr>
                 <th>Latitude : </th>
-                <td>{{ sortie.lieu.latitude }}</td>
+                <td data-label="Latitude">{{ sortie.lieu.latitude }}</td>
             </tr>
 
 
             <tr>
                 <th>Longitude : </th>
-                <td>{{ sortie.lieu.longitude }}</td>
+                <td data-label="Longitude">{{ sortie.lieu.longitude }}</td>
             </tr>
 
             {% if sortie.etat.libelle == 'Annulée' %}
                 <tr>
                     <th>Motif d'annulation : </th>
-                    <td>{{ sortie.motifAnnulation }}</td>
+                    <td data-label="motif d'annulation">{{ sortie.motifAnnulation }}</td>
                 </tr>
             {% endif %}
 
         </tbody>
     </table>
+    <hr>
+    <div class="row">
+        <div class="d-inline-block mx-auto">
 
+            {% if peutSinscrire %}
+                <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-primary">S'inscrire</a>
+            {%  endif %}
 
-    {% if peutSinscrire %}
-        <a href="{{ path('sortie_inscrire', {'id': sortie.id}) }}" class="btn btn-primary">S'inscrire</a>
-    {%  endif %}
+            {% if peutDesinscrire %}
+                <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}" class="btn btn-primary">Se désinscrire</a>
+            {%  endif %}
 
-    {% if peutDesinscrire %}
-        <a href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}" class="btn btn-primary">Se désinscrire</a>
-    {%  endif %}
+            {% if peutModifier %}
+                <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
+                <a href="{{ path('sortie_delete', {'id': sortie.id}) }}" class="btn btn-primary">Supprimer</a>
+            {% endif %}
 
-    {% if peutModifier %}
-        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}" class="btn btn-primary">Modifier</a>
-        <a href="{{ path('sortie_delete', {'id': sortie.id}) }}" class="btn btn-primary">Supprimer</a>
-    {% endif %}
+            {% if peutAnnuler %}
+                <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" class="btn btn-warning">Annuler</a>
+            {% endif %}
 
-    {% if peutAnnuler %}
-        <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" class="btn btn-warning">Annuler</a>
-    {% endif %}
+            {% if peutPublier  %}
+                <a href="{{ path('sortie_publier',  {'id': sortie.id }) }}" class="btn btn-primary">Publier</a>
+            {% endif %}
 
-    {% if peutPublier  %}
-        <a href="{{ path('sortie_publier',  {'id': sortie.id }) }}" class="btn btn-primary">Publier</a>
-    {% endif %}
+            <a href="{{ path('sortie_index') }}" class="btn btn-secondary mx-auto">Retour à la liste</a>
+        </div>
 
-
-    <a href="{{ path('sortie_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+    <br>
+    <br>
 {% endblock %}
