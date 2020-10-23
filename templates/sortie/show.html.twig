@@ -91,6 +91,33 @@
                 </tr>
             {% endif %}
 
+            <table class="table">
+                <thead>
+                    <h4>Participant</h4>
+                    <tr>
+                        <th>Pseudo</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Telephone</th>
+                        <th>Email</th>
+                        <th>Organisateur</th>
+                    </tr>
+
+                </thead>
+                    <tbody>
+                        {% for participant in participants %}
+                            <tr class="mb-0">
+                                <td data-label="Pseudo">{{ participant.pseudo }}</td>
+                                <td data-label="Nom">{{ participant.nom }}</td>
+                                <td data-label="Prenom">{{ participant.prenom }}</td>
+                                <td data-label="Telephone">{{ participant.telephone }}</td>
+                                <td data-label="Email">{{ participant.mail }}</td>
+                                <td data-label="Organisateur">{{ participant.id == sortie.organisateur.id ? 'Oui' : 'Non' }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
         </tbody>
     </table>
     <hr>

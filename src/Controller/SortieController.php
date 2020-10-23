@@ -143,7 +143,7 @@ class SortieController extends AbstractController
      * @param InscriptionRepository $inscriptionRepository
      * @return Response
      */
-    public function show( Request $request, Sortie $sortie): Response
+    public function show( Request $request, Sortie $sortie, ParticipantRepository $pr): Response
     {
         if($sortie->estArchive())
         {
@@ -160,7 +160,10 @@ class SortieController extends AbstractController
         $peutModifier = $sortie->peutModifier($currentUserId);
         $peutPublier = $sortie->peutPublier($currentUserId);
 
+        $participants = $pr->findPaticipantsPourSortie($sortie);
+
         return $this->render('sortie/show.html.twig', [
+            'participants' => $participants,
             'sortie' => $sortie,
             'peutSinscrire' => $peutSinscrire,
             'peutDesinscrire' => $peutDesinscrire,
