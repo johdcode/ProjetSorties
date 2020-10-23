@@ -197,7 +197,7 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('sortie_index');
+            return $this->redirectToRoute('sortie_show',  ['id' => $sortie->getId()]);
         }
 
         // Formulaire ajout de lieu

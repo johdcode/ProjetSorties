@@ -114,6 +114,10 @@
                                 <td data-label="Email">{{ participant.mail }}</td>
                                 <td data-label="Organisateur">{{ participant.id == sortie.organisateur.id ? 'Oui' : 'Non' }}</td>
                             </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="10" class="text-center pb-0">Aucun participant</td>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>
