@@ -156,7 +156,7 @@ class SortieController extends AbstractController
         $currentUserId = $this->getUser()->getId();
         $peutSinscrire = $sortie->peutSinscrire($currentUserId);
         $peutDesinscrire = $sortie->estInscrit($currentUserId);
-        $peutAnnuler = $sortie->peutAnnuler($currentUserId);
+        $peutAnnuler = $sortie->peutAnnuler($this->getUser());
         $peutModifier = $sortie->peutModifier($currentUserId);
         $peutPublier = $sortie->peutPublier($currentUserId);
 

@@ -108,7 +108,7 @@
         <a href="{{ path('sortie_delete', {'id': sortie.id}) }}" class="btn btn-primary">Supprimer</a>
     {% endif %}
 
-    {% if peutAnnuler or (app.user.administrateur and sortie.etat.libelle == 'Ouverte')%}
+    {% if peutAnnuler %}
         <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" class="btn btn-warning">Annuler</a>
     {% endif %}
 

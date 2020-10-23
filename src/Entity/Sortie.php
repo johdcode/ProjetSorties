@@ -388,12 +388,12 @@ class Sortie
 
     /**
      * Vérifie si l'utilisateur est l'organisateur de la sortie
-     * @param $userId
+     * @param $idUser
      * @return bool
      * @author Valentin
      */
-    public function estOrganisateur($userId){
-        return $this->getOrganisateur()->getId() == $userId;
+    public function estOrganisateur($idUser){
+        return $this->getOrganisateur()->getId() == $idUser;
     }
 
     /**
@@ -419,14 +419,14 @@ class Sortie
 
     /**
      * Vérifie si l'utilisateur peut annuler la sortie
-     * @param $idUser
+     * @param $user
      * @return bool
      * @author Valentin
      */
-    public function peutAnnuler($idUser){
+    public function peutAnnuler($user){
         $etatSortie = $this->getEtat()->getLibelle();
-
-        return $this->estOrganisateur($idUser) &&
+        
+        return ($this->estOrganisateur($user->getId()) || $user->getAdministrateur()) &&
             time() < $this->getDateHeureDebut()->getTimestamp() &&
             $etatSortie == 'Ouverte' || $etatSortie == 'Clôturée';
     }
@@ -440,4 +440,5 @@ class Sortie
     public function peutPublier($idUser){
         return $this->getEtat()->getLibelle() == 'Créée' && $this->estOrganisateur($idUser);
     }
+
 }
