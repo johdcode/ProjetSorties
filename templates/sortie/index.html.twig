@@ -58,10 +58,20 @@
                     {% if sortie.etat.libelle == 'Créée' or sortie.etat.libelle == 'Ouverte'
                         or sortie.etat.libelle == 'En cours' %}
                     {% if app.user and app.user.id != sortie.organisateur.id  %}
-
-                        <a class="btn btn-primary w-100 mb-2" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a><br>
-
-                        <a class="btn btn-primary w-100 mb-2" style="white-space: nowrap;" href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se désister</a>
+                        {# Si la sortie ne contient aucune inscription #}
+                        {% if sortie.inscriptions.count == 0 %}
+                            <a class="btn btn-primary w-100 mb-2" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a><br>
+                        {% endif %}
+                        {% for inscription in sortie.inscriptions %}
+                            {# Si la sortie contient une inscription de l'utilisateur #}
+                            {% if app.user.id == inscription.participant.id  %}
+                                <a class="btn btn-primary w-100 mb-2" style="white-space: nowrap;" href="{{ path('sortie_desinscrire', {'id': sortie.id}) }}">Se désister</a>
+                            {% endif %}
+                            {# Si la sortie contient des inscription, mais aucune de l'utilisateur #}
+                            {% if app.user.id != inscription.participant.id and sortie.inscriptions.count > 0 %}
+                                <a class="btn btn-primary w-100 mb-2" href="{{ path('sortie_inscrire', {'id': sortie.id}) }}">S'inscrire</a><br>
+                            {% endif %}
+                        {% endfor %}
                     {% endif %}
 
                     {% endif %}
