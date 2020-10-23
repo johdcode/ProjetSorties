@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="d-inline-block mx-auto mt-5">
+            <h1>403 - Accès interdit chef !</h1>
+
+            <p>
+                Vous n'avez pas accès à la ressource demandé, <a href="{{ path('accueil') }}">retourner à la page d'accueil</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}
