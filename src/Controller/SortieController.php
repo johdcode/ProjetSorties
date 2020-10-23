@@ -138,12 +138,11 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/{id}", name="sortie_show", methods={"GET"})
-     * @param Request $request
      * @param Sortie $sortie
-     * @param InscriptionRepository $inscriptionRepository
      * @return Response
      */
-    public function show( Request $request, Sortie $sortie, ParticipantRepository $pr): Response
+
+    public function show(Sortie $sortie): Response
     {
         if($sortie->estArchive())
         {
